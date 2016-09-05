@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="ui middle aligned center aligned grid">
+        <div class="column six wide">
+            <h2>Masters Capstone Login</h2>
+            <form class="ui large form" (ngSubmit)="onSubmit()">
+                <div class="ui raised segment left aligned">
+                    <div class="field">
+                        <label>Username</label>
+                        <div class="ui left icon input">
+                            <input type="text" placeholder="Username">
+                            <i class="user icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <div class="ui left icon input">
+                            <input type="password" placeholder="Password">
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                    <button type="submit" class="ui fluid primary button">Login</button>
+                </div>
+            </form>
+            <div class="ui message">Don't have a login?&nbsp;
+                <a class="item" routerLink="/registration" routerLinkActive="active">
+                    Register Here
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
