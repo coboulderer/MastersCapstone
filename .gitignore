@@ -69,11 +69,6 @@ buildNumber.properties
 .mvn/timing.properties
 .idea/
 MastersCapstone.iml
-src/main/resources/static/app/app.component.js
-src/main/resources/static/app/app.component.js.map
-src/main/resources/static/app/app.module.js
-src/main/resources/static/app/app.module.js.map
 src/main/resources/static/build/
 src/main/resources/static/node_modules/
 src/main/resources/static/typings/
-node_modules/
