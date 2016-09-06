@@ -6,4 +6,8 @@ import {Component} from "@angular/core";
 })
 export class Registration{
 
+    onSubmit() {
+        console.log("Registration.onSubmit() function called")
+        // TODO
+    }
 }

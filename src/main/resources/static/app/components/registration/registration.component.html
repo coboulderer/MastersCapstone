@@ -1,5 +1,61 @@
 <div class="container">
     <div class="ui middle aligned center aligned grid">
-        <h2>Coming Soon!</h2>
+        <div class="column ten wide">
+            <h2 class="ui dividing header">New User Registration</h2>
+            <form class="ui large form" (ngSubmit)="onSubmit()">
+                <small>All Fields Are Required</small>
+                <div class="ui segment raised left aligned">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>First Name</label>
+                            <input type="text" name="firstName" required/>
+                        </div>
+                        <div class="field">
+                            <label>Last Name</label>
+                            <input type="text" name="lastName" required/>
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Email Address</label>
+                            <input type="email" name="emailAddress" required/>
+                        </div>
+                        <div class="field">
+                            <label>Username</label>
+                            <input type="text" name="userName" required/>
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Password</label>
+                            <input type="password" name="password" data-value="aa" required/>
+                        </div>
+                        <div class="field">
+                            <label>Password Confirmation</label>
+                            <input type="password" name="passwordConfirmation" required/>
+                        </div>
+                    </div>
+                    <div class="ui message">
+                        <small>
+                            Password minimum length is 6 characters.<br/>
+                            A strong password containing characters, numbers, and<br/>
+                            special characters(!@#$%^&* etc.) is highly recommended.
+                        </small>
+                    </div>
+                </div>
+                <div class="ui center aligned grid">
+                    <div class="center aligned two column row">
+                        <div class="column">
+                            <button type="submit" class="ui primary button">Register</button>
+                        </div>
+                        <div class="column">
+                            <a class="ui button" routerLink="/login" routerLinkActive="active">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
