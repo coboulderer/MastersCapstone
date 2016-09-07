@@ -8,4 +8,6 @@ import com.rk.capstone.model.domain.User;
 public interface IUserService {
 
     User saveUser(User user);
+
+    User findByUserName(String userName);
 }

@@ -1,6 +1,5 @@
 package com.rk.capstone.model.services.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rk.capstone.model.dao.UserDao;
@@ -12,11 +11,19 @@ import com.rk.capstone.model.domain.User;
 @Service
 public class UserServiceImpl implements IUserService{
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
+
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public User saveUser(User user) {
         return userDao.save(user);
+    }
+
+    @Override
+    public User findByUserName(String userName) {
+        return userDao.findByUserName(userName);
     }
 }

@@ -1,6 +1,7 @@
 package com.rk.capstone.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,11 +17,19 @@ import com.rk.capstone.model.services.user.IUserService;
 @RequestMapping("/register")
 public class RegisterController {
 
-    @Autowired
-    private IUserService userService;
+    private final IUserService userService;
+
+    public RegisterController(IUserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public User registerNewUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseEntity<User> registerNewUser(@RequestBody User user) {
+        if (userService.findByUserName(user.getUserName()) == null) {
+            user = userService.saveUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
     }
 }
