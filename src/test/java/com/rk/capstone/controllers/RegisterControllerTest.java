@@ -95,7 +95,7 @@ public class RegisterControllerTest {
         given(this.userService.saveUser(any(User.class))).willReturn(user);
         Assert.assertNotNull("Mocked UserService is Null", this.userService);
 
-        MvcResult result = this.mockMvc.perform(post("/register/user").content(userJson).
+        MvcResult result = this.mockMvc.perform(post("/api/register/user").content(userJson).
                 contentType(MediaType.APPLICATION_JSON).
                 accept(MediaType.APPLICATION_JSON)).
                 andExpect(status().isCreated()).
@@ -118,7 +118,7 @@ public class RegisterControllerTest {
     @Test
     public void testRegisterNewUserDuplicateUserNameResponse() throws Exception {
         given(this.userService.findByUserName(user.getUserName())).willReturn(user);
-        this.mockMvc.perform(post("/register/user").content(userJson).
+        this.mockMvc.perform(post("/api/register/user").content(userJson).
                 contentType(MediaType.APPLICATION_JSON).
                 accept(MediaType.APPLICATION_JSON)).
                 andExpect(status().isConflict()).

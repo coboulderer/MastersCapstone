@@ -14,7 +14,7 @@ import com.rk.capstone.model.services.user.IUserService;
  * REST Controller for /register endpoint
  */
 @RestController
-@RequestMapping("/register")
+@RequestMapping("/api/register")
 public class RegisterController {
 
     private final IUserService userService;
