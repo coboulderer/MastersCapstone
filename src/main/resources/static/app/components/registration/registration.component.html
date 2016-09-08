@@ -2,42 +2,52 @@
     <div class="ui middle aligned center aligned grid">
         <div class="column ten wide">
             <h2 class="ui dividing header">New User Registration</h2>
-            <form class="ui large form" (ngSubmit)="onSubmit()">
+            <form #registerForm="ngForm" class="ui large form" (ngSubmit)="onSubmit()">
                 <small>All Fields Are Required</small>
                 <div class="ui segment raised left aligned">
                     <div class="two fields">
                         <div class="field">
                             <label>First Name</label>
                             <input type="text" name="firstName" [(ngModel)]="newUser.firstName"
-                                   required/>
+                                   #firstName="ngModel" required/>
                         </div>
                         <div class="field">
                             <label>Last Name</label>
                             <input type="text" name="lastName" [(ngModel)]="newUser.lastName"
-                                   required/>
+                                   #lastName="ngModel" required/>
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>Email Address</label>
                             <input type="email" name="emailAddress" [(ngModel)]="newUser.emailAddress"
-                                   required/>
+                                   #emailAddress="ngModel" required/>
                         </div>
                         <div class="field">
                             <label>Username</label>
                             <input type="text" name="userName" [(ngModel)]="newUser.userName"
-                                   required minlength="5"/>
+                                   #userName="ngModel" required minlength="5"/>
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>Password</label>
-                            <input type="password" name="password" [(ngModel)]="newUser.password"
-                                   required minlength="6"/>
+                            <input type="password" name="password" [(ngModel)]="passwords.password"
+                                   #password="ngModel" required minlength="6"/>
                         </div>
                         <div class="field">
                             <label>Password Confirmation</label>
-                            <input type="password" name="passwordConf" required minlength="6"/>
+                            <input type="password" name="passwordConf" [(ngModel)]="passwords.passwordConf"
+                                   #passwordConf="ngModel" required minlength="6"/>
+                        </div>
+                    </div>
+                    <div [hidden]="passwordsMatch">
+                        <div class="ui grid center aligned message">
+                            <small>
+                                <i class="warning sign icon red"></i>
+                                Password and Password Confirmation must match to Register!
+                                <i class="warning sign icon red"></i>
+                            </small>
                         </div>
                     </div>
                     <div class="ui message">
