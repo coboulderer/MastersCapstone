@@ -1,10 +1,11 @@
 import {Component} from "@angular/core";
-import {RegisterService} from "./services/register.service";
+import "./rxjs-operators";
 
 @Component({
     selector: 'app-component',
-    template:`
+    template: `
         <router-outlet></router-outlet>
     `
 })
-export class AppComponent {}
+export class AppComponent {
+}

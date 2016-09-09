@@ -50,6 +50,15 @@
                             </small>
                         </div>
                     </div>
+                    <div [hidden]="!submitError">
+                        <div class="ui grid center aligned message">
+                            <small>
+                                <i class="warning sign icon red"></i>
+                                {{errorMessage}}
+                                <i class="warning sign icon red"></i>
+                            </small>
+                        </div>
+                    </div>
                     <div class="ui message">
                         <small>
                             A strong password containing characters, numbers, and<br/>
