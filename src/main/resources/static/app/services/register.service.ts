@@ -9,9 +9,9 @@ export class RegisterService {
 
     registerUser(user: User) {
         console.log("RegisterService.registerUser(user) called");
-
         // let url = "http://localhost:8080/api/register/user"
+        // let body = JSON.stringify(user);
         // let header = new Headers({'Content-Type': 'application/json'});
-        // this.http.post(url, JSON.stringify(user), {headers: header});
+        // this.http.post(url, body, {headers: header});
     }
 }

@@ -1,8 +1,8 @@
 import {Component, ViewChild} from "@angular/core";
+import {NgForm} from "@angular/forms";
 import {RegisterService} from "../../services/register.service";
 import {User} from "../../model/user";
 import {Passwords} from "../../model/passwords";
-import {NgForm} from "@angular/forms";
 
 
 @Component({
@@ -31,36 +31,26 @@ export class Registration {
         }
     }
 
-    goBack() {
-        console.log("Registration.goBack()");
-        window.history.back();
-    }
-
     ngAfterViewChecked() {
         this.formChanged();
     }
 
     formChanged() {
-        console.log("form change detected");
         if (this.currentForm === this.registerForm) { return; }
         this.registerForm = this.currentForm;
         if (this.registerForm) {
-            this.registerForm.valueChanges
-                .subscribe(data => this.onValueChanged(data));
+            this.registerForm.valueChanges.subscribe(() => this.validatePasswords());
         }
     }
 
-    onValueChanged(data?: any) {
+    validatePasswords() {
         if (this.passwords.password != null &&
-            this.passwords.password.length > 5 &&
             this.passwords.passwordConf != null &&
+            this.passwords.password.length > 5 &&
             this.passwords.passwordConf.length > 5) {
 
-            if (this.passwords.password != this.passwords.passwordConf) {
-                this.passwordsMatch = false;
-            } else {
-                this.passwordsMatch = true;
-            }
+            this.passwordsMatch = this.passwords.password === this.passwords.passwordConf;
+            //TODO Regex validation
         }
     }
 }
