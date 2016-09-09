@@ -19,6 +19,9 @@ export class Registration {
     newUser: User = new User();
     passwords: Passwords = new Passwords();
 
+    errorMessage: string;
+
+    submitError: boolean = false;
     registerSuccess: boolean = false;
     passwordsMatch: boolean = true;
 
@@ -26,14 +29,25 @@ export class Registration {
     @ViewChild('registerForm') currentForm: NgForm;
 
     constructor(private registerService: RegisterService,
-                private passwordValidator: PasswordValidationService){}
+                private passwordValidator: PasswordValidationService) {
+    }
 
     onSubmit() {
         console.log("Registration.onSubmit() function called");
         if (this.passwordsMatch) {
             this.newUser.password = this.passwords.password;
-            this.registerService.registerUser(this.newUser);
-            //TODO handle response if Username already exists or If new user created
+            this.registerService.registerUser(this.newUser).subscribe(users => {
+                    // JSON.stringify(users);
+                    console.log("Users JSON = " + JSON.stringify(users));
+                    //TODO - Finishe Parsing response
+                    this.submitError = false;
+                },
+                error => {
+                    console.log("Error caught in RegistrationComponent.onSubmit()");
+                    this.errorMessage = <any>error;
+                    this.submitError = true;
+                    console.log("Error Message:\n" + this.errorMessage);
+                });
         }
     }
 
@@ -42,7 +56,9 @@ export class Registration {
     }
 
     formChanged() {
-        if (this.currentForm === this.registerForm) { return; }
+        if (this.currentForm === this.registerForm) {
+            return;
+        }
         this.registerForm = this.currentForm;
         if (this.registerForm) {
             this.registerForm.valueChanges.subscribe(() => {
