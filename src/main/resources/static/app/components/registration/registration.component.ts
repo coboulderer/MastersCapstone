@@ -1,13 +1,18 @@
 import {Component, ViewChild} from "@angular/core";
 import {NgForm} from "@angular/forms";
-import {RegisterService} from "../../services/register.service";
 import {User} from "../../model/user";
 import {Passwords} from "../../model/passwords";
+import {RegisterService} from "../../services/register.service";
+import {PasswordValidationService} from "../../services/password-validation.service";
 
 
 @Component({
     selector: "registration",
-    templateUrl: "app/components/registration/registration.component.html"
+    templateUrl: "app/components/registration/registration.component.html",
+    providers: [
+        RegisterService,
+        PasswordValidationService
+    ]
 })
 export class Registration {
 
@@ -20,7 +25,8 @@ export class Registration {
     registerForm: NgForm;
     @ViewChild('registerForm') currentForm: NgForm;
 
-    constructor(private registerService: RegisterService){}
+    constructor(private registerService: RegisterService,
+                private passwordValidator: PasswordValidationService){}
 
     onSubmit() {
         console.log("Registration.onSubmit() function called");
@@ -39,18 +45,10 @@ export class Registration {
         if (this.currentForm === this.registerForm) { return; }
         this.registerForm = this.currentForm;
         if (this.registerForm) {
-            this.registerForm.valueChanges.subscribe(() => this.validatePasswords());
-        }
-    }
-
-    validatePasswords() {
-        if (this.passwords.password != null &&
-            this.passwords.passwordConf != null &&
-            this.passwords.password.length > 5 &&
-            this.passwords.passwordConf.length > 5) {
-
-            this.passwordsMatch = this.passwords.password === this.passwords.passwordConf;
-            //TODO Regex validation
+            this.registerForm.valueChanges.subscribe(() => {
+                this.passwordsMatch = this.passwordValidator.checkMatching(this.passwords);
+                //TODO Check Password Complexity - Low priority for now
+            });
         }
     }
 }
