@@ -4,6 +4,7 @@ import {User} from "../../model/user";
 import {Passwords} from "../../model/passwords";
 import {RegisterService} from "../../services/register.service";
 import {PasswordValidationService} from "../../services/password-validation.service";
+import {LoginService} from "../../services/login.service";
 
 
 @Component({
@@ -11,7 +12,8 @@ import {PasswordValidationService} from "../../services/password-validation.serv
     templateUrl: "app/components/registration/registration.component.html",
     providers: [
         RegisterService,
-        PasswordValidationService
+        PasswordValidationService,
+        LoginService
     ]
 })
 export class Registration {
@@ -41,11 +43,9 @@ export class Registration {
                     console.log("USER JSON : " + JSON.stringify(user));
                     this.newUser = user;
                     localStorage.setItem("currentUserName", this.newUser.userName);
-                    //TODO Get Token, redirect to home page
-                    this.registerSuccess = true;
-                    this.submitError = false;
-                    this.newUser = new User();
-                    this.passwords = new Passwords();
+                    //TODO Get Token set in local storage
+                    this.cleanUp();
+                    //TODO  redirect to home page
                 },
                 error => {
                     console.log("Error caught in RegistrationComponent.onSubmit()");
@@ -71,5 +71,12 @@ export class Registration {
                 //TODO Check Password Complexity - Low priority for now
             });
         }
+    }
+
+    cleanUp() {
+        this.registerSuccess = true;
+        this.submitError = false;
+        this.newUser = new User();
+        this.passwords = new Passwords();
     }
 }
