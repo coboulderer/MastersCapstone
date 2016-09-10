@@ -1,6 +1,6 @@
 <div class="container">
     <div class="ui middle aligned center aligned grid">
-        <div class="column ten wide">
+        <div *ngIf="!registerSuccess" class="column ten wide">
             <h2 class="ui dividing header">New User Registration</h2>
             <form #registerForm="ngForm" class="ui large form" (ngSubmit)="onSubmit()">
                 <small>All Fields Are Required</small>
@@ -79,6 +79,11 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div *ngIf="registerSuccess" class="column ten wide">
+            <h2 class="ui center aligned header">Registration successful!</h2>
+            <h3 class="ui center aligned header">Going to your campaign manager in a few
+                seconds.</h3>
         </div>
     </div>
 </div>

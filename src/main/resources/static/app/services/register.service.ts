@@ -12,9 +12,9 @@ export class RegisterService {
     constructor(private http: Http) {
     }
 
-    registerUser(user: User): Observable<User[]> {
+    registerUser(user: User): Observable<User> {
         console.log("RegisterService.registerUser(user) called");
-        let url = "http://localhost:8080/api/register/user"
+        let url = "http://localhost:8080/api/register/user";
         let body = JSON.stringify(user);
         let header = new Headers({'Content-Type': 'application/json'});
         return this.http.post(url, body, {headers: header}).
@@ -32,11 +32,9 @@ export class RegisterService {
         console.log("RegisterService.parseError(error) called");
         let errMsg = "";
         if (error.status == 409) {
-            errMsg = "The Username you have picked is already being used; Pick Another Username.";
+            errMsg = "The Username you have picked is already being used.  Pick Another Username.";
         } else {
-            errMsg = "An unexpected error occurred\n";
-            errMsg += "Error Status: " + error.status + "\n";
-            errMsg += "Error Message: " + error.message;
+            errMsg = "An unexpected error occurred. Try to register again";
         }
         return Observable.throw(errMsg);
     }

@@ -16,17 +16,17 @@ import {PasswordValidationService} from "../../services/password-validation.serv
 })
 export class Registration {
 
-    newUser: User = new User();
-    passwords: Passwords = new Passwords();
+    private newUser: User = new User();
+    private passwords: Passwords = new Passwords();
 
-    errorMessage: string;
+    private errorMessage: string;
 
-    submitError: boolean = false;
-    registerSuccess: boolean = false;
-    passwordsMatch: boolean = true;
+    private submitError: boolean = false;
+    private registerSuccess: boolean = false;
+    private passwordsMatch: boolean = true;
 
-    registerForm: NgForm;
-    @ViewChild('registerForm') currentForm: NgForm;
+    private registerForm: NgForm;
+    @ViewChild('registerForm') private currentForm: NgForm;
 
     constructor(private registerService: RegisterService,
                 private passwordValidator: PasswordValidationService) {
@@ -36,11 +36,16 @@ export class Registration {
         console.log("Registration.onSubmit() function called");
         if (this.passwordsMatch) {
             this.newUser.password = this.passwords.password;
-            this.registerService.registerUser(this.newUser).subscribe(users => {
-                    // JSON.stringify(users);
-                    console.log("Users JSON = " + JSON.stringify(users));
-                    //TODO - Finishe Parsing response
+            this.registerService.registerUser(this.newUser).subscribe(user => {
+                    console.log("New User Registered - Getting ready to redirect to home page");
+                    console.log("USER JSON : " + JSON.stringify(user));
+                    this.newUser = user;
+                    localStorage.setItem("currentUserName", this.newUser.userName);
+                    //TODO Get Token, redirect to home page
+                    this.registerSuccess = true;
                     this.submitError = false;
+                    this.newUser = new User();
+                    this.passwords = new Passwords();
                 },
                 error => {
                     console.log("Error caught in RegistrationComponent.onSubmit()");
