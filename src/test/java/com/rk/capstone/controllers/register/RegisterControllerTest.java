@@ -1,4 +1,4 @@
-package com.rk.capstone.controllers;
+package com.rk.capstone.controllers.register;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,9 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -51,42 +49,6 @@ public class RegisterControllerTest {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-    }
-
-    @Test
-    public void testRegisterNewUserOkResponse() {
-        given(this.userService.findByUserName(user.getUserName())).willReturn(null);
-        given(this.userService.saveUser(user)).willReturn(user);
-        Assert.assertNotNull("Mocked UserService is Null", userService);
-
-        RegisterController registerController = new RegisterController(userService);
-        ResponseEntity<User> response = registerController.registerNewUser(user);
-
-        Assert.assertEquals("Unexpected HTTP Status Code Received", HttpStatus.CREATED,
-                response.getStatusCode());
-
-        User returnedUser = response.getBody();
-        Assert.assertEquals("Unexpected First Name", user.getFirstName(),
-                returnedUser.getFirstName());
-        Assert.assertEquals("Unexpected Last Name", user.getLastName(), returnedUser.getLastName());
-        Assert.assertEquals("Unexpected Email Address", user.getEmailAddress(),
-                returnedUser.getEmailAddress());
-        Assert.assertEquals("Unexpected Username", user.getUserName(), returnedUser.getUserName());
-        Assert.assertEquals("Unexpected Password", user.getPassword(), returnedUser.getPassword());
-    }
-
-    @Test
-    public void testRegisterNewUserConflictResponse() {
-        given(this.userService.findByUserName(user.getUserName())).willReturn(user);
-        Assert.assertNotNull("Mocked UserService is Null", userService);
-
-        RegisterController registerController = new RegisterController(userService);
-        ResponseEntity<User> response = registerController.registerNewUser(user);
-
-        Assert.assertEquals("Unexpected HTTP Status Code Received", HttpStatus.CONFLICT, response
-                .getStatusCode());
-        User returnedUser = response.getBody();
-        Assert.assertNull(returnedUser);
     }
 
     @Test
