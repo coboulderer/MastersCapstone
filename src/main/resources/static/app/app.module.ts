@@ -6,6 +6,7 @@ import {AppComponent} from "./app.component";
 import {routing} from "./app.routing";
 import {Login} from "./components/login/login.component";
 import {Registration} from "./components/registration/registration.component";
+import {CampaignHome} from "./components/campaign/home/campaign-home.component";
 
 @NgModule({
     imports:[
@@ -17,7 +18,8 @@ import {Registration} from "./components/registration/registration.component";
     declarations:[
         AppComponent,
         Login,
-        Registration
+        Registration,
+        CampaignHome
     ],
     bootstrap: [
         AppComponent

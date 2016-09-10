@@ -1,4 +1,4 @@
-package com.rk.capstone.controllers;
+package com.rk.capstone.controllers.register;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +25,13 @@ public class RegisterController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<User> registerNewUser(@RequestBody User user) {
+        ResponseEntity<User> response;
         if (userService.findByUserName(user.getUserName()) == null) {
             user = userService.saveUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+            response = ResponseEntity.status(HttpStatus.CREATED).body(user);
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            response = ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
+        return response;
     }
 }
