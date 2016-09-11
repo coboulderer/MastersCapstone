@@ -11,7 +11,7 @@ export class LoginService {
 
     constructor(private http: Http, private router: Router){}
 
-    sendCredentials(credentials) {
+    login(credentials) {
         let url = "http://localhost:8080/api/login/user";
         let header = new Headers({'Content-Type': 'application/json'});
         let body = JSON.stringify(credentials);

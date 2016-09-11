@@ -44,7 +44,7 @@ export class Registration {
                     console.log("New User Registered - Getting ready to redirect to home page");
                     this.newUser = user;
                     localStorage.setItem("currentUserName", this.newUser.userName);
-                    this.setAuthToken();
+                    this.loginNewUser();
                     this.cleanUp();
                     this.router.navigate(["/campaign-home"]);
                 },
@@ -74,11 +74,11 @@ export class Registration {
         }
     }
 
-    private setAuthToken() {
+    private loginNewUser() {
         let credentials = {"username": "", "password": ""};
         credentials.username = this.newUser.userName;
         credentials.password = this.newUser.password;
-        this.loginService.sendCredentials(credentials).subscribe(response => {
+        this.loginService.login(credentials).subscribe(response => {
                 console.log("Login Successful - Parsing Response");
                 let authToken = JSON.parse(JSON.stringify(response))._body;
                 console.log("AuthToken:: " + authToken);
@@ -86,7 +86,7 @@ export class Registration {
                 sessionStorage.setItem("userName", credentials.username);
             },
             error => {
-                console.log("Error caught in RegistrationComponent.onSubmit()");
+                console.log("Error caught in RegistrationComponent.loginNewUser()");
                 this.errorMessage = <any>error;
                 console.log("Error Message:\n" + this.errorMessage);
             });

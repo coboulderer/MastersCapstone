@@ -20,7 +20,7 @@ export class Login {
 
     onSubmit() {
         console.log("Login.onSubmit() function called");
-        this.loginService.sendCredentials(this.credentials).subscribe(response => {
+        this.loginService.login(this.credentials).subscribe(response => {
                 console.log("Login Successful - Parsing Response");
                 let authToken = JSON.parse(JSON.stringify(response))._body;
                 console.log("AuthToken:: " + authToken);
