@@ -1,4 +1,5 @@
 import {Component, ViewChild} from "@angular/core";
+import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {User} from "../../model/user";
 import {Passwords} from "../../model/passwords";
@@ -31,8 +32,9 @@ export class Registration {
     @ViewChild('registerForm') private currentForm: NgForm;
 
     constructor(private registerService: RegisterService,
-                private passwordValidator: PasswordValidationService) {
-    }
+                private passwordValidator: PasswordValidationService,
+                private loginService: LoginService,
+                private router: Router) {}
 
     onSubmit() {
         console.log("Registration.onSubmit() function called");
@@ -40,12 +42,11 @@ export class Registration {
             this.newUser.password = this.passwords.password;
             this.registerService.registerUser(this.newUser).subscribe(user => {
                     console.log("New User Registered - Getting ready to redirect to home page");
-                    console.log("USER JSON : " + JSON.stringify(user));
                     this.newUser = user;
                     localStorage.setItem("currentUserName", this.newUser.userName);
-                    //TODO Get Token set in local storage
+                    this.setAuthToken();
                     this.cleanUp();
-                    //TODO  redirect to home page
+                    this.router.navigate(["/campaign-home"]);
                 },
                 error => {
                     console.log("Error caught in RegistrationComponent.onSubmit()");
@@ -73,7 +74,25 @@ export class Registration {
         }
     }
 
-    cleanUp() {
+    private setAuthToken() {
+        let credentials = {"username": "", "password": ""};
+        credentials.username = this.newUser.userName;
+        credentials.password = this.newUser.password;
+        this.loginService.sendCredentials(credentials).subscribe(response => {
+                console.log("Login Successful - Parsing Response");
+                let authToken = JSON.parse(JSON.stringify(response))._body;
+                console.log("AuthToken:: " + authToken);
+                sessionStorage.setItem("authToken", authToken);
+                sessionStorage.setItem("userName", credentials.username);
+            },
+            error => {
+                console.log("Error caught in RegistrationComponent.onSubmit()");
+                this.errorMessage = <any>error;
+                console.log("Error Message:\n" + this.errorMessage);
+            });
+    }
+
+    private cleanUp() {
         this.registerSuccess = true;
         this.submitError = false;
         this.newUser = new User();

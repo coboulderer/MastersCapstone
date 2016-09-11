@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {Router} from "@angular/router";
 import {LoginService} from "../../services/login.service";
 
 @Component({
@@ -15,16 +16,18 @@ export class Login {
     private loginError: boolean = false;
     private errorMessage: string;
 
-    constructor(private loginService: LoginService){}
+    constructor(private loginService: LoginService, private router: Router){}
 
     onSubmit() {
         console.log("Login.onSubmit() function called");
         this.loginService.sendCredentials(this.credentials).subscribe(response => {
                 console.log("Login Successful - Parsing Response");
-                console.log("FULL RESPONSE: " + JSON.stringify(response));
                 let authToken = JSON.parse(JSON.stringify(response))._body;
                 console.log("AuthToken:: " + authToken);
-                // TODO - Finish processing, redirect to campaign home
+                sessionStorage.setItem("authToken", authToken);
+                sessionStorage.setItem("userName", this.credentials.username);
+                this.router.navigate(["/campaign-home"]);
+                //TODO - Remove code duplication here and in registration component
             },
             error => {
                 console.log("Error caught in RegistrationComponent.onSubmit()");
