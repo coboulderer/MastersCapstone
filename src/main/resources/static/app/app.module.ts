@@ -7,6 +7,8 @@ import {routing} from "./app.routing";
 import {Login} from "./components/login/login.component";
 import {Registration} from "./components/registration/registration.component";
 import {CampaignHome} from "./components/campaign/home/campaign-home.component";
+import {CustomerHome} from "./components/customer/home/customer-home.component";
+import {NavBar} from "./components/navbar/nav-bar.component";
 
 @NgModule({
     imports:[
@@ -19,7 +21,9 @@ import {CampaignHome} from "./components/campaign/home/campaign-home.component";
         AppComponent,
         Login,
         Registration,
-        CampaignHome
+        CampaignHome,
+        CustomerHome,
+        NavBar
     ],
     bootstrap: [
         AppComponent
