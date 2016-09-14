@@ -9,13 +9,15 @@ import {Registration} from "./components/registration/registration.component";
 import {CampaignHome} from "./components/campaign/home/campaign-home.component";
 import {CustomerHome} from "./components/customer/home/customer-home.component";
 import {NavBar} from "./components/navbar/nav-bar.component";
+import {NgSemanticModule} from "ng-semantic";
 
 @NgModule({
     imports:[
         BrowserModule,
         FormsModule,
         HttpModule,
-        routing
+        routing,
+        NgSemanticModule
     ],
     declarations:[
         AppComponent,
