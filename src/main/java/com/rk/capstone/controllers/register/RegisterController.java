@@ -28,6 +28,7 @@ public class RegisterController {
         ResponseEntity<User> response;
         if (userService.findByUserName(user.getUserName()) == null) {
             user = userService.saveUser(user);
+            user.setPassword("");
             response = ResponseEntity.status(HttpStatus.CREATED).body(user);
         } else {
             response = ResponseEntity.status(HttpStatus.CONFLICT).body(null);

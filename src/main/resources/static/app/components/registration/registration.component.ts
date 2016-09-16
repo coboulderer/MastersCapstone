@@ -42,7 +42,6 @@ export class Registration {
             this.newUser.password = this.passwords.password;
             this.registerService.registerUser(this.newUser).subscribe(user => {
                     console.log("New User Registered - Getting ready to redirect to home page");
-                    this.newUser = user;
                     localStorage.setItem("currentUserName", this.newUser.userName);
                     this.loginNewUser();
                     this.cleanUp();
