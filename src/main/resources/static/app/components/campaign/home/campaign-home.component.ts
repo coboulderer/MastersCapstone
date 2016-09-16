@@ -6,4 +6,14 @@ import {Component} from "@angular/core";
 })
 export class CampaignHome {
 
+
+    createNewCampaign() {
+        console.log("CampaignHome.createNewCampaign() function called");
+        // TODO - Implementation
+    }
+
+    addTask() {
+        console.log("CampaignHome.addTask() function called");
+        // TODO - Implementation
+    }
 }
