@@ -1,0 +1,70 @@
+<button class="ui primary button fluid" (click)="show()">
+    <i class="edit icon"></i> New Campaign
+</button>
+<div class="ui modal" #modal>
+    <div class="header">
+        Create New Campaign
+    </div>
+    <form #newCampaignForm="ngForm" class="ui small form" (ngSubmit)="save()">
+        <div [formGroup]="form">
+            <div class="ui segment raised left aligned centered ten wide">
+                <div class="two fields">
+                    <div class="field four wide">
+                        <label for="revenue">Projected Revenue</label>
+                        <input formControlName="revenue" type="number" min="0" max="999999999"
+                               name="revenue" id="revenue" required/>
+                    </div>
+                    <div class="field four wide">
+                        <label for="campaignStrength">Campaign Strength</label>
+                        <select formControlName="campaignStrength" name="campaignStrength"
+                                id="campaignStrength" required>
+                            <option value="commit">Commit</option>
+                            <option value="strongUpside">Strong Upside</option>
+                            <option value="upside">Upside</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field four wide">
+                        <label for="startDate">Start Date</label>
+                        <input formControlName="startDate" type="date" name="startDate"
+                               id="startDate" required/>
+                    </div>
+                    <div class="field four wide">
+                        <label for="expectedCloseDate">Expected Close Date</label>
+                        <input formControlName="endDate" type="date" name="expectedCloseDate"
+                               id="expectedCloseDate" required/>
+                    </div>
+                </div>
+                <div class="field eight wide">
+                    <label for="solutionSummary">Solution Summary</label>
+                    <input formControlName="solutionSummary" type="text" name="solutionSummary"
+                           id="solutionSummary"/>
+                </div>
+
+                <div [hidden]="!submitError">
+                    <div class="ui grid center aligned message">
+                        <small>
+                            <i class="warning sign icon red"></i>
+                            {{errorMessage}}
+                            <i class="warning sign icon red"></i>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="ui center aligned grid">
+                <div class="center aligned two column row">
+                    <div class="column right aligned">
+                        <button type="submit" class="ui primary button">Save</button>
+                    </div>
+                    <div class="column left aligned">
+                        <a class="ui button" type="reset" (click)="hide()">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
