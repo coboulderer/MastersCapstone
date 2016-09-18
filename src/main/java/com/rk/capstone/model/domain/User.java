@@ -1,9 +1,16 @@
 package com.rk.capstone.model.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Domain class for User
@@ -20,15 +27,20 @@ public class User {
     private String userName;
     private String password;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Campaign> campaigns;
+
     protected User() {}
 
     public User(String firstName, String lastName, String emailAddress, String userName,
-                String password) {
+                String password, List<Campaign> campaigns) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.userName = userName;
         this.password = password;
+        this.campaigns = campaigns;
     }
 
     @Override
@@ -40,6 +52,7 @@ public class User {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", campaigns=" + campaigns +
                 '}';
     }
 
@@ -89,5 +102,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Campaign> getCampaigns() {
+        return campaigns;
+    }
+
+    public void setCampaigns(List<Campaign> campaigns) {
+        this.campaigns = campaigns;
     }
 }

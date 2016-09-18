@@ -48,7 +48,7 @@ public class LoginControllerTest {
         badRequestResponseBody = "Both a username and password must be provided";
         unauthorizedResponseBody = "Incorrect password, try again";
         userNameNotFoundResponseBody = "The provided username could not be found";
-        testUser = new User("test", "user", "user@test.com", userName, password);
+        testUser = new User("test", "user", "user@test.com", userName, password, null);
     }
 
     @Test

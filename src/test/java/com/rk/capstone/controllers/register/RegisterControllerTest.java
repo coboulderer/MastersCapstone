@@ -42,7 +42,7 @@ public class RegisterControllerTest {
 
     @Before
     public void setup() {
-        user = new User("rick", "k", "rick@email.com", "rkow", "abc123");
+        user = new User("rick", "k", "rick@email.com", "rkow", "abc123", null);
         objectMapper = new ObjectMapper();
         try {
             userJson = objectMapper.writeValueAsString(user);
