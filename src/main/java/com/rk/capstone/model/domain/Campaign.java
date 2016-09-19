@@ -59,7 +59,7 @@ public class Campaign {
                 ", startDate=" + startDate +
                 ", closeDate=" + closeDate +
                 ", revenue=" + revenue +
-                ", owner=" + owner +
+                ", owner=" + owner.getUserName() +
                 '}';
     }
 

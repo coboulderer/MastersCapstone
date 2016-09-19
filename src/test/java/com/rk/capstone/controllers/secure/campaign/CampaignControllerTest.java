@@ -27,6 +27,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -72,6 +73,66 @@ public class CampaignControllerTest {
                 compact();
 
         objectMapper = new ObjectMapper();
+    }
+
+    @Test
+    public void testPostEmptyContentBody() throws Exception {
+        given(this.userService.findByUserName(userName)).willReturn(user);
+
+        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/" + userName).
+                header("auth-token", authToken).
+                content("").
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isBadRequest()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testPostUserNameNotFound() throws Exception {
+        given(this.userService.findByUserName(userName)).willReturn(null);
+        String campaignJson = objectMapper.writeValueAsString(campaignOne);
+
+        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/" + userName).
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                content(campaignJson).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isNotFound()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testPostNonNullCampaignId() throws Exception {
+        given(this.userService.findByUserName(userName)).willReturn(user);
+        campaignOne.setCampaignId(1L);
+        String campaignJson = objectMapper.writeValueAsString(campaignOne);
+
+        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/" + userName).
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                content(campaignJson).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isBadRequest()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testPostNewCampaign() throws Exception {
+        String campaignJson = objectMapper.writeValueAsString(campaignOne);
+        given(this.campaignService.saveCampaign(any(Campaign.class))).willReturn(campaignOne);
+        given(this.userService.findByUserName(userName)).willReturn(user);
+
+        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/" + userName).
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                content(campaignJson).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isCreated()).
+                andDo(print()).
+                andReturn();
     }
 
     @Test
