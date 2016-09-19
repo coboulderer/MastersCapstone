@@ -1,6 +1,5 @@
 package com.rk.capstone.controllers.login;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -11,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rk.capstone.model.domain.User;
+import com.rk.capstone.model.services.auth.IAuthService;
 import com.rk.capstone.model.services.user.IUserService;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * REST Controller for /login endpoint
@@ -24,9 +21,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class LoginController {
 
     private IUserService userService;
+    private IAuthService authService;
 
-    public LoginController(IUserService userService) {
+    public LoginController(IUserService userService, IAuthService authService) {
         this.userService = userService;
+        this.authService = authService;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
@@ -48,9 +47,7 @@ public class LoginController {
                 response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).
                         body("Incorrect password, try again");
             } else {
-                String authToken = Jwts.builder().setSubject(userName).claim("roles", "user").
-                        setIssuedAt(new Date()).signWith(SignatureAlgorithm.HS256, "secretkey").
-                        compact();
+                String authToken = authService.getAuthToken(userName);
                 response = ResponseEntity.status(HttpStatus.CREATED).body(authToken);
             }
         }
