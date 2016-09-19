@@ -31,7 +31,7 @@ public class CampaignServiceImpl implements ICampaignService {
     }
 
     @Override
-    public Campaign getCampaignById(Long id) {
-        return campaignDao.findById(id);
+    public Campaign getCampaignById(Long campaignId) {
+        return campaignDao.findByCampaignId(campaignId);
     }
 }
