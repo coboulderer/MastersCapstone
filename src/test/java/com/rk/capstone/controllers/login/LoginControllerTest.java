@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.rk.capstone.model.domain.User;
+import com.rk.capstone.model.services.auth.IAuthService;
 import com.rk.capstone.model.services.user.IUserService;
 
 import static org.mockito.BDDMockito.given;
@@ -29,6 +30,8 @@ public class LoginControllerTest {
 
     @MockBean
     private IUserService userService;
+    @MockBean
+    private IAuthService authService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,6 +58,7 @@ public class LoginControllerTest {
     public void testLoginUserValidCredentials() throws Exception {
         jsonCreds = "{\"username\":\"" + userName + "\", \"password\":\"" + password + "\"}";
         given(this.userService.findByUserName(testUser.getUserName())).willReturn(testUser);
+        given(this.authService.getAuthToken(testUser.getUserName())).willReturn("ValidAuthToken");
 
         MvcResult result = this.mockMvc.perform(post("/api/login/user").content(jsonCreds).
                 contentType(MediaType.APPLICATION_JSON)).
