@@ -1,4 +1,4 @@
-package com.rk.capstone.services.campaign;
+package com.rk.capstone.model.services.campaign;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,8 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.rk.capstone.model.dao.CampaignDao;
 import com.rk.capstone.model.domain.Campaign;
 import com.rk.capstone.model.domain.User;
-import com.rk.capstone.model.services.campaign.CampaignServiceImpl;
-import com.rk.capstone.model.services.campaign.ICampaignService;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;

@@ -1,4 +1,4 @@
-package com.rk.capstone.services.user;
+package com.rk.capstone.model.services.user;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,8 +8,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.rk.capstone.model.dao.UserDao;
 import com.rk.capstone.model.domain.User;
-import com.rk.capstone.model.services.user.IUserService;
-import com.rk.capstone.model.services.user.UserServiceImpl;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;

@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import com.rk.capstone.controllers.ControllerTests;
-import com.rk.capstone.services.ServiceTests;
+import com.rk.capstone.model.services.ServiceTests;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
