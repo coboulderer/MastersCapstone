@@ -30,7 +30,7 @@ public class CampaignController {
         this.campaignService = campaignService;
     }
 
-    @RequestMapping(value = "/{userName}", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/{userName}", method = RequestMethod.POST)
     public ResponseEntity<Campaign> createNewCampaign(@PathVariable String userName,
                                                       @RequestBody Campaign campaign) {
         ResponseEntity<Campaign> response;
@@ -54,18 +54,51 @@ public class CampaignController {
         if (campaignId == null || campaign == null || campaign.getCampaignId() == null ||
                 !campaignId.equals(campaign.getCampaignId())) {
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else if (campaignService.getCampaignById(campaignId) == null) {
-            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(campaign);
         } else {
-            Campaign oldCampaign = campaignService.getCampaignById(campaignId);
-            campaign.setOwner(oldCampaign.getOwner());
-            campaign = campaignService.saveCampaign(campaign);
-            response = ResponseEntity.status(HttpStatus.OK).body(campaign);
+            Campaign foundCampaign = campaignService.getCampaignById(campaignId);
+            if (foundCampaign == null) {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(campaign);
+            } else {
+                campaign.setOwner(foundCampaign.getOwner());
+                campaign = campaignService.saveCampaign(campaign);
+                response = ResponseEntity.status(HttpStatus.OK).body(campaign);
+            }
         }
         return response;
     }
 
-    @RequestMapping(value = "/{userName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{campaignId}", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteCampaign(@PathVariable Long campaignId) {
+        ResponseEntity<String> response;
+        if (campaignId == null) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else if (campaignService.getCampaignById(campaignId) == null) {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Campaign Not Found");
+        } else {
+            campaignService.deleteCampaignById(campaignId);
+            response = ResponseEntity.status(HttpStatus.OK).body("Campaign Deleted - id = " +
+                    campaignId);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/{campaignId}", method = RequestMethod.GET)
+    public ResponseEntity<Campaign> getCampaign(@PathVariable Long campaignId) {
+        ResponseEntity<Campaign> response;
+        if (campaignId == null) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            Campaign campaign = campaignService.getCampaignById(campaignId);
+            if (campaign == null) {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            } else {
+                response = ResponseEntity.status(HttpStatus.OK).body(campaign);
+            }
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/user/{userName}", method = RequestMethod.GET)
     public ResponseEntity<List<Campaign>> getAllUserCampaigns(@PathVariable String userName) {
 
         ResponseEntity<List<Campaign>> response;

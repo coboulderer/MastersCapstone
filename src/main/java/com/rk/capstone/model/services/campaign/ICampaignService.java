@@ -15,4 +15,6 @@ public interface ICampaignService {
     List<Campaign> getOwnedCampaigns(User owner);
 
     Campaign getCampaignById(Long id);
+
+    void deleteCampaignById(Long id);
 }

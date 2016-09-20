@@ -26,6 +26,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -79,7 +80,7 @@ public class CampaignControllerTest {
     public void testPostEmptyContentBody() throws Exception {
         given(this.userService.findByUserName(userName)).willReturn(user);
 
-        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/" + userName).
+        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
                 content("").
                 accept(MediaType.APPLICATION_JSON)).
@@ -93,7 +94,7 @@ public class CampaignControllerTest {
         given(this.userService.findByUserName(userName)).willReturn(null);
         String campaignJson = objectMapper.writeValueAsString(campaignOne);
 
-        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/" + userName).
+        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
                 contentType(MediaType.APPLICATION_JSON).
                 content(campaignJson).
@@ -109,7 +110,7 @@ public class CampaignControllerTest {
         campaignOne.setCampaignId(1L);
         String campaignJson = objectMapper.writeValueAsString(campaignOne);
 
-        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/" + userName).
+        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
                 contentType(MediaType.APPLICATION_JSON).
                 content(campaignJson).
@@ -120,12 +121,62 @@ public class CampaignControllerTest {
     }
 
     @Test
+    public void testDeleteCampaignNotFound() throws Exception {
+        given(this.campaignService.getCampaignById(any(Long.class))).willReturn(null);
+
+        MvcResult result = this.mockMvc.perform(delete("/api/secure/campaign/25").
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON)).
+                andExpect(status().isNotFound()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testDeleteCampaign() throws Exception {
+        given(this.campaignService.getCampaignById(any(Long.class))).willReturn(campaignOne);
+
+        MvcResult result = this.mockMvc.perform(delete("/api/secure/campaign/25").
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testGetCampaignNotFound() throws Exception {
+        given(this.campaignService.getCampaignById(any(Long.class))).willReturn(null);
+
+        MvcResult result = this.mockMvc.perform(delete("/api/secure/campaign/25").
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isNotFound()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testGetCampaignById() throws Exception {
+        given(this.campaignService.getCampaignById(any(Long.class))).willReturn(campaignOne);
+
+        MvcResult result = this.mockMvc.perform(delete("/api/secure/campaign/25").
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
     public void testPostNewCampaign() throws Exception {
         String campaignJson = objectMapper.writeValueAsString(campaignOne);
         given(this.campaignService.saveCampaign(any(Campaign.class))).willReturn(campaignOne);
         given(this.userService.findByUserName(userName)).willReturn(user);
 
-        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/" + userName).
+        MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
                 contentType(MediaType.APPLICATION_JSON).
                 content(campaignJson).
@@ -138,7 +189,7 @@ public class CampaignControllerTest {
     @Test
     public void testUserNameDoesNotExistResponse() throws Exception {
         given(this.userService.findByUserName(userName)).willReturn(null);
-        MvcResult result = this.mockMvc.perform(get("/api/secure/campaign/" + userName).
+        MvcResult result = this.mockMvc.perform(get("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
                 accept(MediaType.APPLICATION_JSON)).
                 andExpect(status().isNotFound()).
@@ -151,7 +202,7 @@ public class CampaignControllerTest {
         given(this.userService.findByUserName(userName)).willReturn(user);
         given(this.campaignService.getOwnedCampaigns(any(User.class))).willReturn(campaigns);
 
-        MvcResult result = this.mockMvc.perform(get("/api/secure/campaign/" + userName).
+        MvcResult result = this.mockMvc.perform(get("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
                 accept(MediaType.APPLICATION_JSON)).
                 andExpect(status().isOk()).
