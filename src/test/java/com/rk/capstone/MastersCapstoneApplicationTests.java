@@ -1,16 +1,13 @@
 package com.rk.capstone;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.runners.Suite;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class MastersCapstoneApplicationTests {
+import com.rk.capstone.controllers.ControllerTests;
+import com.rk.capstone.services.ServiceTests;
 
-	@Test
-	public void contextLoads() {
-	}
-
-}
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+		ControllerTests.class,
+		ServiceTests.class})
+public class MastersCapstoneApplicationTests {}
