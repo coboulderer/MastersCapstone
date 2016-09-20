@@ -34,4 +34,9 @@ public class CampaignServiceImpl implements ICampaignService {
     public Campaign getCampaignById(Long campaignId) {
         return campaignDao.findByCampaignId(campaignId);
     }
+
+    @Override
+    public void deleteCampaignById(Long id) {
+        campaignDao.delete(id);
+    }
 }
