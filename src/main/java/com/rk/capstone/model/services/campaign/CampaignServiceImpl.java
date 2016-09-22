@@ -36,7 +36,7 @@ public class CampaignServiceImpl implements ICampaignService {
     }
 
     @Override
-    public void deleteCampaignById(Long id) {
-        campaignDao.delete(id);
+    public void deleteCampaignById(Long campaignId) {
+        campaignDao.delete(campaignId);
     }
 }
