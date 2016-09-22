@@ -1,11 +1,15 @@
 import {Component, ViewChild, ElementRef} from "@angular/core";
 import {FormControl, FormGroup} from "@angular/forms";
+import {CampaignService} from "../../../services/campaign.service";
 
 declare var jQuery: any;
 
 @Component({
     selector: "campaign-new",
-    templateUrl: "app/components/campaign/new/campaign-new.component.html"
+    templateUrl: "app/components/campaign/new/campaign-new.component.html",
+    providers: [
+        CampaignService
+    ]
 })
 
 export class CampaignNew {
@@ -19,6 +23,8 @@ export class CampaignNew {
         endDate         : new FormControl(),
         solutionSummary : new FormControl()
     });
+
+    constructor(private campaignService: CampaignService){}
 
     show(data?: {}) {
         console.log("CampaignNew.show() Called");
