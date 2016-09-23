@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from "@angular/core";
+import {Component, ViewChild, ElementRef, Output, EventEmitter} from "@angular/core";
 import {FormControl, FormGroup} from "@angular/forms";
 import {CampaignService} from "../../../services/campaign.service";
 import {Campaign} from "../../../model/campaign";
@@ -16,6 +16,7 @@ declare var jQuery: any;
 export class CampaignNew {
 
     @ViewChild("modal") modal: ElementRef;
+    @Output() campaignCreated = new EventEmitter<Campaign>();
 
     private newCampaign: Campaign = new Campaign();
 
@@ -49,7 +50,7 @@ export class CampaignNew {
         console.log("CampaignNew.save() Called");
         this.campaignService.createNewCampaign(this.newCampaign).subscribe(campaign => {
                 console.log("New Campaign Created");
-                //TODO - Notify User Campaign Created
+                this.campaignCreated.emit(campaign);
                 this.hide();
             },
             error => {

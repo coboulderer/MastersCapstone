@@ -25,20 +25,22 @@
                         <label for="campaignStrength">Campaign Strength</label>
                         <select formControlName="campaignStrength" name="campaignStrength"
                                 id="campaignStrength" required [(ngModel)]="newCampaign.strength">
-                            <option value="commit">Commit</option>
-                            <option value="strongUpside">Strong Upside</option>
-                            <option value="upside">Upside</option>
-                            <option value="other">Other</option>
+                            <option value="Commit">Commit</option>
+                            <option value="Strong-Upside">Strong Upside</option>
+                            <option value="Upside">Upside</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="field four wide">
                         <label for="closeStatus">Campaign Status</label>
                         <select formControlName="closeStatus" name="closeStatus"
                                 id="closeStatus" required [(ngModel)]="newCampaign.closeStatus">
-                            <option value="in progress">In Progress</option>
-                            <option value="on hold">On Hold</option>
-                            <option value="closed - lost">Lost</option>
-                            <option value="closed - won">Won</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Awaiting PO">Awaiting PO</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Closed - Lost">Lost</option>
+                            <option value="Closed - Won">Won</option>
+                            <option value="Closed - Cancelled">Cancelled</option>
                         </select>
                     </div>
                 </div>

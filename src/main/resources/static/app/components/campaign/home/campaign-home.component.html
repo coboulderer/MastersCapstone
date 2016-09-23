@@ -1,6 +1,6 @@
 <nav-bar></nav-bar>
 <div class="ui left fixed vertical menu" style="margin-top: 2.90em; overflow-y:scroll; width: 14em !important;">
-    <campaign-new></campaign-new>
+    <campaign-new (campaignCreated)="campaignCreated($event)"></campaign-new>
     <sm-accordion>
         <div class="ui vertical accordion menu" style="margin: 0px;">
             <div class="item">
@@ -50,55 +50,54 @@
         </div>
     </sm-accordion>
 </div>
-<div class="ui container" style="margin-left: 15em !important; width: auto !important; position: relative">
+<div *ngIf="currentCampaign != null" class="ui container" style="margin-left: 15em !important;
+        width: auto !important; margin-top: 3.5em; position: relative">
     <div class="ui ten column fluid grid">
-        <div class="ten column centered row">
-            <h1 class="ui header">[Customer Name] - [Campaign Name] Overview</h1>
-        </div>
         <div class="four wide left aligned fluid column">
             <div class="ui relaxed divided list">
                 <div class="item">
                     <div class="content">
                         <a class="header">Projected Revenue</a>
-                        <div class="description">$250,000</div>
+                        <div class="description">${{currentCampaign.revenue}}</div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="content">
                         <a class="header">Campaign Strength</a>
-                        <div class="description">Commit</div>
+                        <div class="description">{{currentCampaign.strength}}</div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="content">
                         <a class="header">Start Date</a>
-                        <div class="description">Monday, June 6, 2016</div>
+                        <div class="description">{{currentCampaign.startDate | date:'mediumDate'}}</div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="content">
                         <a class="header">Expected Close Date</a>
-                        <div class="description">Friday, Sept 30, 2016</div>
+                        <div class="description">{{currentCampaign.closeDate | date:'mediumDate'}}</div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="content">
                         <a class="header">Solution Summary</a>
-                        <div class="description">XIO for Oracle DB</div>
+                        <div class="description">{{currentCampaign.summary}}</div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="content">
                         <a class="header">Close Status</a>
-                        <div class="description">Pending</div>
+                        <div class="description">{{currentCampaign.closeStatus}}</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="seven wide right aligned fluid column">
+            <h1 class="ui header center aligned">[Customer Name] - {{currentCampaign.name}} Overview</h1>
             <h2 class="ui header center aligned">Campaign Progress</h2>
             <div class="ui seven wide column centered aligned">
-                <sm-progress class="indicating active" [progress]="60"></sm-progress>
+                <sm-progress class="indicating active" [progress]="80"></sm-progress>
             </div>
             <div class="ui hidden divider"></div>
             <h3 class="ui center aligned header">Milestones & Tasks</h3>
@@ -151,7 +150,7 @@
                     <td>Bill the Sales Guy</td>
                     <td class="center aligned">
                         <div class="ui fitted checkbox">
-                            <input type="checkbox">
+                            <input type="checkbox" checked="">
                             <label></label>
                         </div>
                     </td>

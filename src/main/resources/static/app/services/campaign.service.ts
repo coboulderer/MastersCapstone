@@ -9,13 +9,7 @@ import {Campaign} from "../model/campaign";
 @Injectable()
 export class CampaignService {
 
-    private authToken: string;
-    private userName: string;
-
-    constructor(private http:Http){
-        this.authToken = sessionStorage.getItem("authToken");
-        this.userName = sessionStorage.getItem("userName");
-    }
+    constructor(private http:Http){}
 
     getAllUserCampaigns() {
         // TODO - Implement
@@ -27,11 +21,11 @@ export class CampaignService {
 
     createNewCampaign(campaign: Campaign): Observable<Campaign> {
         console.log("CampaignService.createNewCampaign()");
-        let url = "http://localhost:8080/api/secure/campaign/user/" + this.userName;
+        let url = "http://localhost:8080/api/secure/campaign/user/" + this.getUserName();
         let body = JSON.stringify(campaign);
         let header = new Headers();
         header.append("Content-Type", "application/json");
-        header.append("auth-token", this.authToken);
+        header.append("auth-token", this.getAuthToken());
         return this.http.post(url, body, {headers: header}).
             map(this.parseData).
             catch(this.parseError);
@@ -57,5 +51,13 @@ export class CampaignService {
         let errMsg = "Caught error " + error.status;
         // TODO ERROR SPECIFICS
         return Observable.throw(errMsg);
+    }
+
+    private getAuthToken() {
+        return sessionStorage.getItem("authToken");
+    }
+
+    private getUserName() {
+        return sessionStorage.getItem("userName");
     }
 }
