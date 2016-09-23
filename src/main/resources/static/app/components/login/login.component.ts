@@ -25,7 +25,7 @@ export class Login {
                 let authToken = JSON.parse(JSON.stringify(response))._body;
                 console.log("AuthToken:: " + authToken);
                 sessionStorage.setItem("authToken", authToken);
-                sessionStorage.setItem("currentUserName", this.credentials.username);
+                sessionStorage.setItem("userName", this.credentials.username);
                 this.router.navigate(["/campaign-home"]);
                 //TODO - Remove code duplication here and in registration component
             },

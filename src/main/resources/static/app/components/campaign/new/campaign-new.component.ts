@@ -20,8 +20,10 @@ export class CampaignNew {
     private newCampaign: Campaign = new Campaign();
 
     private form = new FormGroup({
+        campaignName    : new FormControl(),
         revenue         : new FormControl(),
         campaignStrength: new FormControl(),
+        closeStatus     : new FormControl(),
         startDate       : new FormControl(),
         endDate         : new FormControl(),
         solutionSummary : new FormControl()
@@ -44,7 +46,7 @@ export class CampaignNew {
     }
 
     save() {
-        console.log("CampaignNew.save() Called")
+        console.log("CampaignNew.save() Called");
         this.campaignService.createNewCampaign(this.newCampaign).subscribe(campaign => {
                 console.log("New Campaign Created");
                 //TODO - Notify User Campaign Created
