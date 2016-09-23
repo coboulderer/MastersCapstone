@@ -1,6 +1,7 @@
 import {Component, ViewChild, ElementRef} from "@angular/core";
 import {FormControl, FormGroup} from "@angular/forms";
 import {CampaignService} from "../../../services/campaign.service";
+import {Campaign} from "../../../model/campaign";
 
 declare var jQuery: any;
 
@@ -16,9 +17,13 @@ export class CampaignNew {
 
     @ViewChild("modal") modal: ElementRef;
 
+    private newCampaign: Campaign = new Campaign();
+
     private form = new FormGroup({
+        campaignName    : new FormControl(),
         revenue         : new FormControl(),
         campaignStrength: new FormControl(),
+        closeStatus     : new FormControl(),
         startDate       : new FormControl(),
         endDate         : new FormControl(),
         solutionSummary : new FormControl()
@@ -41,6 +46,16 @@ export class CampaignNew {
     }
 
     save() {
-        console.log("CampaignNew.save() Called")
+        console.log("CampaignNew.save() Called");
+        this.campaignService.createNewCampaign(this.newCampaign).subscribe(campaign => {
+                console.log("New Campaign Created");
+                //TODO - Notify User Campaign Created
+                this.hide();
+            },
+            error => {
+                console.log("Error caught in CampaignService.save()");
+                let errorMessage = <any>error;
+                console.log("Error Message:\n" + errorMessage);
+            });
     }
 }

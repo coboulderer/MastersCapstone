@@ -10,18 +10,35 @@
             <div class="ui segment raised left aligned centered ten wide">
                 <div class="two fields">
                     <div class="field four wide">
+                        <label for="campaignName">Campaign Name</label>
+                        <input formControlName="campaignName" type="text" name="campaignName"
+                               id="campaignName" required [(ngModel)]="newCampaign.name"/>
+                    </div>
+                    <div class="field four wide">
                         <label for="revenue">Projected Revenue</label>
                         <input formControlName="revenue" type="number" min="0" max="999999999"
-                               name="revenue" id="revenue" required/>
+                               name="revenue" id="revenue" required [(ngModel)]="newCampaign.revenue"/>
                     </div>
+                </div>
+                <div class="two fields">
                     <div class="field four wide">
                         <label for="campaignStrength">Campaign Strength</label>
                         <select formControlName="campaignStrength" name="campaignStrength"
-                                id="campaignStrength" required>
+                                id="campaignStrength" required [(ngModel)]="newCampaign.strength">
                             <option value="commit">Commit</option>
                             <option value="strongUpside">Strong Upside</option>
                             <option value="upside">Upside</option>
                             <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="field four wide">
+                        <label for="closeStatus">Campaign Status</label>
+                        <select formControlName="closeStatus" name="closeStatus"
+                                id="closeStatus" required [(ngModel)]="newCampaign.closeStatus">
+                            <option value="in progress">In Progress</option>
+                            <option value="on hold">On Hold</option>
+                            <option value="closed - lost">Lost</option>
+                            <option value="closed - won">Won</option>
                         </select>
                     </div>
                 </div>
@@ -29,18 +46,18 @@
                     <div class="field four wide">
                         <label for="startDate">Start Date</label>
                         <input formControlName="startDate" type="date" name="startDate"
-                               id="startDate" required/>
+                               id="startDate" required [(ngModel)]="newCampaign.startDate"/>
                     </div>
                     <div class="field four wide">
                         <label for="expectedCloseDate">Expected Close Date</label>
                         <input formControlName="endDate" type="date" name="expectedCloseDate"
-                               id="expectedCloseDate" required/>
+                               id="expectedCloseDate" required [(ngModel)]="newCampaign.closeDate"/>
                     </div>
                 </div>
                 <div class="field eight wide">
                     <label for="solutionSummary">Solution Summary</label>
                     <input formControlName="solutionSummary" type="text" name="solutionSummary"
-                           id="solutionSummary"/>
+                           id="solutionSummary" [(ngModel)]="newCampaign.summary"/>
                 </div>
 
                 <div [hidden]="!submitError">

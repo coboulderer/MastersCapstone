@@ -42,7 +42,6 @@ export class Registration {
             this.newUser.password = this.passwords.password;
             this.registerService.registerUser(this.newUser).subscribe(user => {
                     console.log("New User Registered - Getting ready to redirect to home page");
-                    localStorage.setItem("currentUserName", this.newUser.userName);
                     this.loginNewUser();
                     this.cleanUp();
                     this.router.navigate(["/campaign-home"]);
@@ -81,6 +80,7 @@ export class Registration {
                 console.log("Login Successful - Parsing Response");
                 let authToken = JSON.parse(JSON.stringify(response))._body;
                 console.log("AuthToken:: " + authToken);
+                console.log("username:: " + credentials.username);
                 sessionStorage.setItem("authToken", authToken);
                 sessionStorage.setItem("userName", credentials.username);
             },
