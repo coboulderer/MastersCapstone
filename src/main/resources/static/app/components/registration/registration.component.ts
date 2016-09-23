@@ -79,8 +79,8 @@ export class Registration {
         this.loginService.login(credentials).subscribe(response => {
                 console.log("Login Successful - Parsing Response");
                 let authToken = JSON.parse(JSON.stringify(response))._body;
-                console.log("AuthToken:: " + authToken);
-                console.log("username:: " + credentials.username);
+                console.log("Setting authToken:: " + authToken);
+                console.log("Setting userName:: " + credentials.username);
                 sessionStorage.setItem("authToken", authToken);
                 sessionStorage.setItem("userName", credentials.username);
             },

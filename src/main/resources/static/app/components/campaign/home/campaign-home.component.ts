@@ -1,5 +1,6 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {CampaignService} from "../../../services/campaign.service";
+import {Campaign} from "../../../model/campaign";
 
 @Component({
     selector: "campaign-home",
@@ -8,13 +9,23 @@ import {CampaignService} from "../../../services/campaign.service";
         CampaignService
     ]
 })
-export class CampaignHome {
+export class CampaignHome implements OnInit{
+
+    private currentCampaign: Campaign;
+    private customerCampaigns: Campaign[];
 
     constructor(private campaignService: CampaignService){}
 
-    createNewCampaign() {
+    ngOnInit():void {
+        this.customerCampaigns = [];
+        // TODO - Get All User Campaigns
+        // TODO - Display first one
+    }
+
+    campaignCreated(campaign: Campaign) {
         console.log("CampaignHome.createNewCampaign() function called");
-        // TODO - Implementation
+        this.currentCampaign = campaign;
+        //this.customerCampaigns.push(campaign);
     }
 
     addTask() {
