@@ -12,20 +12,23 @@ export class CampaignService {
     constructor(private http:Http){}
 
     getAllUserCampaigns() {
-        // TODO - Implement
+        console.log("CampaignService.getAllUserCampaigns()");
+        let url = "http://localhost:8080/api/secure/campaign/user/" + this.getUserName();
+        let header = this.getHeaders();
+        return this.http.get(url, {headers: header}).
+            map(this.parseData).
+            catch(this.parseError);
     }
 
     getCampaign() {
         // TODO - Implement
     }
 
-    createNewCampaign(campaign: Campaign): Observable<Campaign> {
+    createNewCampaign(campaign: Campaign) {
         console.log("CampaignService.createNewCampaign()");
         let url = "http://localhost:8080/api/secure/campaign/user/" + this.getUserName();
         let body = JSON.stringify(campaign);
-        let header = new Headers();
-        header.append("Content-Type", "application/json");
-        header.append("auth-token", this.getAuthToken());
+        let header = this.getHeaders();
         return this.http.post(url, body, {headers: header}).
             map(this.parseData).
             catch(this.parseError);
@@ -59,5 +62,12 @@ export class CampaignService {
 
     private getUserName() {
         return sessionStorage.getItem("userName");
+    }
+
+    private getHeaders() {
+        let header = new Headers();
+        header.append("Content-Type", "application/json");
+        header.append("auth-token", this.getAuthToken());
+        return header;
     }
 }
