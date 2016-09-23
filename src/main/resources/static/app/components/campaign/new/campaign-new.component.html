@@ -12,12 +12,12 @@
                     <div class="field four wide">
                         <label for="revenue">Projected Revenue</label>
                         <input formControlName="revenue" type="number" min="0" max="999999999"
-                               name="revenue" id="revenue" required/>
+                               name="revenue" id="revenue" required [(ngModel)]="newCampaign.revenue"/>
                     </div>
                     <div class="field four wide">
                         <label for="campaignStrength">Campaign Strength</label>
                         <select formControlName="campaignStrength" name="campaignStrength"
-                                id="campaignStrength" required>
+                                id="campaignStrength" required [(ngModel)]="newCampaign.strength">
                             <option value="commit">Commit</option>
                             <option value="strongUpside">Strong Upside</option>
                             <option value="upside">Upside</option>
@@ -29,18 +29,18 @@
                     <div class="field four wide">
                         <label for="startDate">Start Date</label>
                         <input formControlName="startDate" type="date" name="startDate"
-                               id="startDate" required/>
+                               id="startDate" required [(ngModel)]="newCampaign.startDate"/>
                     </div>
                     <div class="field four wide">
                         <label for="expectedCloseDate">Expected Close Date</label>
                         <input formControlName="endDate" type="date" name="expectedCloseDate"
-                               id="expectedCloseDate" required/>
+                               id="expectedCloseDate" required [(ngModel)]="newCampaign.closeDate"/>
                     </div>
                 </div>
                 <div class="field eight wide">
                     <label for="solutionSummary">Solution Summary</label>
                     <input formControlName="solutionSummary" type="text" name="solutionSummary"
-                           id="solutionSummary"/>
+                           id="solutionSummary" [(ngModel)]="newCampaign.summary"/>
                 </div>
 
                 <div [hidden]="!submitError">
