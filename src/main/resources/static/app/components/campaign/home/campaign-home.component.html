@@ -50,6 +50,11 @@
         </div>
     </sm-accordion>
 </div>
+<div *ngIf="currentCampaign == null" class="ui container" style="margin-left: 15em !important;
+        width: auto !important; margin-top: 3.5em; position: relative">
+    <h1 class="ui header center aligned">No Existing Campaigns to Display</h1>
+    <h2 class="ui header center aligned">Create One Using the Button on the Left</h2>
+</div>
 <div *ngIf="currentCampaign != null" class="ui container" style="margin-left: 15em !important;
         width: auto !important; margin-top: 3.5em; position: relative">
     <div class="ui ten column fluid grid">
