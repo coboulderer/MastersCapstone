@@ -23,10 +23,15 @@ export class CampaignHome implements OnInit{
         this.loadCampaigns();
     }
 
-    campaignCreated(campaign: Campaign) {
-        console.log("CampaignHome.campaignCreated() function called");
+    addCreatedCampaign(campaign: Campaign) {
+        console.log("CampaignHome.addCreatedCampaign(Campaign) function called");
         this.currentCampaign = campaign;
         this.allUserCampaigns.push(campaign);
+    }
+
+    loadSelected(campaign: Campaign) {
+        console.log("CampaignHome.loadSelected(Campaign) function called");
+        this.currentCampaign = campaign;
     }
 
     addTask() {
