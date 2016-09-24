@@ -43,8 +43,6 @@ export class Registration {
             this.registerService.registerUser(this.newUser).subscribe(user => {
                     console.log("New User Registered - Getting ready to redirect to home page");
                     this.loginNewUser();
-                    this.cleanUp();
-                    this.router.navigate(["/campaign-home"]);
                 },
                 error => {
                     console.log("Error caught in RegistrationComponent.onSubmit()");
@@ -83,6 +81,8 @@ export class Registration {
                 console.log("Setting userName:: " + credentials.username);
                 sessionStorage.setItem("authToken", authToken);
                 sessionStorage.setItem("userName", credentials.username);
+                this.cleanUp();
+                this.router.navigate(["/campaign-home"]);
             },
             error => {
                 console.log("Error caught in RegistrationComponent.loginNewUser()");

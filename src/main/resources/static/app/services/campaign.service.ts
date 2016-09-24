@@ -11,7 +11,7 @@ export class CampaignService {
 
     constructor(private http:Http){}
 
-    getAllUserCampaigns() {
+    getAllUserCampaigns(): Observable<Campaign[]> {
         console.log("CampaignService.getAllUserCampaigns()");
         let url = "http://localhost:8080/api/secure/campaign/user/" + this.getUserName();
         let header = this.getHeaders();
@@ -51,8 +51,14 @@ export class CampaignService {
 
     private parseError(error: any) {
         console.log("RegisterService.parseError(error) called");
-        let errMsg = "Caught error " + error.status;
-        // TODO ERROR SPECIFICS
+        let errMsg = "";
+        if (error.status == 400) {
+            errMsg = "A Bad Request was made - try your action again";
+        } else if (error.status == 404) {
+            errMsg = "The resource(s) you requested could not be found on the server";
+        } else {
+            errMsg = "An unknown error occurred processing your request";
+        }
         return Observable.throw(errMsg);
     }
 

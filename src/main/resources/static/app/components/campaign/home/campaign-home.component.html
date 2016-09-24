@@ -1,6 +1,6 @@
 <nav-bar></nav-bar>
 <div class="ui left fixed vertical menu" style="margin-top: 2.90em; overflow-y:scroll; width: 14em !important;">
-    <campaign-new (campaignCreated)="campaignCreated($event)"></campaign-new>
+    <campaign-new (campaignCreated)="addCreatedCampaign($event)"></campaign-new>
     <sm-accordion>
         <div class="ui vertical accordion menu" style="margin: 0px;">
             <div class="item">
@@ -49,6 +49,14 @@
             </div>
         </div>
     </sm-accordion>
+    <span *ngFor="let campaign of allUserCampaigns">
+        <button class="ui button fluid" (click)="loadSelected(campaign)">{{campaign.name}}</button>
+    </span>
+</div>
+<div *ngIf="currentCampaign == null" class="ui container" style="margin-left: 15em !important;
+        width: auto !important; margin-top: 3.5em; position: relative">
+    <h1 class="ui header center aligned">No Existing Campaigns to Display</h1>
+    <h2 class="ui header center aligned">Create One Using the Button on the Left</h2>
 </div>
 <div *ngIf="currentCampaign != null" class="ui container" style="margin-left: 15em !important;
         width: auto !important; margin-top: 3.5em; position: relative">
