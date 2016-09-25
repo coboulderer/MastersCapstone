@@ -23,6 +23,13 @@ export class LoginService {
         this.router.navigate(["/login"]);
     }
 
+    parseLoginResponse(response, credentials) {
+        let authToken = JSON.parse(JSON.stringify(response))._body;
+        console.log("AuthToken:: " + authToken);
+        sessionStorage.setItem("authToken", authToken);
+        sessionStorage.setItem("userName", credentials.username);
+    }
+
     private parseLoginError(error: any) {
         console.log("LoginService.parseError(error) called");
         let errMsg = "";
