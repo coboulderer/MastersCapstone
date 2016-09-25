@@ -21,16 +21,12 @@ export class Login {
     onSubmit() {
         console.log("Login.onSubmit() function called");
         this.loginService.login(this.credentials).subscribe(response => {
-                console.log("Login Successful - Parsing Response");
-                let authToken = JSON.parse(JSON.stringify(response))._body;
-                console.log("AuthToken:: " + authToken);
-                sessionStorage.setItem("authToken", authToken);
-                sessionStorage.setItem("userName", this.credentials.username);
+                console.log("Login Successful");
+                this.loginService.parseLoginResponse(response, this.credentials);
                 this.router.navigate(["/campaign-home"]);
-                //TODO - Remove code duplication here and in registration component
             },
             error => {
-                console.log("Error caught in RegistrationComponent.onSubmit()");
+                console.log("Error caught in LoginComponent.onSubmit()");
                 this.errorMessage = <any>error;
                 this.loginError = true;
                 console.log("Error Message:\n" + this.errorMessage);

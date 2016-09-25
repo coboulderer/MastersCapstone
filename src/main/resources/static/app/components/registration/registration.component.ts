@@ -75,12 +75,8 @@ export class Registration {
         credentials.username = this.newUser.userName;
         credentials.password = this.newUser.password;
         this.loginService.login(credentials).subscribe(response => {
-                console.log("Login Successful - Parsing Response");
-                let authToken = JSON.parse(JSON.stringify(response))._body;
-                console.log("Setting authToken:: " + authToken);
-                console.log("Setting userName:: " + credentials.username);
-                sessionStorage.setItem("authToken", authToken);
-                sessionStorage.setItem("userName", credentials.username);
+                console.log("Login Successful");
+                this.loginService.parseLoginResponse(response, credentials);
                 this.cleanUp();
                 this.router.navigate(["/campaign-home"]);
             },
