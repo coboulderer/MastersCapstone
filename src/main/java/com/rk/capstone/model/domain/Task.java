@@ -8,10 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Domain Class for Tasks
+ * Domain Class for Task
  */
 @Entity
-public class Tasks {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,27 +20,27 @@ public class Tasks {
     private Long campaignId;
     private Date dueDate;
     private String description;
-    private String asignee;
+    private String assignedTo;
     private boolean isCompleted;
 
-    protected Tasks() {}
+    protected Task() {}
 
-    public Tasks(Long campaignId, Date dueDate, String description, String asignee, boolean isCompleted) {
+    public Task(Long campaignId, Date dueDate, String description, String assignedTo, boolean isCompleted) {
         this.campaignId = campaignId;
         this.dueDate = dueDate;
         this.description = description;
-        this.asignee = asignee;
+        this.assignedTo = assignedTo;
         this.isCompleted = isCompleted;
     }
 
     @Override
     public String toString() {
-        return "Tasks{" +
+        return "Task{" +
                 "taskId=" + taskId +
                 ", campaignId=" + campaignId +
                 ", dueDate=" + dueDate +
                 ", description='" + description + '\'' +
-                ", asignee='" + asignee + '\'' +
+                ", assignedTo='" + assignedTo + '\'' +
                 ", isCompleted=" + isCompleted +
                 '}';
     }
@@ -77,12 +77,12 @@ public class Tasks {
         this.description = description;
     }
 
-    public String getAsignee() {
-        return asignee;
+    public String getAssignedTo() {
+        return assignedTo;
     }
 
-    public void setAsignee(String asignee) {
-        this.asignee = asignee;
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     public boolean isCompleted() {
