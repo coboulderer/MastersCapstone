@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import com.rk.capstone.model.services.campaign.CampaignServiceTest;
+import com.rk.capstone.model.services.task.TaskServiceTest;
 import com.rk.capstone.model.services.user.UserServiceTest;
 
 /**
@@ -12,6 +13,7 @@ import com.rk.capstone.model.services.user.UserServiceTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         CampaignServiceTest.class,
-        UserServiceTest.class})
+        UserServiceTest.class,
+        TaskServiceTest.class})
 public class ServiceTests {
 }
