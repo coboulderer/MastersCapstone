@@ -70,4 +70,20 @@ public class TaskServiceTest {
 
         Assert.assertNull(receivedTasks);
     }
+
+    @Test
+    public void testGetTaskById() {
+        given(this.taskDao.findByTaskId(any(Long.class))).willReturn(taskOne);
+        Task task = taskService.getTaskById(1L);
+
+        Assert.assertEquals(taskOne, task);
+    }
+
+    @Test
+    public void testGetTaskByIdDoesNotExist() {
+        given(this.taskDao.findByTaskId(any(Long.class))).willReturn(null);
+        Task task = taskService.getTaskById(1L);
+
+        Assert.assertNull(task);
+    }
 }

@@ -11,6 +11,8 @@ public interface ITaskService {
 
     Task saveTask(Task task);
 
+    Task getTaskById(Long taskId);
+
     List<Task> getCampaignTasks(Long campaignId);
 
     void deleteTask(Task task);

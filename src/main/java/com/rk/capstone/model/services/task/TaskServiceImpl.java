@@ -25,6 +25,11 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
+    public Task getTaskById(Long taskId) {
+        return taskDao.findByTaskId(taskId);
+    }
+
+    @Override
     public List<Task> getCampaignTasks(Long campaignId) {
         return taskDao.getTasksByCampaignId(campaignId);
     }
