@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Task> createNewTask(Task task) {
+    public ResponseEntity<Task> createNewTask(@RequestBody Task task) {
         ResponseEntity<Task> response;
         if (task == null) {
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -43,8 +44,19 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/{taskId}", method = RequestMethod.PUT)
-    public ResponseEntity<Task> updateTask(@PathVariable Long taskId, Task task) {
-        return null;
+    public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
+        ResponseEntity<Task> response;
+        if (taskId == null || task == null || !taskId.equals(task.getTaskId())) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            if (taskService.getTaskById(taskId) == null) {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            } else {
+                task = taskService.saveTask(task);
+                response = ResponseEntity.status(HttpStatus.OK).body(task);
+            }
+        }
+        return response;
     }
 
     @RequestMapping(value = "/campaign/{campaignId}", method = RequestMethod.GET)

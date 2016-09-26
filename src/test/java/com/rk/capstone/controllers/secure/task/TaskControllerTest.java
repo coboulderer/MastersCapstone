@@ -26,6 +26,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -86,6 +87,57 @@ public class TaskControllerTest {
         String taskJson = objectMapper.writeValueAsString(taskOne);
 
         MvcResult result = this.mockMvc.perform(post("/api/secure/task").
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                content(taskJson).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isNotFound()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testPutUpdateTask() throws Exception {
+        Long taskId = 1L;
+        taskOne.setTaskId(taskId);
+        String taskJson = objectMapper.writeValueAsString(taskOne);
+        given(this.taskService.getTaskById(any(Long.class))).willReturn(taskOne);
+        given(this.taskService.saveTask(any(Task.class))).willReturn(taskOne);
+
+        MvcResult result = this.mockMvc.perform(put("/api/secure/task/" + taskId).
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                content(taskJson).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testPutUpdateTaskUnequalIds() throws Exception {
+        Long taskId = 1L;
+        taskOne.setTaskId(2L);
+        String taskJson = objectMapper.writeValueAsString(taskOne);
+
+        MvcResult result = this.mockMvc.perform(put("/api/secure/task/" + taskId).
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                content(taskJson).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isBadRequest()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testPutUpdateTaskDoesNotExist() throws Exception {
+        Long taskId = 1L;
+        taskOne.setTaskId(taskId);
+        given(this.taskService.getTaskById(any(Long.class))).willReturn(null);
+        String taskJson = objectMapper.writeValueAsString(taskOne);
+
+        MvcResult result = this.mockMvc.perform(put("/api/secure/task/" + taskId).
                 header("auth-token", authToken).
                 contentType(MediaType.APPLICATION_JSON).
                 content(taskJson).
