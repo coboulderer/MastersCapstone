@@ -6,6 +6,7 @@ import org.junit.runners.Suite;
 import com.rk.capstone.controllers.login.LoginControllerTest;
 import com.rk.capstone.controllers.register.RegisterControllerTest;
 import com.rk.capstone.controllers.secure.campaign.CampaignControllerTest;
+import com.rk.capstone.controllers.secure.task.TaskControllerTest;
 
 /**
  * Test Suite Containing all REST Controller Tests in com.rk.capstone.controllers.*
@@ -14,6 +15,7 @@ import com.rk.capstone.controllers.secure.campaign.CampaignControllerTest;
 @Suite.SuiteClasses({
         CampaignControllerTest.class,
         LoginControllerTest.class,
-        RegisterControllerTest.class})
+        RegisterControllerTest.class,
+        TaskControllerTest.class})
 public class ControllerTests {
 }

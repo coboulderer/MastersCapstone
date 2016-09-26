@@ -2,6 +2,7 @@ package com.rk.capstone.controllers.secure.task;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,16 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Task> createNewTask(Task task) {
-        return null;
+        ResponseEntity<Task> response;
+        if (task == null) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else if (campaignService.getCampaignById(task.getCampaignId()) == null) {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            task = taskService.saveTask(task);
+            response = ResponseEntity.status(HttpStatus.CREATED).body(task);
+        }
+        return response;
     }
 
     @RequestMapping(value = "/{taskId}", method = RequestMethod.PUT)
