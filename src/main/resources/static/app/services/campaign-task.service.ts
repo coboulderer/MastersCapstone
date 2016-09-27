@@ -1,5 +1,7 @@
 import {Injectable} from "@angular/core";
-import {Http, Headers} from "@angular/http";
+import {Http, Headers, Response} from "@angular/http";
+import {Observable} from "rxjs/Observable";
+import {CampaignTask} from "../model/campaign-task";
 
 @Injectable()
 export class CampaignTaskService {
@@ -10,8 +12,14 @@ export class CampaignTaskService {
         // TODO
     }
 
-    createNewCampaignTask() {
-        // TODO
+    createNewCampaignTask(task: CampaignTask) {
+        console.log("Called CampaignTaskService.createNewCampaignTask");
+        let url = "http://localhost:8080/api/secure/task";
+        let body = JSON.stringify(task);
+        let header = this.getHeaders();
+        return this.http.post(url, body, {headers: header}).
+            map(this.parseData).
+            catch(this.parseError);
     }
 
     editCampaignTask() {
@@ -26,12 +34,22 @@ export class CampaignTaskService {
         // TODO
     }
 
-    private getAuthToken() {
-        return sessionStorage.getItem("authToken");
+    private parseData(res: Response) {
+        console.log("CampaignTaskService.parseData(res) called");
+        let body = res.json();
+        console.log("Returned JSON body" + JSON.stringify(body));
+        return body || {};
     }
 
-    private getUserName() {
-        return sessionStorage.getItem("userName");
+    private parseError(error: any) {
+        console.log("CampaignTaskService.parseError(error) called");
+        let errMsg = "";
+        // TODO - Error specifics
+        return Observable.throw(errMsg);
+    }
+
+    private getAuthToken() {
+        return sessionStorage.getItem("authToken");
     }
 
     private getHeaders() {
