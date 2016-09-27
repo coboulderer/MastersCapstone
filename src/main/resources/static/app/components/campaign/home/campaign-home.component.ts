@@ -1,12 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {CampaignService} from "../../../services/campaign.service";
 import {Campaign} from "../../../model/campaign";
+import {CampaignTaskService} from "../../../services/campaign-task.service";
 
 @Component({
     selector: "campaign-home",
     templateUrl: "app/components/campaign/home/campaign-home.component.html",
     providers: [
-        CampaignService
+        CampaignService,
+        CampaignTaskService
     ]
 })
 export class CampaignHome implements OnInit{
@@ -14,7 +16,8 @@ export class CampaignHome implements OnInit{
     private currentCampaign: Campaign;
     private allUserCampaigns: Campaign[];
 
-    constructor(private campaignService: CampaignService){
+    constructor(private campaignService: CampaignService,
+                private campaignTaskService: CampaignTaskService){
         this.allUserCampaigns = [];
     }
 
