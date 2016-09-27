@@ -204,4 +204,27 @@ public class TaskControllerTest {
                 andDo(print()).
                 andReturn();
     }
+
+    @Test
+    public void testDeleteAllCampaignTasks() throws Exception {
+        given(this.campaignService.getCampaignById(any(Long.class))).willReturn(campaign);
+        given(this.taskService.getCampaignTasks(any(Long.class))).willReturn(tasks);
+
+        MvcResult result = this.mockMvc.perform(delete("/api/secure/task/campaign/" + 1).
+                header("auth-token", authToken)).
+                andExpect(status().isOk()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testDeleteAllCampaignTasksCampaignNotFound() throws Exception {
+        given(this.campaignService.getCampaignById(any(Long.class))).willReturn(null);
+
+        MvcResult result = this.mockMvc.perform(delete("/api/secure/task/campaign/" + 1).
+                header("auth-token", authToken)).
+                andExpect(status().isNotFound()).
+                andDo(print()).
+                andReturn();
+    }
 }

@@ -9,8 +9,9 @@ import {Registration} from "./components/registration/registration.component";
 import {CampaignHome} from "./components/campaign/home/campaign-home.component";
 import {CustomerHome} from "./components/customer/home/customer-home.component";
 import {NavBar} from "./components/navbar/nav-bar.component";
-import {NgSemanticModule} from "ng-semantic";
 import {CampaignNew} from "./components/campaign/new/campaign-new.component";
+import {CampaignTask} from "./components/campaign/task/campaign-task.component";
+import {NgSemanticModule} from "ng-semantic";
 
 @NgModule({
     imports:[
@@ -28,6 +29,7 @@ import {CampaignNew} from "./components/campaign/new/campaign-new.component";
         CampaignHome,
         CustomerHome,
         CampaignNew,
+        CampaignTask,
         NavBar
     ],
     bootstrap: [

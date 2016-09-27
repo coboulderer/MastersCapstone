@@ -1,0 +1,82 @@
+<h2 class="ui header center aligned">Campaign Progress</h2>
+<div class="ui seven wide column centered aligned">
+    <sm-progress class="indicating active" [progress]="80"></sm-progress>
+</div>
+<div class="ui hidden divider"></div>
+<h3 class="ui center aligned header">Milestones & Tasks</h3>
+<table class="ui compact celled table">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Owner</th>
+        <th>Completed</th>
+    </tr>
+    </thead>
+    <tbody style="overflow-y:scroll">
+    <tr>
+        <td>6/21/16</td>
+        <td>XIO Demo & 101 Preso</td>
+        <td>Joe the SE</td>
+        <td class="center aligned">
+            <div class="ui fitted checkbox">
+                <input type="checkbox" checked="">
+                <label></label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>6/30/16</td>
+        <td>XIO Technical Deep Dive</td>
+        <td>Joe the SE</td>
+        <td class="center aligned">
+            <div class="ui fitted checkbox">
+                <input type="checkbox" checked="">
+                <label></label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>7/11/16</td>
+        <td>Business Value & ROI</td>
+        <td>Bill the Sales Guy</td>
+        <td class="center aligned">
+            <div class="ui fitted checkbox">
+                <input type="checkbox" checked="">
+                <label></label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>8/10/16</td>
+        <td>Customer Commit & Transaction Scheduling</td>
+        <td>Bill the Sales Guy</td>
+        <td class="center aligned">
+            <div class="ui fitted checkbox">
+                <input type="checkbox" checked="">
+                <label></label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>9/30/16</td>
+        <td>Receive PO</td>
+        <td>Bill the Sales Guy</td>
+        <td class="center aligned">
+            <div class="ui fitted checkbox">
+                <input type="checkbox">
+                <label></label>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot class="full-width">
+    <tr>
+        <th colspan="4">
+            <button class="ui right floated small primary labeled icon button" (click)="addTask()">
+                <i class="add square icon"></i> Add Task
+            </button>
+        </th>
+    </tr>
+    </tfoot>
+</table>

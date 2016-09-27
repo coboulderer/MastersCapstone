@@ -90,6 +90,16 @@ public class TaskController {
 
     @RequestMapping(value = "/campaign/{campaignId}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteAllCampaignTasks(@PathVariable Long campaignId) {
-        return null;
+        ResponseEntity<String> response;
+        if (campaignId == null) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else if (campaignService.getCampaignById(campaignId) == null) {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            List<Task> tasks = taskService.getCampaignTasks(campaignId);
+            tasks.forEach(task -> taskService.deleteTask(task));
+            response = ResponseEntity.status(HttpStatus.OK).body("All Campaign Tasks Deleted");
+        }
+        return response;
     }
 }

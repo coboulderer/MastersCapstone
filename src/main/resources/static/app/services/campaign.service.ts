@@ -1,9 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import "rxjs/add/observable/throw";
-import "rxjs/add/operator/catch";
-import "rxjs/add/operator/map";
 import {Campaign} from "../model/campaign";
 
 @Injectable()
@@ -50,7 +47,7 @@ export class CampaignService {
     }
 
     private parseError(error: any) {
-        console.log("RegisterService.parseError(error) called");
+        console.log("CampaignService.parseError(error) called");
         let errMsg = "";
         if (error.status == 400) {
             errMsg = "A Bad Request was made - try your action again";
