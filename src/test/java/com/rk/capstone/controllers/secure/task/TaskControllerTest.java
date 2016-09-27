@@ -1,5 +1,6 @@
 package com.rk.capstone.controllers.secure.task;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.Before;
@@ -22,9 +23,10 @@ import com.rk.capstone.model.services.task.ITaskService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -46,11 +48,13 @@ public class TaskControllerTest {
     private MockMvc mockMvc;
 
     private Task taskOne;
+    private Task taskTwo;
     private Campaign campaign;
     private User user;
     private String authToken;
     private String userName;
     private ObjectMapper objectMapper;
+    private ArrayList<Task> tasks;
 
     @Before
     public void setup() {
@@ -60,6 +64,10 @@ public class TaskControllerTest {
                 compact();
 
         taskOne = new Task(1L, new Date(), "A Description", "Jane Doe", false);
+        taskTwo = new Task(1L, new Date(), "Another Description", "Joe Dirt", true);
+        tasks = new ArrayList<>();
+        tasks.add(taskOne);
+        tasks.add(taskTwo);
         user = new User("John", "Doe", "johnd@email", userName, "abc123", null);
         campaign = new Campaign("Campaign", "commit", "Summary", "in progress", new Date(), new Date(), 1, user);
         objectMapper = new ObjectMapper();
@@ -142,6 +150,56 @@ public class TaskControllerTest {
                 contentType(MediaType.APPLICATION_JSON).
                 content(taskJson).
                 accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isNotFound()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testGetTasksByCampaignId() throws Exception {
+        Long campaignId = 1L;
+        campaign.setCampaignId(campaignId);
+        given(this.campaignService.getCampaignById(any(Long.class))).willReturn(campaign);
+        given(this.taskService.getCampaignTasks(any(Long.class))).willReturn(tasks);
+
+        MvcResult result = this.mockMvc.perform(get("/api/secure/task/campaign/" + campaignId).
+                header("auth-token", authToken).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testGetTasksByCampaignIdCampaignDoesNotExist() throws Exception {
+        Long campaignId = 1L;
+        given(this.campaignService.getCampaignById(any(Long.class))).willReturn(null);
+
+        MvcResult result = this.mockMvc.perform(get("/api/secure/task/campaign/" + campaignId).
+                header("auth-token", authToken).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isNotFound()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testDeleteTask() throws Exception {
+        given(this.taskService.getTaskById(any(Long.class))).willReturn(taskOne);
+
+        MvcResult result = this.mockMvc.perform(delete("/api/secure/task/" + 1).
+                header("auth-token", authToken)).
+                andExpect(status().isOk()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testDeleteTaskDoesNotExist() throws Exception {
+        given(this.taskService.getTaskById(any(Long.class))).willReturn(null);
+
+        MvcResult result = this.mockMvc.perform(delete("/api/secure/task/" + 1).
+                header("auth-token", authToken)).
                 andExpect(status().isNotFound()).
                 andDo(print()).
                 andReturn();

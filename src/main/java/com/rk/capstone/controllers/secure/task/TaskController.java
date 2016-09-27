@@ -48,25 +48,44 @@ public class TaskController {
         ResponseEntity<Task> response;
         if (taskId == null || task == null || !taskId.equals(task.getTaskId())) {
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else if (taskService.getTaskById(taskId) == null) {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
-            if (taskService.getTaskById(taskId) == null) {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            } else {
-                task = taskService.saveTask(task);
-                response = ResponseEntity.status(HttpStatus.OK).body(task);
-            }
+            task = taskService.saveTask(task);
+            response = ResponseEntity.status(HttpStatus.OK).body(task);
         }
         return response;
     }
 
     @RequestMapping(value = "/campaign/{campaignId}", method = RequestMethod.GET)
     public ResponseEntity<List<Task>> getAllCampaignTasks(@PathVariable Long campaignId) {
-        return null;
+        ResponseEntity<List<Task>> response;
+        if (campaignId == null) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else if (campaignService.getCampaignById(campaignId) == null) {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            List<Task> tasks = taskService.getCampaignTasks(campaignId);
+            response = ResponseEntity.status(HttpStatus.OK).body(tasks);
+        }
+        return response;
     }
 
     @RequestMapping(value = "/{taskId}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteTask(@PathVariable Long taskId) {
-        return null;
+        ResponseEntity<String> response;
+        if (taskId == null) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            Task task = taskService.getTaskById(taskId);
+            if (task == null) {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            } else {
+                taskService.deleteTask(task);
+                response = ResponseEntity.status(HttpStatus.OK).body("Task " + taskId + " deleted");
+            }
+        }
+        return response;
     }
 
     @RequestMapping(value = "/campaign/{campaignId}", method = RequestMethod.DELETE)
