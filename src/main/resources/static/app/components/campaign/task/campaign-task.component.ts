@@ -6,4 +6,8 @@ import {Component} from "@angular/core";
 })
 export class CampaignTask {
 
+    addTask() {
+        console.log("CampaignTask.addTask() function called");
+        // TODO - Implementation
+    }
 }

@@ -37,11 +37,6 @@ export class CampaignHome implements OnInit{
         this.currentCampaign = campaign;
     }
 
-    addTask() {
-        console.log("CampaignHome.addTask() function called");
-        // TODO - Implementation
-    }
-
     private loadCampaigns() {
         this.campaignService.getAllUserCampaigns().subscribe(campaigns => {
                 console.log("Found User Campaigns");
