@@ -21,16 +21,16 @@ public class Task {
     private Date dueDate;
     private String description;
     private String assignedTo;
-    private boolean isCompleted;
+    private boolean completed;
 
     protected Task() {}
 
-    public Task(Long campaignId, Date dueDate, String description, String assignedTo, boolean isCompleted) {
+    public Task(Long campaignId, Date dueDate, String description, String assignedTo, boolean completed) {
         this.campaignId = campaignId;
         this.dueDate = dueDate;
         this.description = description;
         this.assignedTo = assignedTo;
-        this.isCompleted = isCompleted;
+        this.completed = completed;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Task {
                 ", dueDate=" + dueDate +
                 ", description='" + description + '\'' +
                 ", assignedTo='" + assignedTo + '\'' +
-                ", isCompleted=" + isCompleted +
+                ", completed=" + completed +
                 '}';
     }
 
@@ -85,11 +85,11 @@ public class Task {
         this.assignedTo = assignedTo;
     }
 
-    public boolean isCompleted() {
-        return isCompleted;
+    public boolean getCompleted() {
+        return completed;
     }
 
     public void setCompleted(boolean completed) {
-        isCompleted = completed;
+        this.completed = completed;
     }
 }

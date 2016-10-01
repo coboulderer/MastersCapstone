@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {CampaignTask} from "../model/campaign-task";
+import {Task} from "../model/task";
 
 @Injectable()
 export class CampaignTaskService {
@@ -12,7 +12,7 @@ export class CampaignTaskService {
         // TODO
     }
 
-    createNewCampaignTask(task: CampaignTask) {
+    createNewCampaignTask(task: Task) {
         console.log("Called CampaignTaskService.createNewCampaignTask");
         let url = "http://localhost:8080/api/secure/task";
         let body = JSON.stringify(task);
