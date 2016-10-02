@@ -8,7 +8,7 @@ export class CampaignService {
 
     constructor(private http:Http){}
 
-    getAllUserCampaigns(): Observable<Campaign[]> {
+    getAllUserCampaigns() {
         console.log("CampaignService.getAllUserCampaigns()");
         let url = "http://localhost:8080/api/secure/campaign/user/" + this.getUserName();
         let header = this.getHeaders();

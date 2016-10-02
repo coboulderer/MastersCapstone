@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild, Input} from "@angular/core";
+import {Component, ElementRef, ViewChild, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {FormGroup, FormControl} from "@angular/forms";
 import {CampaignTaskService} from "../../../services/campaign-task.service";
 import {Task} from "../../../model/task";
@@ -10,7 +10,7 @@ declare var jQuery: any;
     selector: "campaign-task",
     templateUrl: "app/components/campaign/task/campaign-task.component.html"
 })
-export class CampaignTask {
+export class CampaignTask implements OnChanges {
 
     @ViewChild("modal") modal: ElementRef;
     @Input() campaign: Campaign;
@@ -43,6 +43,11 @@ export class CampaignTask {
             .modal("hide");
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log("Changes Detected");
+        this.loadCampaignTasks();
+    }
+
     addTask() {
         console.log("CampaignTask.addTask() function called");
         this.newTask.campaignId = this.campaign.campaignId;
@@ -52,9 +57,22 @@ export class CampaignTask {
                 this.hide();
             },
             error => {
-                console.log("Error Caught in CampaignTaskService.createNewCampaignTask");
+                console.log("Error Caught in CampaignTaskComponent.addTask");
                 let errorMessage = <any>error;
                 console.log("Error Message:\n" + errorMessage);
             });
+    }
+
+    loadCampaignTasks() {
+        console.log("CampaignTask.loadCampaignTasks() function called");
+        this.campaignTaskService.getCampaignTasks(this.campaign.campaignId).subscribe(tasks => {
+                console.log("Campaign Tasks Found");
+                this.campaignTasks = tasks;
+            },
+            error => {
+                console.log("Error Caught in CampaignTaskComponent.loadCampaignTasks");
+                let errorMessage = <any>error;
+                console.log("Error Message:\n" + errorMessage);
+            })
     }
 }
