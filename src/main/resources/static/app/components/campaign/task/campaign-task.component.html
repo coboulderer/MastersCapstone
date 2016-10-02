@@ -9,62 +9,18 @@
     <tr>
         <th>Date</th>
         <th>Description</th>
-        <th>Owner</th>
+        <th>Assignee</th>
         <th>Completed</th>
     </tr>
     </thead>
     <tbody style="overflow-y:scroll">
-    <tr>
-        <td>6/21/16</td>
-        <td>XIO Demo & 101 Preso</td>
-        <td>Joe the SE</td>
+    <tr *ngFor="let task of campaignTasks">
+        <td>{{task.dueDate | date:'mediumDate'}}</td>
+        <td>{{task.description}}</td>
+        <td>{{task.assignedTo}}</td>
         <td class="center aligned">
-            <div class="ui fitted checkbox">
-                <input type="checkbox" checked="">
-                <label></label>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>6/30/16</td>
-        <td>XIO Technical Deep Dive</td>
-        <td>Joe the SE</td>
-        <td class="center aligned">
-            <div class="ui fitted checkbox">
-                <input type="checkbox" checked="">
-                <label></label>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>7/11/16</td>
-        <td>Business Value & ROI</td>
-        <td>Bill the Sales Guy</td>
-        <td class="center aligned">
-            <div class="ui fitted checkbox">
-                <input type="checkbox" checked="">
-                <label></label>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>8/10/16</td>
-        <td>Customer Commit & Transaction Scheduling</td>
-        <td>Bill the Sales Guy</td>
-        <td class="center aligned">
-            <div class="ui fitted checkbox">
-                <input type="checkbox" checked="">
-                <label></label>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>9/30/16</td>
-        <td>Receive PO</td>
-        <td>Bill the Sales Guy</td>
-        <td class="center aligned">
-            <div class="ui fitted checkbox">
-                <input type="checkbox">
+            <div class="checkbox">
+                <input type="checkbox" name="completed" [(ngModel)]="task.completed">
                 <label></label>
             </div>
         </td>
@@ -73,10 +29,69 @@
     <tfoot class="full-width">
     <tr>
         <th colspan="4">
-            <button class="ui right floated small primary labeled icon button" (click)="addTask()">
+            <button class="ui right floated small primary labeled icon button" (click)="show()">
                 <i class="add square icon"></i> Add Task
             </button>
         </th>
     </tr>
     </tfoot>
 </table>
+<div class="ui modal" #modal>
+    <div class="header">
+        Create New Task
+    </div>
+    <form #newTaskForm="ngForm" class="ui small form" (ngSubmit)="addTask()">
+        <div [formGroup]="taskForm">
+            <div class="ui segment raised left aligned centered ten wide">
+                <div class="two fields">
+                    <div class="field four wide">
+                        <label for="description">Task Description</label>
+                        <input formControlName="description" type="text" name="description"
+                               id="description" required [(ngModel)]="newTask.description"/>
+                    </div>
+                    <div class="field four wide">
+                        <label for="assignee">Assignee</label>
+                        <input formControlName="assignee" type="text" name="assignee" id="assignee"
+                               required [(ngModel)]="newTask.assignedTo"/>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field four wide">
+                        <label for="dueDate">Due Date</label>
+                        <input formControlName="dueDate" type="date" name="dueDate"
+                               id="dueDate" required [(ngModel)]="newTask.dueDate"/>
+                    </div>
+                    <div class="field four wide">
+                        <label for="completed">Completion Status</label>
+                        <select formControlName="completed" name="completed"
+                                id="completed" required [(ngModel)]="newTask.completed">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div [hidden]="!submitError">
+                    <div class="ui grid center aligned message">
+                        <small>
+                            <i class="warning sign icon red"></i>
+                            {{errorMessage}}
+                            <i class="warning sign icon red"></i>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="ui center aligned grid">
+                <div class="center aligned two column row">
+                    <div class="column right aligned">
+                        <button type="submit" class="ui primary button">Save</button>
+                    </div>
+                    <div class="column left aligned">
+                        <a class="ui button" type="reset" (click)="hide()">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

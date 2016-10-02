@@ -1,18 +1,23 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {CampaignTask} from "../model/campaign-task";
+import {Task} from "../model/task";
 
 @Injectable()
 export class CampaignTaskService {
 
     constructor(private http:Http){}
 
-    getCampaignTasks() {
-        // TODO
+    getCampaignTasks(campaignId: number) {
+        console.log("Called CampaignTaskService.getCampaignTasks");
+        let url = "http://localhost:8080/api/secure/task/campaign/" + campaignId;
+        let header = this.getHeaders();
+        return this.http.get(url, {headers: header}).
+            map(this.parseData).
+            catch(this.parseError);
     }
 
-    createNewCampaignTask(task: CampaignTask) {
+    createNewCampaignTask(task: Task) {
         console.log("Called CampaignTaskService.createNewCampaignTask");
         let url = "http://localhost:8080/api/secure/task";
         let body = JSON.stringify(task);

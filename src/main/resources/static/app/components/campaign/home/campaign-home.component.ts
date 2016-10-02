@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {CampaignService} from "../../../services/campaign.service";
-import {Campaign} from "../../../model/campaign";
 import {CampaignTaskService} from "../../../services/campaign-task.service";
+import {Campaign} from "../../../model/campaign";
 
 @Component({
     selector: "campaign-home",
@@ -16,8 +16,7 @@ export class CampaignHome implements OnInit{
     private currentCampaign: Campaign;
     private allUserCampaigns: Campaign[];
 
-    constructor(private campaignService: CampaignService,
-                private campaignTaskService: CampaignTaskService){
+    constructor(private campaignService: CampaignService){
         this.allUserCampaigns = [];
     }
 
