@@ -62,6 +62,12 @@
         width: auto !important; margin-top: 3.5em; position: relative">
     <div class="ui ten column fluid grid">
         <div class="four wide left aligned fluid column">
+            <button class="ui icon secondary button">
+                <i class="edit icon"></i>
+            </button>
+            <button class="ui icon negative button" (click)="showDeleteModal()">
+                <i class="trash icon"></i>
+            </button>
             <div class="ui relaxed divided list">
                 <div class="item">
                     <div class="content">
@@ -104,6 +110,29 @@
         <div class="seven wide right aligned fluid column">
             <h1 class="ui header center aligned">[Customer Name] - {{currentCampaign.name}} Overview</h1>
             <campaign-task [campaign]="currentCampaign"></campaign-task>
+        </div>
+    </div>
+</div>
+<div class="ui basic modal" #deleteModal>
+    <div class="ui icon header">
+        <i class="trash icon"></i>
+        Campaign Deletion
+    </div>
+    <div class="content">
+        <div class="description">
+            <p>This action will permanently delete the current campaign and all associated tasks.  Proceed?</p>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="two ui inverted buttons">
+            <div class="ui cancel red basic inverted button">
+                <i class="remove icon"></i>
+                No
+            </div>
+            <div class="ui ok green basic inverted button" (click)="deleteCurrentCampaign()">
+                <i class="checkmark icon"></i>
+                Yes
+            </div>
         </div>
     </div>
 </div>

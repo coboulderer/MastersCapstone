@@ -30,14 +30,14 @@ export class CampaignTask implements OnChanges {
     }
 
     show(data?: {}) {
-        console.log("CampaignNew.show() Called");
+        console.log("CampaignTask.show() Called");
         jQuery(this.modal.nativeElement)
             .modal(data || {})
             .modal("toggle");
     }
 
     hide() {
-        console.log("CampaignNew.hide() Called");
+        console.log("CampaignTask.hide() Called");
         this.taskForm.reset();
         jQuery(this.modal.nativeElement)
             .modal("hide");
