@@ -35,8 +35,13 @@ export class CampaignService {
         // TODO - Implement
     }
 
-    deleteCampaign() {
-        // TODO - Implement
+    deleteCampaign(campaignId: number) {
+        console.log("CampaignService.deleteCampaign()");
+        let url = "http://localhost:8080/api/secure/campaign/" + campaignId;
+        let header = this.getHeaders();
+        return this.http.delete(url, {headers: header}).
+            map(this.parseDelete).
+            catch(this.parseError);
     }
 
     private parseData(res: Response) {
@@ -44,6 +49,12 @@ export class CampaignService {
         let body = res.json();
         console.log("Returned JSON body" + JSON.stringify(body));
         return body || {};
+    }
+
+    private parseDelete(response: Response) {
+        console.log("CampaignService.parseDelete(response) called");
+        let resString = JSON.parse(JSON.stringify(response))._body;
+        return resString || {};
     }
 
     private parseError(error: any) {
