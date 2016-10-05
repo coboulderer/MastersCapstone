@@ -18,6 +18,8 @@ export class CampaignTask implements OnChanges {
     private newTask: Task = new Task();
     private campaignTasks: Task[];
 
+    private campaignProgress: number;
+
     private taskForm = new FormGroup({
         description     : new FormControl(),
         assignee        : new FormControl(),
@@ -54,6 +56,7 @@ export class CampaignTask implements OnChanges {
         this.campaignTaskService.createNewCampaignTask(this.newTask).subscribe(task => {
                 console.log("New Task Created");
                 this.campaignTasks.push(task);
+                this.calculateCampaignProgress();
                 this.hide();
             },
             error => {
@@ -68,11 +71,24 @@ export class CampaignTask implements OnChanges {
         this.campaignTaskService.getCampaignTasks(this.campaign.campaignId).subscribe(tasks => {
                 console.log("Campaign Tasks Found");
                 this.campaignTasks = tasks;
+                this.calculateCampaignProgress();
             },
             error => {
                 console.log("Error Caught in CampaignTaskComponent.loadCampaignTasks");
                 let errorMessage = <any>error;
                 console.log("Error Message:\n" + errorMessage);
             })
+    }
+
+    private calculateCampaignProgress() {
+        console.log("Calculating campaign progress");
+        let completed = 0;
+        for (let i in this.campaignTasks) {
+            if (this.campaignTasks[i].completed === true) {
+                completed += 1;
+            }
+        }
+        this.campaignTasks.length == 0 ? this.campaignProgress = 0 :
+            this.campaignProgress = Math.round(100 * completed / this.campaignTasks.length);
     }
 }
