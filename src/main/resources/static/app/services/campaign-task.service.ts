@@ -27,12 +27,23 @@ export class CampaignTaskService {
             catch(this.parseError);
     }
 
-    editCampaignTask() {
-        // TODO
+    editCampaignTask(task: Task) {
+        console.log("CampaignTaskService.editCampaignTask()");
+        let url = "http://localhost:8080/api/secure/task/" + task.taskId;
+        let body = JSON.stringify(task);
+        let header = this.getHeaders();
+        return this.http.put(url, body, {headers: header}).
+            map(this.parseData).
+            catch(this.parseError);
     }
 
-    deleteCampaignTask() {
-        // TODO
+    deleteCampaignTask(taskId: number) {
+        console.log("CampaignTaskService.deleteCampaignTask");
+        let url = "http://localhost:8080/api/secure/task/" + taskId;
+        let header = this.getHeaders();
+        return this.http.delete(url, {headers: header}).
+            map(this.parseDelete).
+            catch(this.parseError);
     }
 
     deleteAllCampaignTasks(campaignId: number) {

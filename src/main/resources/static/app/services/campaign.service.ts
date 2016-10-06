@@ -31,8 +31,14 @@ export class CampaignService {
             catch(this.parseError);
     }
 
-    updateCampaign() {
-        // TODO - Implement
+    updateCampaign(campaign: Campaign) {
+        console.log("CampaignService.updateCampaign()");
+        let url = "http://localhost:8080/api/secure/campaign/" + campaign.campaignId;
+        let body = JSON.stringify(campaign);
+        let header = this.getHeaders();
+        return this.http.put(url, body, {headers: header}).
+            map(this.parseData).
+            catch(this.parseError);
     }
 
     deleteCampaign(campaignId: number) {
