@@ -1,6 +1,6 @@
 <nav-bar></nav-bar>
 <div class="ui left fixed vertical menu" style="margin-top: 2.90em; overflow-y:scroll; width: 14em !important;">
-    <campaign-new (campaignCreated)="addCreatedCampaign($event)"></campaign-new>
+    <campaign-new (campaignCreated)="addCreatedCampaign($event)" (campaignUpdated)="updateCampaign($event)"></campaign-new>
     <sm-accordion>
         <div class="ui vertical accordion menu" style="margin: 0px;">
             <div class="item">
@@ -62,7 +62,7 @@
         width: auto !important; margin-top: 3.5em; position: relative">
     <div class="ui ten column fluid grid">
         <div class="four wide left aligned fluid column">
-            <button class="ui icon secondary button">
+            <button class="ui icon secondary button" (click)="editCurrentCampaign()">
                 <i class="edit icon"></i>
             </button>
             <button class="ui icon negative button" (click)="showDeleteModal()">

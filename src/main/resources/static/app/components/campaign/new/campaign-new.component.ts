@@ -17,6 +17,7 @@ export class CampaignNew {
 
     @ViewChild("modal") modal: ElementRef;
     @Output() campaignCreated = new EventEmitter<Campaign>();
+    @Output() campaignUpdated = new EventEmitter<Campaign>();
 
     private newCampaign: Campaign = new Campaign();
 
@@ -34,6 +35,9 @@ export class CampaignNew {
 
     show(data?: {}) {
         console.log("CampaignNew.show() Called");
+        if (this.newCampaign.campaignId == null){
+            this.form.reset();
+        }
         jQuery(this.modal.nativeElement)
             .modal(data || {})
             .modal("toggle");
@@ -41,22 +45,42 @@ export class CampaignNew {
 
     hide() {
         console.log("CampaignNew.hide() Called");
-        this.form.reset();
+        this.newCampaign = new Campaign();
         jQuery(this.modal.nativeElement)
             .modal("hide");
     }
 
+    update(campaign: Campaign) {
+        console.log("CampaignNew.update()");
+        this.newCampaign = campaign;
+        this.show();
+    }
+
     save() {
-        console.log("CampaignNew.save() Called");
-        this.campaignService.createNewCampaign(this.newCampaign).subscribe(campaign => {
-                console.log("New Campaign Created");
-                this.campaignCreated.emit(campaign);
-                this.hide();
-            },
-            error => {
-                console.log("Error caught in CampaignService.save()");
-                let errorMessage = <any>error;
-                console.log("Error Message:\n" + errorMessage);
-            });
+        if (this.newCampaign.campaignId == null){
+            console.log("CampaignNew.save() CREATING Called");
+            this.campaignService.createNewCampaign(this.newCampaign).subscribe(campaign => {
+                    console.log("New Campaign Created");
+                    this.campaignCreated.emit(campaign);
+                    this.hide();
+                },
+                error => {
+                    console.log("Error caught initially saving");
+                    let errorMessage = <any>error;
+                    console.log("Error Message:\n" + errorMessage);
+                });
+        } else {
+            console.log("CampaignNew.save() Update Called");
+            this.campaignService.updateCampaign(this.newCampaign).subscribe(campaign => {
+                    console.log("Campaign Updated");
+                    this.campaignUpdated.emit(campaign);
+                    this.hide();
+                },
+                error => {
+                    console.log("Error caught updating)");
+                    let errorMessage = <any>error;
+                    console.log("Error Message:\n" + errorMessage);
+                });
+        }
     }
 }
