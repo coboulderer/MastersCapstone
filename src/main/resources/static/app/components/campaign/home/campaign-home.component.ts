@@ -15,7 +15,7 @@ declare var jQuery: any;
 })
 export class CampaignHome implements OnInit{
 
-    @ViewChild("deleteModal") modal: ElementRef;
+    @ViewChild("deleteModal") private modal: ElementRef;
 
     private currentCampaign: Campaign;
     private allUserCampaigns: Campaign[];
@@ -41,6 +41,11 @@ export class CampaignHome implements OnInit{
         jQuery(this.modal.nativeElement)
             .modal(data || {})
             .modal("toggle");
+    }
+
+    editCurrentCampaign() {
+        console.log("CampaignHome.editCurrentCampaign()");
+        // TODO
     }
 
     deleteCurrentCampaign() {
@@ -72,6 +77,7 @@ export class CampaignHome implements OnInit{
     }
 
     private loadCampaigns() {
+        console.log("CampaignHome.loadCampaigns()");
         this.campaignService.getAllUserCampaigns().subscribe(campaigns => {
                 console.log("Found User Campaigns");
                 if (campaigns.length > 0) {
