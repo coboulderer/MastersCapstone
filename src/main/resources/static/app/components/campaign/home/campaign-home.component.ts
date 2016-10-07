@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import {CampaignService} from "../../../services/campaign.service";
 import {CampaignTaskService} from "../../../services/campaign-task.service";
 import {Campaign} from "../../../model/campaign";
+import {CampaignNew} from "../new/campaign-new.component";
 
 declare var jQuery: any;
 
@@ -16,6 +17,7 @@ declare var jQuery: any;
 export class CampaignHome implements OnInit{
 
     @ViewChild("deleteModal") private modal: ElementRef;
+    @ViewChild(CampaignNew) private campaignNew: CampaignNew;
 
     private currentCampaign: Campaign;
     private allUserCampaigns: Campaign[];
@@ -32,8 +34,13 @@ export class CampaignHome implements OnInit{
 
     addCreatedCampaign(campaign: Campaign) {
         console.log("CampaignHome.addCreatedCampaign(Campaign) function called");
-        this.currentCampaign = campaign;
+        this.updateCampaign(campaign);
         this.allUserCampaigns.push(campaign);
+    }
+
+    updateCampaign(campaign: Campaign){
+        console.log("CampaignHome.updateCampaign");
+        this.currentCampaign = campaign;
     }
 
     showDeleteModal(data?: {}) {
@@ -45,7 +52,7 @@ export class CampaignHome implements OnInit{
 
     editCurrentCampaign() {
         console.log("CampaignHome.editCurrentCampaign()");
-        // TODO
+        this.campaignNew.update(this.currentCampaign);
     }
 
     deleteCurrentCampaign() {
