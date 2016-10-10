@@ -71,7 +71,13 @@ export class CampaignTaskService {
     private parseError(error: any) {
         console.log("CampaignTaskService.parseError(error) called");
         let errMsg = "";
-        // TODO - Error specifics
+        if (error.status == 400) {
+            errMsg = "A Bad Request was made - try your action again";
+        } else if (error.status == 404) {
+            errMsg = "The resource(s) you requested could not be found on the server";
+        } else {
+            errMsg = "An unknown error occurred processing your request";
+        }
         return Observable.throw(errMsg);
     }
 
