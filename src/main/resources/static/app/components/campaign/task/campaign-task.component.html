@@ -20,7 +20,7 @@
         <td>{{task.assignedTo}}</td>
         <td class="center aligned">
             <div class="checkbox">
-                <input type="checkbox" name="completed" [(ngModel)]="task.completed">
+                <input type="checkbox" name="completed" [(ngModel)]="task.completed" (change)="updateTask(task)">
                 <label></label>
             </div>
         </td>

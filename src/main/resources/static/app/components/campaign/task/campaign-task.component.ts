@@ -66,6 +66,20 @@ export class CampaignTask implements OnChanges {
             });
     }
 
+    updateTask(task: Task) {
+        console.log("CampaignTask.updateTask() called");
+        task.completed = !task.completed;
+        this.campaignTaskService.editCampaignTask(task).subscribe(task => {
+                console.log("Task Updated");
+                this.loadCampaignTasks();
+            },
+            error => {
+                console.log("Error Caught in CampaignTaskComponent.updateTask");
+                let errorMessage = <any>error;
+                console.log("Error Message:\n" + errorMessage);
+            })
+    }
+
     loadCampaignTasks() {
         console.log("CampaignTask.loadCampaignTasks() function called");
         this.campaignTaskService.getCampaignTasks(this.campaign.campaignId).subscribe(tasks => {
