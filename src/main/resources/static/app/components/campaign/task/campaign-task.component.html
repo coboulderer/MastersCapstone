@@ -4,23 +4,32 @@
 </div>
 <div class="ui hidden divider"></div>
 <h3 class="ui center aligned header">Milestones & Tasks</h3>
-<table class="ui compact celled table">
+<table class="ui compact celled table" [mfData]="campaignTasks" #mf="mfDataTable" [mfRowsOnPage]="10">
     <thead>
     <tr>
-        <th>Due Date</th>
-        <th>Description</th>
-        <th>Assignee</th>
-        <th>Completed</th>
+        <th>
+            <mfDefaultSorter by="dueDate">Due Date</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter by="description">Description</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter by="assignedTo">Assignee</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter by="completed">Completed</mfDefaultSorter>
+        </th>
     </tr>
     </thead>
-    <tbody style="overflow-y:scroll">
-    <tr *ngFor="let task of campaignTasks">
-        <td>{{task.dueDate | date:'mediumDate'}}</td>
-        <td>{{task.description}}</td>
-        <td>{{task.assignedTo}}</td>
+    <tbody>
+    <tr *ngFor="let item of mf.data">
+        <td>{{item.dueDate | date:'mediumDate'}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.assignedTo}}</td>
         <td class="center aligned">
             <div class="checkbox">
-                <input type="checkbox" name="completed" [(ngModel)]="task.completed" (change)="updateTask(task)">
+                <input type="checkbox" name="completed" [(ngModel)]="item.completed"
+                       (change)="updateTask(item)">
                 <label></label>
             </div>
         </td>

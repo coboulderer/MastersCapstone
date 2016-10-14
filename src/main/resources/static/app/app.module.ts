@@ -12,6 +12,7 @@ import {NavBar} from "./components/navbar/nav-bar.component";
 import {CampaignNew} from "./components/campaign/new/campaign-new.component";
 import {CampaignTask} from "./components/campaign/task/campaign-task.component";
 import {NgSemanticModule} from "ng-semantic";
+import {DataTableModule} from "angular2-datatable";
 
 @NgModule({
     imports:[
@@ -20,7 +21,8 @@ import {NgSemanticModule} from "ng-semantic";
         ReactiveFormsModule,
         HttpModule,
         routing,
-        NgSemanticModule
+        NgSemanticModule,
+        DataTableModule
     ],
     declarations:[
         AppComponent,
