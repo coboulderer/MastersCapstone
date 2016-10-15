@@ -44,17 +44,27 @@
                 </div>
             </div>
             <div class="two fields">
-                <div class="field four wide">
+                <div *ngIf="existingStartDate == null" class="field four wide">
                     <label for="startDate">Start Date</label>
                     <input formControlName="startDate" type="date" name="startDate"
-                           id="startDate" required [(ngModel)]="newCampaign.startDate"
-                           [value]="newCampaign.startDate | date:'yyyy-MM-dd'"/>
+                           id="startDate" required [(ngModel)]="newCampaign.startDate"/>
                 </div>
-                <div class="field four wide">
+                <div *ngIf="existingEndDate == null" class="field four wide">
                     <label for="expectedCloseDate">Expected Close Date</label>
                     <input formControlName="endDate" type="date" name="expectedCloseDate"
-                           id="expectedCloseDate" required [(ngModel)]="newCampaign.closeDate"
-                           [value]="newCampaign.closeDate | date:'yyyy-MM-dd'"/>
+                           id="expectedCloseDate" required [(ngModel)]="newCampaign.closeDate"/>
+                </div>
+                <div *ngIf="existingStartDate != null" class="field four wide">
+                    <label for="newStart">Start Date</label>
+                    <input formControlName="newStartDate" type="date" name="newStart"
+                           id="newStart" required [(ngModel)]="newCampaign.startDate"
+                           [value]="existingStartDate | date:'yyyy-MM-dd'"/>
+                </div>
+                <div *ngIf="existingEndDate != null" class="field four wide">
+                    <label for="newEnd">Start Date</label>
+                    <input formControlName="newEndDate" type="date" name="newEnd"
+                           id="newEnd" required [(ngModel)]="newCampaign.closeDate"
+                           [value]="existingEndDate | date:'yyyy-MM-dd'"/>
                 </div>
             </div>
             <div class="field eight wide">
