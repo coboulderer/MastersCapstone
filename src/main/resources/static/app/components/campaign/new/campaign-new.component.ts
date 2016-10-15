@@ -20,6 +20,8 @@ export class CampaignNew {
     @Output() campaignUpdated = new EventEmitter<Campaign>();
 
     private newCampaign: Campaign = new Campaign();
+    private existingStartDate: Date = null;
+    private existingEndDate: Date = null;
 
     private form = new FormGroup({
         campaignName    : new FormControl(),
@@ -27,7 +29,9 @@ export class CampaignNew {
         campaignStrength: new FormControl(),
         closeStatus     : new FormControl(),
         startDate       : new FormControl(),
+        newStartDate    : new FormControl(),
         endDate         : new FormControl(),
+        newEndDate      : new FormControl(),
         solutionSummary : new FormControl()
     });
 
@@ -52,6 +56,8 @@ export class CampaignNew {
 
     update(campaign: Campaign) {
         console.log("CampaignNew.update()");
+        this.existingStartDate = this.toUtcDate(campaign.startDate);
+        this.existingEndDate = this.toUtcDate(campaign.closeDate);
         this.newCampaign = campaign;
         this.show();
     }
@@ -82,5 +88,12 @@ export class CampaignNew {
                     console.log("Error Message:\n" + errorMessage);
                 });
         }
+    }
+
+    private toUtcDate(dateMillis: number) {
+        let date = new Date(dateMillis);
+        let utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+            date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+        return utc;
     }
 }
