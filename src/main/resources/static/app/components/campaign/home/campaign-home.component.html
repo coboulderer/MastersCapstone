@@ -84,13 +84,15 @@
                 <div class="item">
                     <div class="content">
                         <a class="header">Start Date</a>
-                        <div class="description">{{currentCampaign.startDate | date:'mediumDate'}}</div>
+                        <div class="description">{{toUtcDate(currentCampaign.startDate) |
+                            date:'mediumDate'}}</div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="content">
                         <a class="header">Expected Close Date</a>
-                        <div class="description">{{currentCampaign.closeDate | date:'mediumDate'}}</div>
+                        <div class="description">{{toUtcDate(currentCampaign.closeDate) |
+                            date:'mediumDate'}}</div>
                     </div>
                 </div>
                 <div class="item">
