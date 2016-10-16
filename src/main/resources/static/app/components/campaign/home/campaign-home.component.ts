@@ -3,6 +3,7 @@ import {CampaignService} from "../../../services/campaign.service";
 import {CampaignTaskService} from "../../../services/campaign-task.service";
 import {Campaign} from "../../../model/campaign";
 import {CampaignNew} from "../new/campaign-new.component";
+import {DateService} from "../../../services/date.service";
 
 declare var jQuery: any;
 
@@ -11,7 +12,8 @@ declare var jQuery: any;
     templateUrl: "app/components/campaign/home/campaign-home.component.html",
     providers: [
         CampaignService,
-        CampaignTaskService
+        CampaignTaskService,
+        DateService
     ]
 })
 export class CampaignHome implements OnInit{
@@ -23,7 +25,8 @@ export class CampaignHome implements OnInit{
     private allUserCampaigns: Campaign[];
 
     constructor(private campaignService: CampaignService,
-                private campaignTaskService: CampaignTaskService){
+                private campaignTaskService: CampaignTaskService,
+                private dateService: DateService){
         this.allUserCampaigns = [];
     }
 
@@ -96,12 +99,5 @@ export class CampaignHome implements OnInit{
                 console.log("Error Caught in CampaignHome.loadCampaigns()");
                 console.log("Error Message:\n" + error);
             });
-    }
-
-    private toUtcDate(dateMillis: number) {
-        let date = new Date(dateMillis);
-        let utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-            date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-        return utc;
     }
 }

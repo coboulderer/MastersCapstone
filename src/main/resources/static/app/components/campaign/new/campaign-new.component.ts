@@ -2,6 +2,7 @@ import {Component, ViewChild, ElementRef, Output, EventEmitter} from "@angular/c
 import {FormControl, FormGroup} from "@angular/forms";
 import {CampaignService} from "../../../services/campaign.service";
 import {Campaign} from "../../../model/campaign";
+import {DateService} from "../../../services/date.service";
 
 declare var jQuery: any;
 
@@ -9,7 +10,8 @@ declare var jQuery: any;
     selector: "campaign-new",
     templateUrl: "app/components/campaign/new/campaign-new.component.html",
     providers: [
-        CampaignService
+        CampaignService,
+        DateService
     ]
 })
 
@@ -35,7 +37,7 @@ export class CampaignNew {
         solutionSummary : new FormControl()
     });
 
-    constructor(private campaignService: CampaignService){}
+    constructor(private campaignService: CampaignService, private dateService: DateService){}
 
     show(data?: {}) {
         console.log("CampaignNew.show() Called");
@@ -56,8 +58,8 @@ export class CampaignNew {
 
     update(campaign: Campaign) {
         console.log("CampaignNew.update()");
-        this.existingStartDate = this.toUtcDate(campaign.startDate);
-        this.existingEndDate = this.toUtcDate(campaign.closeDate);
+        this.existingStartDate = this.dateService.toUtcDate(campaign.startDate);
+        this.existingEndDate = this.dateService.toUtcDate(campaign.closeDate);
         this.newCampaign = campaign;
         this.show();
     }
@@ -88,12 +90,5 @@ export class CampaignNew {
                     console.log("Error Message:\n" + errorMessage);
                 });
         }
-    }
-
-    private toUtcDate(dateMillis: number) {
-        let date = new Date(dateMillis);
-        let utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-            date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-        return utc;
     }
 }
