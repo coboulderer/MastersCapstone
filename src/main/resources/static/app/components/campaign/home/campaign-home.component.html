@@ -1,8 +1,8 @@
 <nav-bar></nav-bar>
-<div class="ui left fixed vertical menu" style="margin-top: 2.90em; overflow-y:scroll; width: 14em !important;">
+<div class="ui left fixed vertical menu campaign-menu">
     <campaign-new (campaignCreated)="addCreatedCampaign($event)" (campaignUpdated)="updateCampaign($event)"></campaign-new>
     <sm-accordion>
-        <div class="ui vertical accordion menu" style="margin: 0px;">
+        <div class="ui vertical accordion menu campaign-accordion">
             <div class="item">
                 <a class="active title">
                     <i class="dropdown icon"></i>
@@ -18,7 +18,7 @@
         </div>
     </sm-accordion>
     <sm-accordion>
-        <div class="ui vertical accordion menu" style="margin: 0px;">
+        <div class="ui vertical accordion menu campaign-accordion">
             <div class="item">
                 <a class="active title">
                     <i class="dropdown icon"></i>
@@ -34,7 +34,7 @@
         </div>
     </sm-accordion>
     <sm-accordion>
-        <div class="ui vertical accordion menu" style="margin: 0px;">
+        <div class="ui vertical accordion menu campaign-accordion">
             <div class="item">
                 <a class="active title">
                     <i class="dropdown icon"></i>
