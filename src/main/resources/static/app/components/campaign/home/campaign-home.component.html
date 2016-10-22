@@ -53,65 +53,65 @@
         <button class="ui button fluid" (click)="loadSelected(campaign)">{{campaign.name}}</button>
     </span>
 </div>
-<div *ngIf="currentCampaign == null" class="ui container" style="margin-left: 15em !important;
-        width: auto !important; margin-top: 3.5em; position: relative">
-    <h1 class="ui header center aligned">No Existing Campaigns to Display</h1>
-    <h2 class="ui header center aligned">Create One Using the Button on the Left</h2>
-</div>
-<div *ngIf="currentCampaign != null" class="ui container" style="margin-left: 15em !important;
-        width: auto !important; margin-top: 3.5em; position: relative">
-    <div class="ui ten column fluid grid">
-        <div class="four wide left aligned fluid column">
-            <button class="ui icon secondary button" (click)="editCurrentCampaign()">
-                <i class="edit icon"></i>
-            </button>
-            <button class="ui icon negative button" (click)="showDeleteModal()">
-                <i class="trash icon"></i>
-            </button>
-            <div class="ui relaxed divided list">
-                <div class="item">
-                    <div class="content">
-                        <a class="header">Projected Revenue</a>
-                        <div class="description">${{currentCampaign.revenue}}</div>
+<div id="primary-content">
+    <div *ngIf="currentCampaign == null" class="ui container">
+        <h1 class="ui header center aligned">No Existing Campaigns to Display</h1>
+        <h2 class="ui header center aligned">Create One Using the Button on the Left</h2>
+    </div>
+    <div *ngIf="currentCampaign != null" class="ui container">
+        <div class="ui ten column fluid grid">
+            <div class="four wide left aligned fluid column">
+                <button class="ui icon secondary button" (click)="editCurrentCampaign()">
+                    <i class="edit icon"></i>
+                </button>
+                <button class="ui icon negative button" (click)="showDeleteModal()">
+                    <i class="trash icon"></i>
+                </button>
+                <div class="ui relaxed divided list">
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Projected Revenue</a>
+                            <div class="description">${{currentCampaign.revenue}}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="content">
-                        <a class="header">Campaign Strength</a>
-                        <div class="description">{{currentCampaign.strength}}</div>
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Campaign Strength</a>
+                            <div class="description">{{currentCampaign.strength}}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="content">
-                        <a class="header">Start Date</a>
-                        <div class="description">{{dateService.toUtcDate(currentCampaign.startDate)
-                            | date:'mediumDate'}}</div>
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Start Date</a>
+                            <div class="description">{{dateService.toUtcDate(currentCampaign.startDate)
+                                | date:'mediumDate'}}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="content">
-                        <a class="header">Expected Close Date</a>
-                        <div class="description">{{dateService.toUtcDate(currentCampaign.closeDate)
-                            | date:'mediumDate'}}</div>
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Expected Close Date</a>
+                            <div class="description">{{dateService.toUtcDate(currentCampaign.closeDate)
+                                | date:'mediumDate'}}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="content">
-                        <a class="header">Solution Summary</a>
-                        <div class="description">{{currentCampaign.summary}}</div>
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Solution Summary</a>
+                            <div class="description">{{currentCampaign.summary}}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="content">
-                        <a class="header">Close Status</a>
-                        <div class="description">{{currentCampaign.closeStatus}}</div>
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Close Status</a>
+                            <div class="description">{{currentCampaign.closeStatus}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="seven wide right aligned fluid column">
-            <h1 class="ui header center aligned">[Customer Name] - {{currentCampaign.name}} Overview</h1>
-            <campaign-task [campaign]="currentCampaign"></campaign-task>
+            <div class="seven wide right aligned fluid column">
+                <h1 class="ui header center aligned">[Customer Name] - {{currentCampaign.name}} Overview</h1>
+                <campaign-task [campaign]="currentCampaign"></campaign-task>
+            </div>
         </div>
     </div>
 </div>
