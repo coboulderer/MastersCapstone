@@ -25,6 +25,11 @@ public class CustomerCompanyServiceImpl implements ICustomerCompanyService{
     }
 
     @Override
+    public CustomerCompany getCustomerCompanyById(Long id) {
+        return this.customerCompanyDao.findOne(id);
+    }
+
+    @Override
     public List<CustomerCompany> getAllCustomerCompanies() {
         return this.customerCompanyDao.findAll();
     }

@@ -11,6 +11,8 @@ public interface ICustomerCompanyService {
 
     CustomerCompany saveCustomerCompany(CustomerCompany customerCompany);
 
+    CustomerCompany getCustomerCompanyById(Long id);
+
     List<CustomerCompany> getAllCustomerCompanies();
 
     void deleteCustomerCompanyById(Long id);

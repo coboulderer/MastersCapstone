@@ -55,4 +55,12 @@ public class CustomerCompanyServiceTest {
 
         Assert.assertEquals(customerCompanies, companies);
     }
+
+    @Test
+    public void testGetCustomerCompanyById() {
+        given(this.customerCompanyDao.findOne(any(Long.class))).willReturn(customerCompanyOne);
+        CustomerCompany customerCompany = customerCompanyService.getCustomerCompanyById(1L);
+
+        Assert.assertEquals(customerCompanyOne, customerCompany);
+    }
 }
