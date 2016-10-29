@@ -100,7 +100,6 @@ public class CampaignController {
 
     @RequestMapping(value = "/user/{userName}", method = RequestMethod.GET)
     public ResponseEntity<List<Campaign>> getAllUserCampaigns(@PathVariable String userName) {
-
         ResponseEntity<List<Campaign>> response;
         User user = userService.findByUserName(userName);
         if (userName == null || userName.isEmpty()) {
