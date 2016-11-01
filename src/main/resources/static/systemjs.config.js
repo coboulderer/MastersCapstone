@@ -25,7 +25,7 @@
             'rxjs':                       'npm:rxjs',
             'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
             'ng-semantic':                'npm:ng-semantic',
-            'angular2-datatable':         'npm:angular2-datatable',
+            'ng2-data-table':         'npm:ng2-data-table',
             'lodash':                     'npm:lodash'
         },
         // packages tells the System loader how to load when no filename and/or no extension
@@ -37,8 +37,8 @@
             rxjs: {
                 defaultExtension: 'js'
             },
-            'angular2-datatable': {
-                main: 'index.js',
+            'ng2-data-table': {
+                main: 'datatable.js',
                 defaultExtension: 'js'
             },
             lodash: {
