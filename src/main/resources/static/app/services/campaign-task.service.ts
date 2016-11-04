@@ -6,11 +6,13 @@ import {Task} from "../model/task";
 @Injectable()
 export class CampaignTaskService {
 
+    private taskUrl: string = "http://localhost:8080/api/secure/task";
+
     constructor(private http:Http){}
 
     getCampaignTasks(campaignId: number) {
         console.log("Called CampaignTaskService.getCampaignTasks");
-        let url = "http://localhost:8080/api/secure/task/campaign/" + campaignId;
+        let url = this.taskUrl + "/campaign/" + campaignId;
         let header = this.getHeaders();
         return this.http.get(url, {headers: header}).
             map(this.parseData).
@@ -19,7 +21,7 @@ export class CampaignTaskService {
 
     createNewCampaignTask(task: Task) {
         console.log("Called CampaignTaskService.createNewCampaignTask");
-        let url = "http://localhost:8080/api/secure/task";
+        let url = this.taskUrl;
         let body = JSON.stringify(task);
         let header = this.getHeaders();
         return this.http.post(url, body, {headers: header}).
@@ -29,7 +31,7 @@ export class CampaignTaskService {
 
     editCampaignTask(task: Task) {
         console.log("CampaignTaskService.editCampaignTask()");
-        let url = "http://localhost:8080/api/secure/task/" + task.taskId;
+        let url = this.taskUrl + "/" + task.taskId;
         let body = JSON.stringify(task);
         let header = this.getHeaders();
         return this.http.put(url, body, {headers: header}).
@@ -39,7 +41,7 @@ export class CampaignTaskService {
 
     deleteCampaignTask(taskId: number) {
         console.log("CampaignTaskService.deleteCampaignTask");
-        let url = "http://localhost:8080/api/secure/task/" + taskId;
+        let url = this.taskUrl + "/" + taskId;
         let header = this.getHeaders();
         return this.http.delete(url, {headers: header}).
             map(this.parseDelete).
@@ -48,7 +50,7 @@ export class CampaignTaskService {
 
     deleteAllCampaignTasks(campaignId: number) {
         console.log("CampaignTaskService.deleteAllCampaignTasks()");
-        let url = "http://localhost:8080/api/secure/task/campaign/" + campaignId;
+        let url = this.taskUrl + "/campaign/" + campaignId;
         let header = this.getHeaders();
         return this.http.delete(url, {headers: header}).
         map(this.parseDelete).

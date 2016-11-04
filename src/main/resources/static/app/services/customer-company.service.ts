@@ -6,30 +6,30 @@ import {CustomerCompany} from "../model/customer-company";
 @Injectable()
 export class CustomerCompanyService {
 
+    private companyUrl: string = "http://localhost:8080/api/secure/customer/company";
+
     constructor(private http: Http){}
 
     getAllCustomerCompanies() {
         console.log("CustomerCompanyService.getAllCustomerCompanies");
-        let url = "http://localhost:8080/api/secure/customer/company";
         let header = this.getHeaders();
-        return this.http.get(url, {headers: header}).
+        return this.http.get(this.companyUrl, {headers: header}).
             map(this.parseData).
             catch(this.parseError);
     }
 
     createNewCustomerCompany(customerCompany: CustomerCompany) {
         console.log("CustomerCompanyService.createNewCustomerCompany()");
-        let url = "http://localhost:8080/api/secure/customer/company";
         let body = JSON.stringify(customerCompany);
         let header = this.getHeaders();
-        return this.http.post(url, body, {headers: header}).
+        return this.http.post(this.companyUrl, body, {headers: header}).
         map(this.parseData).
         catch(this.parseError);
     }
 
     deleteCustomerCompany(customerCompanyId: number) {
         console.log("CustomerCompanyService.deleteCustomerCompany()");
-        let url = "http://localhost:8080/api/secure/customer/company/" + customerCompanyId;
+        let url = this.companyUrl + "/" + customerCompanyId;
         let header = this.getHeaders();
         return this.http.delete(url, {headers: header}).
         map(this.parseDelete).
