@@ -6,11 +6,13 @@ import {Campaign} from "../model/campaign";
 @Injectable()
 export class CampaignService {
 
+    private campaignUrl:string = "http://localhost:8080/api/secure/campaign";
+
     constructor(private http:Http){}
 
     getAllUserCampaigns() {
         console.log("CampaignService.getAllUserCampaigns()");
-        let url = "http://localhost:8080/api/secure/campaign/user/" + this.getUserName();
+        let url = this.campaignUrl + "/user/" + this.getUserName();
         let header = this.getHeaders();
         return this.http.get(url, {headers: header}).
             map(this.parseData).
@@ -23,7 +25,7 @@ export class CampaignService {
 
     createNewCampaign(campaign: Campaign) {
         console.log("CampaignService.createNewCampaign()");
-        let url = "http://localhost:8080/api/secure/campaign/user/" + this.getUserName();
+        let url = this.campaignUrl + "/user/" + this.getUserName();
         let body = JSON.stringify(campaign);
         let header = this.getHeaders();
         return this.http.post(url, body, {headers: header}).
@@ -33,7 +35,7 @@ export class CampaignService {
 
     updateCampaign(campaign: Campaign) {
         console.log("CampaignService.updateCampaign()");
-        let url = "http://localhost:8080/api/secure/campaign/" + campaign.campaignId;
+        let url = this.campaignUrl + "/" + campaign.campaignId;
         let body = JSON.stringify(campaign);
         let header = this.getHeaders();
         return this.http.put(url, body, {headers: header}).
@@ -43,7 +45,7 @@ export class CampaignService {
 
     deleteCampaign(campaignId: number) {
         console.log("CampaignService.deleteCampaign()");
-        let url = "http://localhost:8080/api/secure/campaign/" + campaignId;
+        let url = this.campaignUrl + "/" + campaignId;
         let header = this.getHeaders();
         return this.http.delete(url, {headers: header}).
             map(this.parseDelete).
