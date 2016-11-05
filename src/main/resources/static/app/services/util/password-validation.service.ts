@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Passwords} from "../model/passwords";
+import {Passwords} from "../../model/passwords";
 
 @Injectable()
 export class PasswordValidationService {

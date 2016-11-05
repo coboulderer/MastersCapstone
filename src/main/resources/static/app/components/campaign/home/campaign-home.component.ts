@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild, ElementRef} from "@angular/core";
-import {CampaignService} from "../../../services/campaign.service";
-import {CampaignTaskService} from "../../../services/campaign-task.service";
+import {CampaignService} from "../../../services/data/campaign.service";
+import {CampaignTaskService} from "../../../services/data/campaign-task.service";
 import {Campaign} from "../../../model/campaign";
 import {CampaignNew} from "../new/campaign-new.component";
-import {DateService} from "../../../services/date.service";
+import {DateService} from "../../../services/util/date.service";
 
 declare var jQuery: any;
 
