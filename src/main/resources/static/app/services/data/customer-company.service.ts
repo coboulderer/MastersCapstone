@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers, Response} from "@angular/http";
 import {Observable} from "rxjs/Rx";
-import {CustomerCompany} from "../model/customer-company";
+import {CustomerCompany} from "../../model/customer-company";
 
 @Injectable()
 export class CustomerCompanyService {

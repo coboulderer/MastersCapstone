@@ -1,6 +1,6 @@
 import {Component, ElementRef, ViewChild, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {FormGroup, FormControl} from "@angular/forms";
-import {CampaignTaskService} from "../../../services/campaign-task.service";
+import {CampaignTaskService} from "../../../services/data/campaign-task.service";
 import {Task} from "../../../model/task";
 import {Campaign} from "../../../model/campaign";
 

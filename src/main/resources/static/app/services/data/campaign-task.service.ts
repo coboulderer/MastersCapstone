@@ -1,72 +1,77 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {Campaign} from "../model/campaign";
+import {Task} from "../../model/task";
 
 @Injectable()
-export class CampaignService {
+export class CampaignTaskService {
 
-    private campaignUrl:string = "http://localhost:8080/api/secure/campaign";
+    private taskUrl: string = "http://localhost:8080/api/secure/task";
 
     constructor(private http:Http){}
 
-    getAllUserCampaigns() {
-        console.log("CampaignService.getAllUserCampaigns()");
-        let url = this.campaignUrl + "/user/" + this.getUserName();
+    getCampaignTasks(campaignId: number) {
+        console.log("Called CampaignTaskService.getCampaignTasks");
+        let url = this.taskUrl + "/campaign/" + campaignId;
         let header = this.getHeaders();
         return this.http.get(url, {headers: header}).
             map(this.parseData).
             catch(this.parseError);
     }
 
-    getCampaign() {
-        // TODO - Implement
-    }
-
-    createNewCampaign(campaign: Campaign) {
-        console.log("CampaignService.createNewCampaign()");
-        let url = this.campaignUrl + "/user/" + this.getUserName();
-        let body = JSON.stringify(campaign);
+    createNewCampaignTask(task: Task) {
+        console.log("Called CampaignTaskService.createNewCampaignTask");
+        let url = this.taskUrl;
+        let body = JSON.stringify(task);
         let header = this.getHeaders();
         return this.http.post(url, body, {headers: header}).
             map(this.parseData).
             catch(this.parseError);
     }
 
-    updateCampaign(campaign: Campaign) {
-        console.log("CampaignService.updateCampaign()");
-        let url = this.campaignUrl + "/" + campaign.campaignId;
-        let body = JSON.stringify(campaign);
+    editCampaignTask(task: Task) {
+        console.log("CampaignTaskService.editCampaignTask()");
+        let url = this.taskUrl + "/" + task.taskId;
+        let body = JSON.stringify(task);
         let header = this.getHeaders();
         return this.http.put(url, body, {headers: header}).
             map(this.parseData).
             catch(this.parseError);
     }
 
-    deleteCampaign(campaignId: number) {
-        console.log("CampaignService.deleteCampaign()");
-        let url = this.campaignUrl + "/" + campaignId;
+    deleteCampaignTask(taskId: number) {
+        console.log("CampaignTaskService.deleteCampaignTask");
+        let url = this.taskUrl + "/" + taskId;
         let header = this.getHeaders();
         return this.http.delete(url, {headers: header}).
             map(this.parseDelete).
             catch(this.parseError);
     }
 
+    deleteAllCampaignTasks(campaignId: number) {
+        console.log("CampaignTaskService.deleteAllCampaignTasks()");
+        let url = this.taskUrl + "/campaign/" + campaignId;
+        let header = this.getHeaders();
+        return this.http.delete(url, {headers: header}).
+        map(this.parseDelete).
+        catch(this.parseError);
+    }
+
     private parseData(res: Response) {
-        console.log("CampaignService.parseData(res) called");
+        console.log("CampaignTaskService.parseData(res) called");
         let body = res.json();
         console.log("Returned JSON body" + JSON.stringify(body));
         return body || {};
     }
 
     private parseDelete(response: Response) {
-        console.log("CampaignService.parseDelete(response) called");
+        console.log("CampaignTaskService.parseDelete(response) called");
         let resString = JSON.parse(JSON.stringify(response))._body;
         return resString || {};
     }
 
     private parseError(error: any) {
-        console.log("CampaignService.parseError(error) called");
+        console.log("CampaignTaskService.parseError(error) called");
         let errMsg = "";
         if (error.status == 400) {
             errMsg = "A Bad Request was made - try your action again";
@@ -80,10 +85,6 @@ export class CampaignService {
 
     private getAuthToken() {
         return sessionStorage.getItem("authToken");
-    }
-
-    private getUserName() {
-        return sessionStorage.getItem("userName");
     }
 
     private getHeaders() {

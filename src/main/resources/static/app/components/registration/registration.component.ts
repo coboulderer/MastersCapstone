@@ -3,9 +3,9 @@ import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {User} from "../../model/user";
 import {Passwords} from "../../model/passwords";
-import {RegisterService} from "../../services/register.service";
-import {PasswordValidationService} from "../../services/password-validation.service";
-import {LoginService} from "../../services/login.service";
+import {RegisterService} from "../../services/data/register.service";
+import {PasswordValidationService} from "../../services/util/password-validation.service";
+import {LoginService} from "../../services/data/login.service";
 
 
 @Component({

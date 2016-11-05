@@ -1,8 +1,8 @@
 import {Component, ViewChild, ElementRef, Output, EventEmitter} from "@angular/core";
 import {FormControl, FormGroup} from "@angular/forms";
-import {CampaignService} from "../../../services/campaign.service";
+import {CampaignService} from "../../../services/data/campaign.service";
 import {Campaign} from "../../../model/campaign";
-import {DateService} from "../../../services/date.service";
+import {DateService} from "../../../services/util/date.service";
 
 declare var jQuery: any;
 
