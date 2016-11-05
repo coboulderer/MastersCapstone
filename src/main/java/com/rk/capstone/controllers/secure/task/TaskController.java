@@ -2,6 +2,8 @@ package com.rk.capstone.controllers.secure.task;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,8 @@ public class TaskController {
     private ITaskService taskService;
     private ICampaignService campaignService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public TaskController(ITaskService taskService, ICampaignService campaignService) {
         this.taskService = taskService;
         this.campaignService = campaignService;
@@ -32,11 +36,15 @@ public class TaskController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Task> createNewTask(@RequestBody Task task) {
         ResponseEntity<Task> response;
+        logger.info("Attempting to create a new task");
         if (task == null) {
+            logger.error("Cannot create a null task, create failed");
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else if (campaignService.getCampaignById(task.getCampaignId()) == null) {
+            logger.error("Could not find the campaign this task belongs to, create failed");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
+            logger.info("Creating task - " + task.toString());
             task = taskService.saveTask(task);
             response = ResponseEntity.status(HttpStatus.CREATED).body(task);
         }
@@ -46,11 +54,15 @@ public class TaskController {
     @RequestMapping(value = "/{taskId}", method = RequestMethod.PUT)
     public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
         ResponseEntity<Task> response;
+        logger.info("Attempting to update task with id = " + taskId);
         if (taskId == null || task == null || !taskId.equals(task.getTaskId())) {
+            logger.error("Unable to update a null task or a task without an Id - update failed");
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else if (taskService.getTaskById(taskId) == null) {
+            logger.error("Cannot update a non-existent task, taskId " + taskId + " was not found");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
+            logger.info("Updating task with id = " + taskId);
             task = taskService.saveTask(task);
             response = ResponseEntity.status(HttpStatus.OK).body(task);
         }
@@ -60,13 +72,19 @@ public class TaskController {
     @RequestMapping(value = "/campaign/{campaignId}", method = RequestMethod.GET)
     public ResponseEntity<List<Task>> getAllCampaignTasks(@PathVariable Long campaignId) {
         ResponseEntity<List<Task>> response;
+        logger.info("Attempting to retrieve all campaign tasks");
         if (campaignId == null) {
+            logger.error("Cannot retrieve tasks for a null campaignId");
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else if (campaignService.getCampaignById(campaignId) == null) {
+            logger.error("Could not find the campaign whose tasks are wanted.  Campaign id = " +
+                    campaignId + " not found");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
+            logger.info("Found Campaign and tasks");
             List<Task> tasks = taskService.getCampaignTasks(campaignId);
             response = ResponseEntity.status(HttpStatus.OK).body(tasks);
+            logger.info("Returning " + tasks.size() + " tasks");
         }
         return response;
     }
@@ -74,13 +92,17 @@ public class TaskController {
     @RequestMapping(value = "/{taskId}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteTask(@PathVariable Long taskId) {
         ResponseEntity<String> response;
+        logger.info("Attempting to delete taskId = " + taskId);
         if (taskId == null) {
+            logger.error("Cannot delete a null taskId - delete fail");
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else {
             Task task = taskService.getTaskById(taskId);
             if (task == null) {
+                logger.error("The taskId " + taskId + " was not found, delete failed");
                 response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             } else {
+                logger.info("Task found, deleting task with id = " + taskId);
                 taskService.deleteTask(task);
                 response = ResponseEntity.status(HttpStatus.OK).body("Task " + taskId + " deleted");
             }
@@ -91,12 +113,18 @@ public class TaskController {
     @RequestMapping(value = "/campaign/{campaignId}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteAllCampaignTasks(@PathVariable Long campaignId) {
         ResponseEntity<String> response;
+        logger.info("Attempting to delete all tasks for a campaignId = " + campaignId);
         if (campaignId == null) {
+            logger.error("Cannot delete tasks for a null campaign id, delete tasks failed");
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else if (campaignService.getCampaignById(campaignId) == null) {
+            logger.error("The campaign with id = " + campaignId + " was not found, cannot delete " +
+                    "tasks");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
+            logger.info("Campaign with id = " + campaignId + " found, deleting all tasks");
             List<Task> tasks = taskService.getCampaignTasks(campaignId);
+            logger.info("Deleting " + tasks.size() + " tasks for campaignId " + campaignId);
             tasks.forEach(task -> taskService.deleteTask(task));
             response = ResponseEntity.status(HttpStatus.OK).body("All Campaign Tasks Deleted");
         }

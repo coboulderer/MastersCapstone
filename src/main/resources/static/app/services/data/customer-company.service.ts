@@ -1,18 +1,20 @@
 import {Injectable} from "@angular/core";
-import {Http, Headers} from "@angular/http";
+import {Http} from "@angular/http";
 import {CustomerCompany} from "../../model/customer-company";
 import {ResponseParseService} from "../util/response-parse.service";
+import {HeaderService} from "../util/header.service";
 
 @Injectable()
 export class CustomerCompanyService {
 
     private companyUrl: string = "http://localhost:8080/api/secure/customer/company";
 
-    constructor(private http: Http, private responseParseService: ResponseParseService){}
+    constructor(private http: Http, private responseParseService: ResponseParseService,
+                private headerService: HeaderService){}
 
     getAllCustomerCompanies() {
         console.log("CustomerCompanyService.getAllCustomerCompanies");
-        let header = this.getHeaders();
+        let header = this.headerService.getStandardHeaders();
         return this.http.get(this.companyUrl, {headers: header}).
             map(this.responseParseService.parseData).
             catch(this.responseParseService.parseError);
@@ -21,29 +23,18 @@ export class CustomerCompanyService {
     createNewCustomerCompany(customerCompany: CustomerCompany) {
         console.log("CustomerCompanyService.createNewCustomerCompany()");
         let body = JSON.stringify(customerCompany);
-        let header = this.getHeaders();
+        let header = this.headerService.getStandardHeaders();
         return this.http.post(this.companyUrl, body, {headers: header}).
-        map(this.responseParseService.parseData).
-        catch(this.responseParseService.parseError);
+            map(this.responseParseService.parseData).
+            catch(this.responseParseService.parseError);
     }
 
     deleteCustomerCompany(customerCompanyId: number) {
         console.log("CustomerCompanyService.deleteCustomerCompany()");
         let url = this.companyUrl + "/" + customerCompanyId;
-        let header = this.getHeaders();
+        let header = this.headerService.getStandardHeaders();
         return this.http.delete(url, {headers: header}).
-        map(this.responseParseService.parseDelete).
-        catch(this.responseParseService.parseError);
-    }
-
-    private getAuthToken() {
-        return sessionStorage.getItem("authToken");
-    }
-
-    private getHeaders() {
-        let header = new Headers();
-        header.append("Content-Type", "application/json");
-        header.append("auth-token", this.getAuthToken());
-        return header;
+            map(this.responseParseService.parseDelete).
+            catch(this.responseParseService.parseError);
     }
 }
