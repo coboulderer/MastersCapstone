@@ -1,0 +1,54 @@
+<button class="ui primary button fluid" (click)="show()">
+    <i class="edit icon"></i> New Customer
+</button>
+<div class="ui modal" #modal>
+    <div class="header">
+        Create New Customer
+    </div>
+    <form #newCustomerForm="ngForm" [formGroup]="form" class="ui small form" (ngSubmit)="save()">
+        <div class="ui segment raised left aligned centered ten wide">
+            <div class="one fields">
+                <div class="field four wide">
+                    <label for="customerName">Customer Name</label>
+                    <input formControlName="customerName" type="text" name="customerName"
+                           id="customerName" required [(ngModel)]="newCustomerCompany.name"/>
+                </div>
+            </div>
+            <div class="one fields">
+                <div class="field eight wide">
+                    <label for="customerSummary">Customer Summary</label>
+                    <input formControlName="customerSummary" type="text" name="customerSummary"
+                            id="customerSummary" required [(ngModel)]="newCustomerCompany.summary"/>
+                </div>
+            </div>
+            <div class="one fields">
+                <div class="field eight wide">
+                    <label for="customerInitiative">Major Initiatives</label>
+                    <input formControlName="customerInitiative" type="text" name="customerInitiative"
+                           id="customerInitiative" required [(ngModel)]="newCustomerCompany.initiatives"/>
+                </div>
+            </div>
+            <div [hidden]="!submitError">
+                <div class="ui grid center aligned message">
+                    <small>
+                        <i class="warning sign icon red"></i>
+                        {{errorMessage}}
+                        <i class="warning sign icon red"></i>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="ui center aligned grid">
+            <div class="center aligned two column row">
+                <div class="column right aligned">
+                    <button type="submit" class="ui primary button">Save</button>
+                </div>
+                <div class="column left aligned">
+                    <a class="ui button" type="reset" (click)="hide()">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
