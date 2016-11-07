@@ -1,7 +1,8 @@
-import {Component, ElementRef, ViewChild} from "@angular/core";
+import {Component, ElementRef, ViewChild, Output, EventEmitter} from "@angular/core";
 import {CustomerCompanyService} from "../../../services/data/customer-company.service";
 import {CustomerCompany} from "../../../model/customer-company";
 import {FormGroup, FormControl} from "@angular/forms";
+
 
 declare var jQuery: any;
 
@@ -16,6 +17,7 @@ declare var jQuery: any;
 export class CustomerNew {
 
     @ViewChild("modal") modal: ElementRef;
+    @Output() customerCompanyEmitter = new EventEmitter<CustomerCompany>();
 
     private form = new FormGroup({
         customerName        : new FormControl(),
@@ -32,16 +34,13 @@ export class CustomerNew {
         if (this.newCustomerCompany.id == null){
             this.form.reset();
         }
-        jQuery(this.modal.nativeElement)
-            .modal(data || {})
-            .modal("toggle");
+        jQuery(this.modal.nativeElement).modal(data || {}).modal("toggle");
     }
 
     hide() {
         console.log("CustomerNew.hide() Called");
         this.newCustomerCompany = new CustomerCompany();
-        jQuery(this.modal.nativeElement)
-            .modal("hide");
+        jQuery(this.modal.nativeElement).modal("hide");
     }
 
     update() {
@@ -50,6 +49,16 @@ export class CustomerNew {
 
     save() {
         console.log("CustomerNew.save() called");
+        this.customerService.createNewCustomerCompany(this.newCustomerCompany).
+            subscribe(customerCompany => {
+                console.log("New CustomerCompany Created");
+                this.customerCompanyEmitter.emit(customerCompany);
+                this.hide();
+            },
+            error => {
+                console.log("Error caught creating new customer saving");
+                let errorMessage = <any>error;
+                console.log("Error Message:\n" + errorMessage);
+            });
     }
-
 }
