@@ -23,7 +23,7 @@
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
             // other libraries
             'rxjs':                       'npm:rxjs',
-            'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
+            'angular-in-memory-web-api':  'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
             'ng-semantic':                'npm:ng-semantic',
             'ng2-data-table':             'npm:ng2-data-table',
             'lodash':                     'npm:lodash'
@@ -43,10 +43,6 @@
             },
             lodash: {
                 main: 'lodash.js',
-                defaultExtension: 'js'
-            },
-            'angular2-in-memory-web-api': {
-                main: './index.js',
                 defaultExtension: 'js'
             },
             'ng-semantic': {
