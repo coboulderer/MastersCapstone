@@ -1,6 +1,9 @@
 <nav-bar></nav-bar>
 <div class="ui left fixed vertical menu campaign-menu">
-    <customer-new></customer-new>
+    <customer-new (customerCompanyEmitter)="addCreatedCustomerCompany($event)"></customer-new>
+    <span *ngFor="let customerCompany of allCustomerCompanies">
+        <button class="ui button fluid" (click)="loadSelected(customerCompany)">{{customerCompany.name}}</button>
+    </span>
 </div>
 <div id="primary-content">
     <div class="ui container">
