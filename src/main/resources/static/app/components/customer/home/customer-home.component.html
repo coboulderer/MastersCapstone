@@ -6,7 +6,11 @@
     </span>
 </div>
 <div id="primary-content">
-    <div class="ui container">
+    <div *ngIf="currentCustomerCompany == null" class="ui container">
+        <h1 class="ui header center aligned">No Existing Customers to Display</h1>
+        <h2 class="ui header center aligned">Create One Using the Button on the Left</h2>
+    </div>
+    <div *ngIf="currentCustomerCompany != null" class="ui container">
         <h1 class="ui header center aligned">Under Construction</h1>
         <h2 class="ui header center aligned">Nothing to see here!</h2>
     </div>
