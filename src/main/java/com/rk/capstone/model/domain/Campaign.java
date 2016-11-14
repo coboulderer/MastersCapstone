@@ -20,6 +20,8 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long campaignId;
 
+    private Long customerId;
+
     private String name;
     private String strength;
     private String summary;
@@ -36,8 +38,9 @@ public class Campaign {
 
     protected Campaign() {}
 
-    public Campaign(String name, String strength, String summary, String closeStatus,
+    public Campaign(Long customerId, String name, String strength, String summary, String closeStatus,
                     Date startDate, Date closeDate, int revenue, User owner) {
+        this.customerId = customerId;
         this.name = name;
         this.strength = strength;
         this.summary = summary;
@@ -52,6 +55,7 @@ public class Campaign {
     public String toString() {
         return "Campaign{" +
                 "campaignId=" + campaignId +
+                ", customerId=" + customerId +
                 ", name='" + name + '\'' +
                 ", strength='" + strength + '\'' +
                 ", summary='" + summary + '\'' +
@@ -59,7 +63,7 @@ public class Campaign {
                 ", startDate=" + startDate +
                 ", closeDate=" + closeDate +
                 ", revenue=" + revenue +
-                ", owner=" + owner.getUserName() +
+                ", owner=" + owner +
                 '}';
     }
 
@@ -133,5 +137,13 @@ public class Campaign {
 
     public void setRevenue(int revenue) {
         this.revenue = revenue;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 }

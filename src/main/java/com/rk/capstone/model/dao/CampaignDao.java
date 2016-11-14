@@ -18,5 +18,7 @@ public interface CampaignDao extends CrudRepository<Campaign, Long> {
 
     List<Campaign> findByOwner(User owner);
 
+    List<Campaign> findByCustomerId(Long customerId);
+
     Campaign findByCampaignId(Long campaignId);
 }

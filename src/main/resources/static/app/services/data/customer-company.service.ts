@@ -20,6 +20,15 @@ export class CustomerCompanyService {
             catch(this.responseParseService.parseError);
     }
 
+    getAllCustomerCampaigns(customerCompany: CustomerCompany) {
+        console.log("CustomerCompanyService.getAllCustomerCampaigns()");
+        let url = this.companyUrl + "/" + customerCompany.id + "/campaigns";
+        let header = this.headerService.getStandardHeaders();
+        return this.http.get(this.companyUrl, {headers: header}).
+            map(this.responseParseService.parseData).
+            catch(this.responseParseService.parseError);
+    }
+
     createNewCustomerCompany(customerCompany: CustomerCompany) {
         console.log("CustomerCompanyService.createNewCustomerCompany()");
         let body = JSON.stringify(customerCompany);

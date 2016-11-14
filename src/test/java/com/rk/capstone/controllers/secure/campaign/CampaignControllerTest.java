@@ -60,9 +60,9 @@ public class CampaignControllerTest {
     public void setup() {
         userName = "JohnDoe";
         user = new User("John", "Doe", "johndoe@email.com", userName, "abc123", null);
-        campaignOne = new Campaign("campaignOne", "commit", "summary here", "pending", new Date
+        campaignOne = new Campaign(1L, "campaignOne", "commit", "summary here", "pending", new Date
                 (), new Date(), 100000, user);
-        campaignTwo = new Campaign("campaignTwo", "upside", "summary here", "pending", new Date
+        campaignTwo = new Campaign(2L, "campaignTwo", "upside", "summary here", "pending", new Date
                 (), new Date(), 200000, user);
         campaigns = new ArrayList<>();
         campaigns.add(campaignOne);

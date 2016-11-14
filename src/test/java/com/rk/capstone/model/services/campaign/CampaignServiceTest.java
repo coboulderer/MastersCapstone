@@ -35,8 +35,8 @@ public class CampaignServiceTest {
     public void setup() {
         campaignService = new CampaignServiceImpl(campaignDao);
         user = new User("firstname", "lastname", "email", "username", "abc123", null);
-        campaignOne = new Campaign("nameOne", "commit", "sol summary", "pending", new Date(), new Date(), 1000, user);
-        campaignTwo = new Campaign("nameTwo", "upside", "another summary", "closed", new Date(), new Date(), 2000, user);
+        campaignOne = new Campaign(1L, "nameOne", "commit", "sol summary", "pending", new Date(), new Date(), 1000, user);
+        campaignTwo = new Campaign(2L, "nameTwo", "upside", "another summary", "closed", new Date(), new Date(), 2000, user);
         campaigns = new ArrayList<>();
         campaigns.add(campaignOne);
         campaigns.add(campaignTwo);
@@ -55,6 +55,14 @@ public class CampaignServiceTest {
     public void testGetOwnedCampaigns() {
         given(this.campaignDao.findByOwner(any(User.class))).willReturn(campaigns);
         List<Campaign> foundCampaigns = campaignService.getOwnedCampaigns(user);
+
+        Assert.assertEquals(campaigns, foundCampaigns);
+    }
+
+    @Test
+    public void testGetAllCustomerCampaigns() {
+        given(this.campaignDao.findByCustomerId(any(Long.class))).willReturn(campaigns);
+        List<Campaign> foundCampaigns = campaignService.getAllCustomerCampaigns(1L);
 
         Assert.assertEquals(campaigns, foundCampaigns);
     }

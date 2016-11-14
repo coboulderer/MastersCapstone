@@ -69,7 +69,7 @@ public class TaskControllerTest {
         tasks.add(taskOne);
         tasks.add(taskTwo);
         user = new User("John", "Doe", "johnd@email", userName, "abc123", null);
-        campaign = new Campaign("Campaign", "commit", "Summary", "in progress", new Date(), new Date(), 1, user);
+        campaign = new Campaign(1L, "Campaign", "commit", "Summary", "in progress", new Date(), new Date(), 1, user);
         objectMapper = new ObjectMapper();
     }
 
