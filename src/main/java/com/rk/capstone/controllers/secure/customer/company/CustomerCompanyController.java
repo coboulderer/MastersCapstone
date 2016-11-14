@@ -54,11 +54,13 @@ public class CustomerCompanyController {
     public ResponseEntity<List<Campaign>> getCustomerCampaigns(@PathVariable long id) {
         ResponseEntity<List<Campaign>> response;
         CustomerCompany customerCompany = customerCompanyService.getCustomerCompanyById(id);
+        logger.info("Attempting to get all customer campaigns");
         if (customerCompany == null) {
-            logger.error("Customer company with id = " + id + " not found, cannot get associated campaigns");
+            logger.error("Customer company with id = " + id + " not found, cannot return campaigns");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
             List<Campaign> campaigns = this.campaignService.getAllCustomerCampaigns(id);
+            logger.info("Returning " + campaigns.size() + " customer campaigns");
             response = ResponseEntity.status(HttpStatus.OK).body(campaigns);
         }
         return response;
