@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rk.capstone.model.domain.Campaign;
 import com.rk.capstone.model.domain.CustomerCompany;
+import com.rk.capstone.model.services.campaign.ICampaignService;
 import com.rk.capstone.model.services.customer.company.ICustomerCompanyService;
 
 /**
@@ -23,11 +25,14 @@ import com.rk.capstone.model.services.customer.company.ICustomerCompanyService;
 public class CustomerCompanyController {
 
     private ICustomerCompanyService customerCompanyService;
+    private ICampaignService campaignService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public CustomerCompanyController(ICustomerCompanyService customerCompanyService) {
+    public CustomerCompanyController(ICustomerCompanyService customerCompanyService,
+                                     ICampaignService campaignService) {
         this.customerCompanyService = customerCompanyService;
+        this.campaignService = campaignService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -41,6 +46,20 @@ public class CustomerCompanyController {
         } else {
             logger.info("Returning " + customerCompanies.size() + " customer companies");
             response = ResponseEntity.status(HttpStatus.OK).body(customerCompanies);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/{id}/campaigns", method = RequestMethod.GET)
+    public ResponseEntity<List<Campaign>> getCustomerCampaigns(@PathVariable long id) {
+        ResponseEntity<List<Campaign>> response;
+        CustomerCompany customerCompany = customerCompanyService.getCustomerCompanyById(id);
+        if (customerCompany == null) {
+            logger.error("Customer company with id = " + id + " not found, cannot get associated campaigns");
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            List<Campaign> campaigns = this.campaignService.getAllCustomerCampaigns(id);
+            response = ResponseEntity.status(HttpStatus.OK).body(campaigns);
         }
         return response;
     }

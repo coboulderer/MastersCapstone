@@ -16,7 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rk.capstone.model.domain.Campaign;
 import com.rk.capstone.model.domain.CustomerCompany;
+import com.rk.capstone.model.domain.User;
+import com.rk.capstone.model.services.campaign.ICampaignService;
 import com.rk.capstone.model.services.customer.company.ICustomerCompanyService;
 
 import io.jsonwebtoken.Jwts;
@@ -40,12 +43,22 @@ public class CustomerCompanyControllerTest {
     @MockBean
     private ICustomerCompanyService customerCompanyService;
 
+    @MockBean
+    private ICampaignService campaignService;
+
     @Autowired
     private MockMvc mockMvc;
 
     private CustomerCompany customerCompanyOne;
     private CustomerCompany customerCompanyTwo;
     private List<CustomerCompany> customerCompanies;
+
+    private User user;
+
+    private Campaign campaignOne;
+    private Campaign campaignTwo;
+
+    private List<Campaign> campaigns;
 
     private String authToken;
     private ObjectMapper objectMapper;
@@ -59,6 +72,16 @@ public class CustomerCompanyControllerTest {
         customerCompanies = new ArrayList<>();
         customerCompanies.add(customerCompanyOne);
         customerCompanies.add(customerCompanyTwo);
+
+        user = new User("John", "Doe", "johndoe@email.com", "johndoe", "abc123", null);
+        campaignOne = new Campaign(1L, "campaignOne", "commit", "summary here", "pending", new Date
+                (), new Date(), 100000, user);
+        campaignTwo = new Campaign(2L, "campaignTwo", "upside", "summary here", "pending", new Date
+                (), new Date(), 200000, user);
+        campaigns = new ArrayList<>();
+        campaigns.add(campaignOne);
+        campaigns.add(campaignTwo);
+        user.setCampaigns(campaigns);
 
         authToken = Jwts.builder().setSubject("username").claim("roles", "user").
                 setIssuedAt(new Date()).signWith(SignatureAlgorithm.HS256, "secretkey").
@@ -85,6 +108,21 @@ public class CustomerCompanyControllerTest {
         given(this.customerCompanyService.getAllCustomerCompanies()).willReturn(customerCompanies);
 
         MvcResult result = this.mockMvc.perform(get("/api/secure/customer/company").
+                header("auth-token", authToken).
+                contentType(MediaType.APPLICATION_JSON).
+                accept(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).
+                andDo(print()).
+                andReturn();
+    }
+
+    @Test
+    public void testGetCustomerCampaignsHappyPath() throws Exception {
+        given(this.campaignService.getAllCustomerCampaigns(any(Long.class))).willReturn(campaigns);
+        given(this.customerCompanyService.getCustomerCompanyById(any(Long.class))).
+                willReturn(customerCompanyOne);
+
+        MvcResult result = this.mockMvc.perform(get("/api/secure/customer/company/1/campaigns").
                 header("auth-token", authToken).
                 contentType(MediaType.APPLICATION_JSON).
                 accept(MediaType.APPLICATION_JSON)).
