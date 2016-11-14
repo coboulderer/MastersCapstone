@@ -11,7 +11,33 @@
         <h2 class="ui header center aligned">Create One Using the Button on the Left</h2>
     </div>
     <div *ngIf="currentCustomerCompany != null" class="ui container">
-        <h1 class="ui header center aligned">Under Construction</h1>
-        <h2 class="ui header center aligned">Nothing to see here!</h2>
+        <div class="ui ten column fluid grid">
+            <div class="four wide left aligned fluid column">
+                <div class="ui relaxed divided list">
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Customer Name</a>
+                            <div class="description">{{currentCustomerCompany.name}}</div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Business Summary</a>
+                            <div class="description">{{currentCustomerCompany.summary}}</div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <a class="header">Strategic Initiatives</a>
+                            <div class="description">{{currentCustomerCompany.initiatives}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="seven wide right aligned fluid column">
+                <h1 class="ui header center aligned">Customer Overview</h1>
+                <h2 class="ui header center aligned">Campaign Table Place Holder</h2>
+            </div>
+        </div>
     </div>
 </div>
