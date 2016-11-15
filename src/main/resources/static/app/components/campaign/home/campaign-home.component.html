@@ -1,56 +1,29 @@
 <nav-bar></nav-bar>
 <div class="ui left fixed vertical menu campaign-menu">
     <campaign-new (campaignCreated)="addCreatedCampaign($event)" (campaignUpdated)="updateCampaign($event)"></campaign-new>
-    <sm-accordion>
-        <div class="ui vertical accordion menu campaign-accordion">
-            <div class="item">
-                <a class="active title">
-                    <i class="dropdown icon"></i>
-                    Customer A
-                </a>
-                <div class="content">
-                    <a class="item">Campaign A</a>
-                    <a class="item">Campaign B</a>
-                    <a class="item">Campaign C</a>
-                    <a class="item">Campaign D</a>
+    <div *ngFor="let customer of allCustomerCompanies">
+        <sm-accordion>
+            <div class="ui vertical accordion menu campaign-accordion">
+                <div class="item">
+                    <a class="active title">
+                        <i class="dropdown icon"></i>
+                        {{customer.name}}
+                    </a>
+                    <div class="content" >
+                        <div *ngFor="let campaign of allUserCampaigns">
+                            <div *ngIf="campaign.customerId == customer.id">
+                                <a class="item" (click)="loadSelected(campaign)">{{campaign.name}}</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </sm-accordion>
-    <sm-accordion>
-        <div class="ui vertical accordion menu campaign-accordion">
-            <div class="item">
-                <a class="active title">
-                    <i class="dropdown icon"></i>
-                    Customer B
-                </a>
-                <div class="content">
-                    <a class="item">Campaign W</a>
-                    <a class="item">Campaign X</a>
-                    <a class="item">Campaign Y</a>
-                    <a class="item">Campaign Z</a>
-                </div>
-            </div>
-        </div>
-    </sm-accordion>
-    <sm-accordion>
-        <div class="ui vertical accordion menu campaign-accordion">
-            <div class="item">
-                <a class="active title">
-                    <i class="dropdown icon"></i>
-                    Customer C
-                </a>
-                <div class="content">
-                    <a class="item">Campaign W</a>
-                    <a class="item">Campaign X</a>
-                    <a class="item">Campaign Y</a>
-                    <a class="item">Campaign Z</a>
-                </div>
-            </div>
-        </div>
-    </sm-accordion>
+        </sm-accordion>
+    </div>
     <span *ngFor="let campaign of allUserCampaigns">
-        <button class="ui button fluid" (click)="loadSelected(campaign)">{{campaign.name}}</button>
+        <div *ngIf="campaign.customerId == null">
+            <button class="ui button fluid" (click)="loadSelected(campaign)">{{campaign.name}}</button>
+        </div>
     </span>
 </div>
 <div id="primary-content">
