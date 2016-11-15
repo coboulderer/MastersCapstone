@@ -4,6 +4,8 @@ import {CampaignTaskService} from "../../../services/data/campaign-task.service"
 import {Campaign} from "../../../model/campaign";
 import {CampaignNew} from "../new/campaign-new.component";
 import {DateService} from "../../../services/util/date.service";
+import {CustomerCompanyService} from "../../../services/data/customer-company.service";
+import {CustomerCompany} from "../../../model/customer-company";
 
 declare var jQuery: any;
 
@@ -13,6 +15,7 @@ declare var jQuery: any;
     providers: [
         CampaignService,
         CampaignTaskService,
+        CustomerCompanyService,
         DateService
     ]
 })
@@ -23,16 +26,19 @@ export class CampaignHome implements OnInit{
 
     private currentCampaign: Campaign;
     private allUserCampaigns: Campaign[];
+    private allCustomerCompanies: CustomerCompany[];
 
     constructor(private campaignService: CampaignService,
                 private campaignTaskService: CampaignTaskService,
+                private customerCompanyService: CustomerCompanyService,
                 private dateService: DateService){
         this.allUserCampaigns = [];
+        this.allCustomerCompanies = [];
     }
 
     ngOnInit():void {
         console.log("Init CampaignHome Component and checking for existing campaigns");
-        this.loadCampaigns();
+        this.loadInitialData();
     }
 
     addCreatedCampaign(campaign: Campaign) {
@@ -68,7 +74,7 @@ export class CampaignHome implements OnInit{
                         console.log(response);
                         this.allUserCampaigns = [];
                         this.currentCampaign = null;
-                        this.loadCampaigns();
+                        this.loadInitialData();
                     },
                     error => {
                         console.log("Error Caught in Deleting Campaign");
@@ -86,8 +92,18 @@ export class CampaignHome implements OnInit{
         this.currentCampaign = campaign;
     }
 
-    private loadCampaigns() {
+    private loadInitialData() {
         console.log("CampaignHome.loadCampaigns()");
+        this.customerCompanyService.getAllCustomerCompanies().subscribe(companies => {
+                console.log("Found Customer Companies");
+                if (companies.length > 0) {
+                    this.allCustomerCompanies = companies;
+                }
+            },
+            error => {
+                console.log("Error Caught in CampaignHome.loadCampaigns()");
+                console.log("Error Message:\n" + error);
+            });
         this.campaignService.getAllUserCampaigns().subscribe(campaigns => {
                 console.log("Found User Campaigns");
                 if (campaigns.length > 0) {
