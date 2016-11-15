@@ -1,8 +1,10 @@
-import {Component, ViewChild, ElementRef, Output, EventEmitter} from "@angular/core";
+import {Component, ViewChild, ElementRef, Output, EventEmitter, OnInit} from "@angular/core";
 import {FormControl, FormGroup} from "@angular/forms";
 import {CampaignService} from "../../../services/data/campaign.service";
 import {Campaign} from "../../../model/campaign";
 import {DateService} from "../../../services/util/date.service";
+import {CustomerCompanyService} from "../../../services/data/customer-company.service";
+import {CustomerCompany} from "../../../model/customer-company";
 
 declare var jQuery: any;
 
@@ -11,20 +13,21 @@ declare var jQuery: any;
     templateUrl: "app/components/campaign/new/campaign-new.component.html",
     providers: [
         CampaignService,
+        CustomerCompanyService,
         DateService
     ]
 })
 
-export class CampaignNew {
-
+export class CampaignNew implements OnInit {
     @ViewChild("modal") modal: ElementRef;
+
     @Output() campaignCreated = new EventEmitter<Campaign>();
     @Output() campaignUpdated = new EventEmitter<Campaign>();
-
     private newCampaign: Campaign = new Campaign();
+    private customerCompanies:CustomerCompany[];
+
     private existingStartDate: Date = null;
     private existingEndDate: Date = null;
-
     private form = new FormGroup({
         campaignName    : new FormControl(),
         revenue         : new FormControl(),
@@ -34,10 +37,18 @@ export class CampaignNew {
         newStartDate    : new FormControl(),
         endDate         : new FormControl(),
         newEndDate      : new FormControl(),
-        solutionSummary : new FormControl()
+        solutionSummary : new FormControl(),
+        company         : new FormControl()
     });
 
-    constructor(private campaignService: CampaignService, private dateService: DateService){}
+    constructor(private campaignService: CampaignService, private customerCompanyService:CustomerCompanyService,
+                private dateService: DateService){
+        this.customerCompanies = []
+    }
+
+    ngOnInit(): void {
+        this.loadCompanies();
+    }
 
     show(data?: {}) {
         console.log("CampaignNew.show() Called");
@@ -90,5 +101,19 @@ export class CampaignNew {
                     console.log("Error Message:\n" + errorMessage);
                 });
         }
+    }
+
+    private loadCompanies() {
+        console.log("CampaignNew.loadCompanies()");
+        this.customerCompanyService.getAllCustomerCompanies().subscribe(companies => {
+                console.log("Found Customer Companies");
+                if (companies.length > 0) {
+                    this.customerCompanies = companies;
+                }
+            },
+            error => {
+                console.log("Error Caught in CampaignHome.loadCampaigns()");
+                console.log("Error Message:\n" + error);
+            });
     }
 }

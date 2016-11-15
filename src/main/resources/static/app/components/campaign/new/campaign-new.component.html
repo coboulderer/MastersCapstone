@@ -72,6 +72,13 @@
                 <input formControlName="solutionSummary" type="text" name="solutionSummary"
                        id="solutionSummary" [(ngModel)]="newCampaign.summary"/>
             </div>
+            <div class="field eight wide">
+                <label for="company">Customer Company</label>
+                <select formControlName="company" name="company"
+                        id="company" [(ngModel)]="newCampaign.customerId">
+                    <option [ngValue]="comp.id" *ngFor="let comp of customerCompanies">{{comp.name}}</option>
+                </select>
+            </div>
 
             <div [hidden]="!submitError">
                 <div class="ui grid center aligned message">
