@@ -14,6 +14,7 @@ import {CampaignTask} from "./components/campaign/task/campaign-task.component";
 import {CustomerNew} from "./components/customer/new/customer-new.component";
 import {NgSemanticModule} from "ng-semantic";
 import {DataTableModule} from "ng2-data-table/lib/DataTableModule";
+import {CampaignTable} from "./components/customer/table/campaign-table.component";
 
 @NgModule({
     imports:[
@@ -34,6 +35,7 @@ import {DataTableModule} from "ng2-data-table/lib/DataTableModule";
         CustomerNew,
         CampaignNew,
         CampaignTask,
+        CampaignTable,
         NavBar
     ],
     bootstrap: [

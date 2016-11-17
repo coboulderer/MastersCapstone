@@ -24,7 +24,7 @@ export class CustomerCompanyService {
         console.log("CustomerCompanyService.getAllCustomerCampaigns()");
         let url = this.companyUrl + "/" + customerCompany.id + "/campaigns";
         let header = this.headerService.getStandardHeaders();
-        return this.http.get(this.companyUrl, {headers: header}).
+        return this.http.get(url, {headers: header}).
             map(this.responseParseService.parseData).
             catch(this.responseParseService.parseError);
     }

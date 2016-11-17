@@ -1,0 +1,28 @@
+<div class="ui hidden divider"></div>
+<h3 class="ui center aligned header">Campaign Status</h3>
+<table class="ui compact celled table" [mfData]="campaigns" #mf="mfDataTable" [mfRowsOnPage]="10">
+    <thead>
+    <tr>
+        <th>
+            <mfDefaultSorter by="name">Campaign Name</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter by="strength">Strength</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter by="revenue">Revenue</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter by="closeStatus">Status</mfDefaultSorter>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of mf.data">
+        <td>{{item.name}}</td>
+        <td>{{item.strength}}</td>
+        <td>{{item.revenue}}</td>
+        <td>{{item.closeStatus}}</td>
+    </tr>
+    </tbody>
+</table>
