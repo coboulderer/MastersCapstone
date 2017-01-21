@@ -19,11 +19,11 @@ public class AuthServiceImpl implements IAuthService{
     @Override
     public String getAuthToken(String userName) {
         return Jwts.builder().setSubject(userName).claim("roles", "user").
-                setExpiration(setTokenExpiration()).setIssuedAt(new Date()).
+                setExpiration(generateExpirationDate()).setIssuedAt(new Date()).
                 signWith(SignatureAlgorithm.HS256, "secretkey").compact();
     }
 
-    private Date setTokenExpiration() {
+    private Date generateExpirationDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR, expirationHrs);
         return calendar.getTime();
