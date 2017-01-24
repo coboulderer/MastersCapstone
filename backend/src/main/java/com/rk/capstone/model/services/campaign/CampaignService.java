@@ -12,7 +12,7 @@ public interface CampaignService {
 
     Campaign saveCampaign(Campaign campaign);
 
-    List<Campaign> getOwnedCampaigns(User owner);
+    List<Campaign> getAllUserCampaigns(User user);
 
     List<Campaign> getAllCustomerCampaigns(Long customerId);
 

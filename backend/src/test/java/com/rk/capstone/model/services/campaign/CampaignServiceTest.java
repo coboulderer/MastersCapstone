@@ -54,7 +54,7 @@ public class CampaignServiceTest {
     @Test
     public void testGetOwnedCampaigns() {
         given(this.campaignDao.findByOwner(any(User.class))).willReturn(campaigns);
-        List<Campaign> foundCampaigns = campaignService.getOwnedCampaigns(user);
+        List<Campaign> foundCampaigns = campaignService.getAllUserCampaigns(user);
 
         Assert.assertEquals(campaigns, foundCampaigns);
     }
@@ -70,7 +70,7 @@ public class CampaignServiceTest {
     @Test
     public void testGetOwnedCampaignsNoneFound() {
         given(this.campaignDao.findByOwner(any(User.class))).willReturn(null);
-        List<Campaign> foundCampaigns = campaignService.getOwnedCampaigns(user);
+        List<Campaign> foundCampaigns = campaignService.getAllUserCampaigns(user);
 
         Assert.assertNull(foundCampaigns);
     }

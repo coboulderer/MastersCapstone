@@ -27,8 +27,8 @@ public class CampaignServiceImpl
     }
 
     @Override
-    public List<Campaign> getOwnedCampaigns(User owner) {
-        return campaignDao.findByOwner(owner);
+    public List<Campaign> getAllUserCampaigns(User user) {
+        return campaignDao.findByOwner(user);
     }
 
     @Override
