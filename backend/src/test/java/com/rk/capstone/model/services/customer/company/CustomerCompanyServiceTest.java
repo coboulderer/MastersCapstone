@@ -22,7 +22,7 @@ import static org.mockito.Mockito.mock;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CustomerCompanyServiceTest {
 
-    private ICustomerCompanyService customerCompanyService;
+    private CustomerCompanyService customerCompanyService;
     private CustomerCompanyDao customerCompanyDao = mock(CustomerCompanyDao.class);
     private CustomerCompany customerCompanyOne;
     private CustomerCompany customerCompanyTwo;

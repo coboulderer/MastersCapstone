@@ -12,7 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  * Implementation of Auth Service
  */
 @Service
-public class AuthServiceImpl implements IAuthService{
+public class AuthServiceImpl implements AuthService {
 
     private int expirationHrs = 6;
 

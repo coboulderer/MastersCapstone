@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rk.capstone.model.domain.User;
-import com.rk.capstone.model.services.auth.IAuthService;
-import com.rk.capstone.model.services.user.IUserService;
+import com.rk.capstone.model.services.auth.AuthService;
+import com.rk.capstone.model.services.user.UserService;
 
 /**
  * REST Controller for /login endpoint
@@ -22,12 +22,12 @@ import com.rk.capstone.model.services.user.IUserService;
 @RequestMapping(value = "/api/login")
 public class LoginController {
 
-    private IUserService userService;
-    private IAuthService authService;
+    private UserService userService;
+    private AuthService authService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public LoginController(IUserService userService, IAuthService authService) {
+    public LoginController(UserService userService, AuthService authService) {
         this.userService = userService;
         this.authService = authService;
     }

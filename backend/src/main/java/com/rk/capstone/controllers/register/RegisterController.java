@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rk.capstone.model.domain.User;
-import com.rk.capstone.model.services.user.IUserService;
+import com.rk.capstone.model.services.user.UserService;
 
 /**
  * REST Controller for /register endpoint
@@ -19,11 +19,11 @@ import com.rk.capstone.model.services.user.IUserService;
 @RequestMapping("/api/register")
 public class RegisterController {
 
-    private final IUserService userService;
+    private final UserService userService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public RegisterController(IUserService userService) {
+    public RegisterController(UserService userService) {
         this.userService = userService;
     }
 

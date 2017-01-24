@@ -5,7 +5,7 @@ import com.rk.capstone.model.domain.User;
 /**
  * Service Interface for User Domain Object
  */
-public interface IUserService {
+public interface UserService {
 
     User saveUser(User user);
 

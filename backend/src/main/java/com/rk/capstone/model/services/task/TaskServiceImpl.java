@@ -11,7 +11,7 @@ import com.rk.capstone.model.domain.Task;
  * Implementation of Task Service
  */
 @Service
-public class TaskServiceImpl implements ITaskService {
+public class TaskServiceImpl implements TaskService {
 
     private TaskDao taskDao;
 

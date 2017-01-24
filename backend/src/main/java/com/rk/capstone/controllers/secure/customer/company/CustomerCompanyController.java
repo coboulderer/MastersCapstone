@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rk.capstone.model.domain.Campaign;
 import com.rk.capstone.model.domain.CustomerCompany;
-import com.rk.capstone.model.services.campaign.ICampaignService;
-import com.rk.capstone.model.services.customer.company.ICustomerCompanyService;
+import com.rk.capstone.model.services.campaign.CampaignService;
+import com.rk.capstone.model.services.customer.company.CustomerCompanyService;
 
 /**
  * REST Controller for /api/secure/customer/company endpoints
@@ -24,13 +24,13 @@ import com.rk.capstone.model.services.customer.company.ICustomerCompanyService;
 @RequestMapping(value = "/api/secure/customer/company")
 public class CustomerCompanyController {
 
-    private ICustomerCompanyService customerCompanyService;
-    private ICampaignService campaignService;
+    private CustomerCompanyService customerCompanyService;
+    private CampaignService campaignService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public CustomerCompanyController(ICustomerCompanyService customerCompanyService,
-                                     ICampaignService campaignService) {
+    public CustomerCompanyController(CustomerCompanyService customerCompanyService,
+                                     CampaignService campaignService) {
         this.customerCompanyService = customerCompanyService;
         this.campaignService = campaignService;
     }

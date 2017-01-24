@@ -20,7 +20,7 @@ import static org.mockito.Mockito.mock;
 public class UserServiceTest {
 
     private UserDao userDao = mock(UserDao.class);
-    private IUserService userService;
+    private UserService userService;
     private User user;
 
     @Before

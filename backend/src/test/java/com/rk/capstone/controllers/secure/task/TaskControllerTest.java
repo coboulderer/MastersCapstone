@@ -18,8 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rk.capstone.model.domain.Campaign;
 import com.rk.capstone.model.domain.Task;
 import com.rk.capstone.model.domain.User;
-import com.rk.capstone.model.services.campaign.ICampaignService;
-import com.rk.capstone.model.services.task.ITaskService;
+import com.rk.capstone.model.services.campaign.CampaignService;
+import com.rk.capstone.model.services.task.TaskService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -41,9 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TaskControllerTest {
 
     @MockBean
-    private ICampaignService campaignService;
+    private CampaignService campaignService;
     @MockBean
-    private ITaskService taskService;
+    private TaskService taskService;
 
     @Autowired
     private MockMvc mockMvc;

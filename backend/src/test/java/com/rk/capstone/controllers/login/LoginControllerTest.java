@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.rk.capstone.model.domain.User;
-import com.rk.capstone.model.services.auth.IAuthService;
-import com.rk.capstone.model.services.user.IUserService;
+import com.rk.capstone.model.services.auth.AuthService;
+import com.rk.capstone.model.services.user.UserService;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,9 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LoginControllerTest {
 
     @MockBean
-    private IUserService userService;
+    private UserService userService;
     @MockBean
-    private IAuthService authService;
+    private AuthService authService;
 
     @Autowired
     private MockMvc mockMvc;
