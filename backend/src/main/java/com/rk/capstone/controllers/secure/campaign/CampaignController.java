@@ -38,7 +38,7 @@ public class CampaignController {
     public ResponseEntity<Campaign> createNewCampaign(@PathVariable String userName,
                                                       @RequestBody Campaign campaign) {
         ResponseEntity<Campaign> response;
-        User user = userService.findByUserName(userName);
+        User user = userService.getUserByUserName(userName);
         logger.info("Attempting to create a new campaign");
         if (campaign == null || campaign.getCampaignId() != null) {
             logger.error("Campaign creation failed - the provided campaign is null or already has" +
@@ -49,7 +49,7 @@ public class CampaignController {
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
             logger.info("Creating New Campaign");
-            campaign.setOwner(user);
+            campaign.setUser(user);
             campaign = campaignService.saveCampaign(campaign);
             response = ResponseEntity.status(HttpStatus.CREATED).body(campaign);
         }
@@ -73,7 +73,7 @@ public class CampaignController {
                 response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(campaign);
             } else {
                 logger.info("Updating");
-                campaign.setOwner(foundCampaign.getOwner());
+                campaign.setUser(foundCampaign.getUser());
                 campaign = campaignService.saveCampaign(campaign);
                 response = ResponseEntity.status(HttpStatus.OK).body(campaign);
             }
@@ -124,7 +124,7 @@ public class CampaignController {
     @RequestMapping(value = "/user/{userName}", method = RequestMethod.GET)
     public ResponseEntity<List<Campaign>> getAllUserCampaigns(@PathVariable String userName) {
         ResponseEntity<List<Campaign>> response;
-        User user = userService.findByUserName(userName);
+        User user = userService.getUserByUserName(userName);
         logger.info("Attempting to retrieve all user campaigns");
         if (userName == null || userName.isEmpty()) {
             logger.error("Cannot get campaigns of a null or empty username");
@@ -134,7 +134,7 @@ public class CampaignController {
             logger.error("Campaign retrieval failed");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
-            List<Campaign> campaigns = campaignService.getOwnedCampaigns(user);
+            List<Campaign> campaigns = campaignService.getAllUserCampaigns(user);
             response = ResponseEntity.status(HttpStatus.OK).body(campaigns);
             logger.info("Returning all user campaigns, " + campaigns.size() + " campaigns found");
         }

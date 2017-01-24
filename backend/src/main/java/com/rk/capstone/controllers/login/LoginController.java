@@ -44,7 +44,7 @@ public class LoginController {
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).
                     body("Both a username and password must be provided");
         } else {
-            User user = userService.findByUserName(userName);
+            User user = userService.getUserByUserName(userName);
             if (user == null) {
                 logger.error("The provided userName: " + userName + " was not found ");
                 response = ResponseEntity.status(HttpStatus.NOT_FOUND).

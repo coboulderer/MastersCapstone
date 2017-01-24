@@ -79,7 +79,7 @@ public class CampaignControllerTest {
 
     @Test
     public void testPostEmptyContentBody() throws Exception {
-        given(this.userService.findByUserName(userName)).willReturn(user);
+        given(this.userService.getUserByUserName(userName)).willReturn(user);
 
         MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
@@ -92,7 +92,7 @@ public class CampaignControllerTest {
 
     @Test
     public void testPostUserNameNotFound() throws Exception {
-        given(this.userService.findByUserName(userName)).willReturn(null);
+        given(this.userService.getUserByUserName(userName)).willReturn(null);
         String campaignJson = objectMapper.writeValueAsString(campaignOne);
 
         MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/user/" + userName).
@@ -107,7 +107,7 @@ public class CampaignControllerTest {
 
     @Test
     public void testPostNonNullCampaignId() throws Exception {
-        given(this.userService.findByUserName(userName)).willReturn(user);
+        given(this.userService.getUserByUserName(userName)).willReturn(user);
         campaignOne.setCampaignId(1L);
         String campaignJson = objectMapper.writeValueAsString(campaignOne);
 
@@ -175,7 +175,7 @@ public class CampaignControllerTest {
     public void testPostNewCampaign() throws Exception {
         String campaignJson = objectMapper.writeValueAsString(campaignOne);
         given(this.campaignService.saveCampaign(any(Campaign.class))).willReturn(campaignOne);
-        given(this.userService.findByUserName(userName)).willReturn(user);
+        given(this.userService.getUserByUserName(userName)).willReturn(user);
 
         MvcResult result = this.mockMvc.perform(post("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
@@ -189,7 +189,7 @@ public class CampaignControllerTest {
 
     @Test
     public void testUserNameDoesNotExistResponse() throws Exception {
-        given(this.userService.findByUserName(userName)).willReturn(null);
+        given(this.userService.getUserByUserName(userName)).willReturn(null);
         MvcResult result = this.mockMvc.perform(get("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).
                 accept(MediaType.APPLICATION_JSON)).
@@ -200,8 +200,8 @@ public class CampaignControllerTest {
 
     @Test
     public void testGetAllUserCampaigns() throws Exception {
-        given(this.userService.findByUserName(userName)).willReturn(user);
-        given(this.campaignService.getOwnedCampaigns(any(User.class))).willReturn(campaigns);
+        given(this.userService.getUserByUserName(userName)).willReturn(user);
+        given(this.campaignService.getAllUserCampaigns(any(User.class))).willReturn(campaigns);
 
         MvcResult result = this.mockMvc.perform(get("/api/secure/campaign/user/" + userName).
                 header("auth-token", authToken).

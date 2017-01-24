@@ -31,7 +31,7 @@ public class RegisterController {
     public ResponseEntity<User> registerNewUser(@RequestBody User user) {
         ResponseEntity<User> response;
         logger.info("Attempting to register new user");
-        if (userService.findByUserName(user.getUserName()) == null) {
+        if (userService.getUserByUserName(user.getUserName()) == null) {
             logger.info("Creating new user: " + user.getUserName());
             user = userService.saveUser(user);
             user.setPassword("");

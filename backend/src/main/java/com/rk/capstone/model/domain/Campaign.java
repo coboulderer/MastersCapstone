@@ -34,12 +34,12 @@ public class Campaign {
 
     @ManyToOne
     @JsonBackReference
-    private User owner;
+    private User user;
 
     protected Campaign() {}
 
     public Campaign(Long customerId, String name, String strength, String summary, String closeStatus,
-                    Date startDate, Date closeDate, int revenue, User owner) {
+                    Date startDate, Date closeDate, int revenue, User user) {
         this.customerId = customerId;
         this.name = name;
         this.strength = strength;
@@ -48,7 +48,7 @@ public class Campaign {
         this.startDate = startDate;
         this.closeDate = closeDate;
         this.revenue = revenue;
-        this.owner = owner;
+        this.user = user;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Campaign {
                 ", startDate=" + startDate +
                 ", closeDate=" + closeDate +
                 ", revenue=" + revenue +
-                ", owner=" + owner +
+                ", user=" + user +
                 '}';
     }
 
@@ -115,12 +115,12 @@ public class Campaign {
         this.closeDate = closeDate;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getStrength() {

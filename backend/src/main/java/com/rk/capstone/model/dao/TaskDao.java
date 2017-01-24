@@ -15,7 +15,7 @@ public interface TaskDao extends CrudRepository<Task, Long> {
 
     Task save(Task task);
 
-    Task findByTaskId(Long taskId);
+    Task findTaskByTaskId(Long taskId);
 
     List<Task> getTasksByCampaignId(Long campaignId);
 }

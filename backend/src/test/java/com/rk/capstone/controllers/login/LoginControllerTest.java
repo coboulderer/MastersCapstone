@@ -57,7 +57,7 @@ public class LoginControllerTest {
     @Test
     public void testLoginUserValidCredentials() throws Exception {
         jsonCreds = "{\"username\":\"" + userName + "\", \"password\":\"" + password + "\"}";
-        given(this.userService.findByUserName(testUser.getUserName())).willReturn(testUser);
+        given(this.userService.getUserByUserName(testUser.getUserName())).willReturn(testUser);
         given(this.authService.getAuthToken(testUser.getUserName())).willReturn("ValidAuthToken");
 
         MvcResult result = this.mockMvc.perform(post("/api/login/user").content(jsonCreds).
@@ -73,7 +73,7 @@ public class LoginControllerTest {
     @Test
     public void testLoginUserBadPassword() throws Exception {
         jsonCreds = "{\"username\":\"" + userName + "\", \"password\":\"badpassword\"}";
-        given(this.userService.findByUserName(testUser.getUserName())).willReturn(testUser);
+        given(this.userService.getUserByUserName(testUser.getUserName())).willReturn(testUser);
 
         MvcResult result = this.mockMvc.perform(post("/api/login/user").content(jsonCreds).
                 contentType(MediaType.APPLICATION_JSON)).
@@ -88,7 +88,7 @@ public class LoginControllerTest {
     @Test
     public void testLoginUserUserNameNotFound() throws Exception {
         jsonCreds = "{\"username\":\"" + userName + "\", \"password\":\"" + password + "\"}";
-        given(this.userService.findByUserName(testUser.getUserName())).willReturn(null);
+        given(this.userService.getUserByUserName(testUser.getUserName())).willReturn(null);
 
         MvcResult result = this.mockMvc.perform(post("/api/login/user").content(jsonCreds).
                 contentType(MediaType.APPLICATION_JSON)).
