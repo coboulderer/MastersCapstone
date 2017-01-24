@@ -12,8 +12,7 @@ import com.rk.capstone.model.domain.User;
  * Implementation of ICampaignService
  */
 @Service
-public class CampaignServiceImpl
-        implements CampaignService {
+public class CampaignServiceImpl implements CampaignService {
 
     private final CampaignDao campaignDao;
 
@@ -28,17 +27,17 @@ public class CampaignServiceImpl
 
     @Override
     public List<Campaign> getAllUserCampaigns(User user) {
-        return campaignDao.findByOwner(user);
+        return campaignDao.findCampaignsByUser(user);
     }
 
     @Override
     public List<Campaign> getAllCustomerCampaigns(Long customerId) {
-        return campaignDao.findByCustomerId(customerId);
+        return campaignDao.findCampaignsByCustomerId(customerId);
     }
 
     @Override
     public Campaign getCampaignById(Long campaignId) {
-        return campaignDao.findByCampaignId(campaignId);
+        return campaignDao.findCampaignByCampaignId(campaignId);
     }
 
     @Override

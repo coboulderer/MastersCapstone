@@ -53,7 +53,7 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetOwnedCampaigns() {
-        given(this.campaignDao.findByOwner(any(User.class))).willReturn(campaigns);
+        given(this.campaignDao.findCampaignsByUser(any(User.class))).willReturn(campaigns);
         List<Campaign> foundCampaigns = campaignService.getAllUserCampaigns(user);
 
         Assert.assertEquals(campaigns, foundCampaigns);
@@ -61,7 +61,7 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetAllCustomerCampaigns() {
-        given(this.campaignDao.findByCustomerId(any(Long.class))).willReturn(campaigns);
+        given(this.campaignDao.findCampaignsByCustomerId(any(Long.class))).willReturn(campaigns);
         List<Campaign> foundCampaigns = campaignService.getAllCustomerCampaigns(1L);
 
         Assert.assertEquals(campaigns, foundCampaigns);
@@ -69,7 +69,7 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetOwnedCampaignsNoneFound() {
-        given(this.campaignDao.findByOwner(any(User.class))).willReturn(null);
+        given(this.campaignDao.findCampaignsByUser(any(User.class))).willReturn(null);
         List<Campaign> foundCampaigns = campaignService.getAllUserCampaigns(user);
 
         Assert.assertNull(foundCampaigns);
@@ -77,7 +77,7 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetCampaignById() {
-        given(this.campaignDao.findByCampaignId(any(Long.class))).willReturn(campaignOne);
+        given(this.campaignDao.findCampaignByCampaignId(any(Long.class))).willReturn(campaignOne);
         Campaign foundCampaign = campaignService.getCampaignById(1L);
 
         Assert.assertEquals(campaignOne, foundCampaign);
@@ -85,7 +85,7 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetCampaignByIdNotFound() {
-        given(this.campaignDao.findByCampaignId(any(Long.class))).willReturn(null);
+        given(this.campaignDao.findCampaignByCampaignId(any(Long.class))).willReturn(null);
         Campaign foundCampaign = campaignService.getCampaignById(1L);
 
         Assert.assertNull(foundCampaign);

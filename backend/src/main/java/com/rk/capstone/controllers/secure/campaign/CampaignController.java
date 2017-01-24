@@ -49,7 +49,7 @@ public class CampaignController {
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
             logger.info("Creating New Campaign");
-            campaign.setOwner(user);
+            campaign.setUser(user);
             campaign = campaignService.saveCampaign(campaign);
             response = ResponseEntity.status(HttpStatus.CREATED).body(campaign);
         }
@@ -73,7 +73,7 @@ public class CampaignController {
                 response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(campaign);
             } else {
                 logger.info("Updating");
-                campaign.setOwner(foundCampaign.getOwner());
+                campaign.setUser(foundCampaign.getUser());
                 campaign = campaignService.saveCampaign(campaign);
                 response = ResponseEntity.status(HttpStatus.OK).body(campaign);
             }

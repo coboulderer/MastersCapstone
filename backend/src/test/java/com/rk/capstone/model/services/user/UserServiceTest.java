@@ -39,7 +39,7 @@ public class UserServiceTest {
 
     @Test
     public void testFindByUserName() {
-        given(this.userDao.findByUserName(user.getUserName())).willReturn(user);
+        given(this.userDao.findUserByUserName(user.getUserName())).willReturn(user);
         User foundUser = userService.getUserByUserName(user.getUserName());
 
         Assert.assertEquals(user, foundUser);
@@ -47,7 +47,7 @@ public class UserServiceTest {
 
     @Test
     public void testFindByUserNameNotFound() {
-        given(this.userDao.findByUserName(user.getUserName())).willReturn(null);
+        given(this.userDao.findUserByUserName(user.getUserName())).willReturn(null);
         User foundUser = userService.getUserByUserName(user.getUserName());
 
         Assert.assertNull(foundUser);

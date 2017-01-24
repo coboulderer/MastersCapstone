@@ -73,7 +73,7 @@ public class TaskServiceTest {
 
     @Test
     public void testGetTaskById() {
-        given(this.taskDao.findByTaskId(any(Long.class))).willReturn(taskOne);
+        given(this.taskDao.findTaskByTaskId(any(Long.class))).willReturn(taskOne);
         Task task = taskService.getTaskById(1L);
 
         Assert.assertEquals(taskOne, task);
@@ -81,7 +81,7 @@ public class TaskServiceTest {
 
     @Test
     public void testGetTaskByIdDoesNotExist() {
-        given(this.taskDao.findByTaskId(any(Long.class))).willReturn(null);
+        given(this.taskDao.findTaskByTaskId(any(Long.class))).willReturn(null);
         Task task = taskService.getTaskById(1L);
 
         Assert.assertNull(task);
