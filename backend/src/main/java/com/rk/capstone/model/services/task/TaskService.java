@@ -7,7 +7,7 @@ import com.rk.capstone.model.domain.Task;
 /**
  * Service Interface for Tasks
  */
-public interface ITaskService {
+public interface TaskService {
 
     Task saveTask(Task task);
 

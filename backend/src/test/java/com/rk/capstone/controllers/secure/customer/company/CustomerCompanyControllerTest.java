@@ -19,8 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rk.capstone.model.domain.Campaign;
 import com.rk.capstone.model.domain.CustomerCompany;
 import com.rk.capstone.model.domain.User;
-import com.rk.capstone.model.services.campaign.ICampaignService;
-import com.rk.capstone.model.services.customer.company.ICustomerCompanyService;
+import com.rk.capstone.model.services.campaign.CampaignService;
+import com.rk.capstone.model.services.customer.company.CustomerCompanyService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -41,10 +41,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CustomerCompanyControllerTest {
 
     @MockBean
-    private ICustomerCompanyService customerCompanyService;
+    private CustomerCompanyService customerCompanyService;
 
     @MockBean
-    private ICampaignService campaignService;
+    private CampaignService campaignService;
 
     @Autowired
     private MockMvc mockMvc;

@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rk.capstone.model.domain.User;
-import com.rk.capstone.model.services.user.IUserService;
+import com.rk.capstone.model.services.user.UserService;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RegisterControllerTest {
 
     @MockBean
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
     private MockMvc mockMvc;

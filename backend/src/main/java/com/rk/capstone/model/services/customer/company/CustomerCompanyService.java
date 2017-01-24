@@ -7,7 +7,7 @@ import com.rk.capstone.model.domain.CustomerCompany;
 /**
  * Service Interface for CustomerCompany
  */
-public interface ICustomerCompanyService {
+public interface CustomerCompanyService {
 
     CustomerCompany saveCustomerCompany(CustomerCompany customerCompany);
 

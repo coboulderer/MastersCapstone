@@ -11,7 +11,7 @@ import com.rk.capstone.model.domain.CustomerCompany;
  * Implementation of ICustomerCompanyService
  */
 @Service
-public class CustomerCompanyServiceImpl implements ICustomerCompanyService{
+public class CustomerCompanyServiceImpl implements CustomerCompanyService {
 
     private final CustomerCompanyDao customerCompanyDao;
 

@@ -8,7 +8,7 @@ import com.rk.capstone.model.domain.User;
 /**
  * Service Interface for Campaigns
  */
-public interface ICampaignService {
+public interface CampaignService {
 
     Campaign saveCampaign(Campaign campaign);
 

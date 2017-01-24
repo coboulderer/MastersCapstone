@@ -12,7 +12,8 @@ import com.rk.capstone.model.domain.User;
  * Implementation of ICampaignService
  */
 @Service
-public class CampaignServiceImpl implements ICampaignService {
+public class CampaignServiceImpl
+        implements CampaignService {
 
     private final CampaignDao campaignDao;
 

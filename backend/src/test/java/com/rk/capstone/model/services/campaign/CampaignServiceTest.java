@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CampaignServiceTest {
 
-    private ICampaignService campaignService;
+    private CampaignService campaignService;
     private CampaignDao campaignDao = mock(CampaignDao.class);
     private Campaign campaignOne;
     private Campaign campaignTwo;

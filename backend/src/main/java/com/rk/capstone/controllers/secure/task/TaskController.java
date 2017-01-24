@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rk.capstone.model.domain.Task;
-import com.rk.capstone.model.services.campaign.ICampaignService;
-import com.rk.capstone.model.services.task.ITaskService;
+import com.rk.capstone.model.services.campaign.CampaignService;
+import com.rk.capstone.model.services.task.TaskService;
 
 /**
  * REST Controller for /api/secure/task endpoint
@@ -23,12 +23,12 @@ import com.rk.capstone.model.services.task.ITaskService;
 @RequestMapping(value = "/api/secure/task")
 public class TaskController {
 
-    private ITaskService taskService;
-    private ICampaignService campaignService;
+    private TaskService taskService;
+    private CampaignService campaignService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public TaskController(ITaskService taskService, ICampaignService campaignService) {
+    public TaskController(TaskService taskService, CampaignService campaignService) {
         this.taskService = taskService;
         this.campaignService = campaignService;
     }

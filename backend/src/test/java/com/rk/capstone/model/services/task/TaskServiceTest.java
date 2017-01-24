@@ -23,7 +23,7 @@ import static org.mockito.Mockito.mock;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TaskServiceTest {
 
-    private ITaskService taskService;
+    private TaskService taskService;
     private TaskDao taskDao = mock(TaskDao.class);
     private Task taskOne;
     private Task taskTwo;
