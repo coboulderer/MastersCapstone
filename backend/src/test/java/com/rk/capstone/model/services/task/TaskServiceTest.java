@@ -57,7 +57,7 @@ public class TaskServiceTest {
 
     @Test
     public void testGetCampaignTasks() {
-        given(this.taskDao.getTasksByCampaignId(any(Long.class))).willReturn(tasks);
+        given(this.taskDao.findTasksByCampaignId(any(Long.class))).willReturn(tasks);
         List<Task> receivedTasks = taskService.getCampaignTasks(1L);
 
         Assert.assertEquals(receivedTasks.size(), 2);
@@ -65,7 +65,7 @@ public class TaskServiceTest {
 
     @Test
     public void testGetCampaignTasksNoneFound() {
-        given(this.taskDao.getTasksByCampaignId(any(Long.class))).willReturn(null);
+        given(this.taskDao.findTasksByCampaignId(any(Long.class))).willReturn(null);
         List<Task> receivedTasks = taskService.getCampaignTasks(1L);
 
         Assert.assertNull(receivedTasks);
@@ -73,7 +73,7 @@ public class TaskServiceTest {
 
     @Test
     public void testGetTaskById() {
-        given(this.taskDao.findTaskByTaskId(any(Long.class))).willReturn(taskOne);
+        given(this.taskDao.findOne(any(Long.class))).willReturn(taskOne);
         Task task = taskService.getTaskById(1L);
 
         Assert.assertEquals(taskOne, task);
@@ -81,7 +81,7 @@ public class TaskServiceTest {
 
     @Test
     public void testGetTaskByIdDoesNotExist() {
-        given(this.taskDao.findTaskByTaskId(any(Long.class))).willReturn(null);
+        given(this.taskDao.findOne(any(Long.class))).willReturn(null);
         Task task = taskService.getTaskById(1L);
 
         Assert.assertNull(task);

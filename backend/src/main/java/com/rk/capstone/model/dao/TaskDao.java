@@ -13,9 +13,5 @@ import com.rk.capstone.model.domain.Task;
 @Repository
 public interface TaskDao extends CrudRepository<Task, Long> {
 
-    Task save(Task task);
-
-    Task findTaskByTaskId(Long taskId);
-
-    List<Task> getTasksByCampaignId(Long campaignId);
+    List<Task> findTasksByCampaignId(Long campaignId);
 }

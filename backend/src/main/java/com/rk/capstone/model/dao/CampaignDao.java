@@ -14,11 +14,7 @@ import com.rk.capstone.model.domain.User;
 @Repository
 public interface CampaignDao extends CrudRepository<Campaign, Long> {
 
-    Campaign save(Campaign campaign);
-
     List<Campaign> findCampaignsByUser(User user);
 
     List<Campaign> findCampaignsByCustomerId(Long customerId);
-
-    Campaign findCampaignByCampaignId(Long campaignId);
 }
