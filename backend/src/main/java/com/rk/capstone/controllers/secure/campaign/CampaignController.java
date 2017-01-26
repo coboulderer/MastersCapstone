@@ -85,10 +85,7 @@ public class CampaignController {
     public ResponseEntity<String> deleteCampaign(@PathVariable Long campaignId) {
         ResponseEntity<String> response;
         logger.info("Attempting to delete the provided campaign");
-        if (campaignId == null) {
-            logger.error("Cannot delete a campaign with a null id");
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else if (campaignService.getCampaignById(campaignId) == null) {
+        if (campaignService.getCampaignById(campaignId) == null) {
             logger.error("Could not find the desired campaignId: " + campaignId);
             logger.error("Delete failed");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Campaign Not Found");
@@ -105,18 +102,13 @@ public class CampaignController {
     public ResponseEntity<Campaign> getCampaign(@PathVariable Long campaignId) {
         ResponseEntity<Campaign> response;
         logger.info("Attempting to retrieve specified campaignId: " + campaignId);
-        if (campaignId == null) {
-            logger.error("Failed - cannot get a null campaignId");
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        Campaign campaign = campaignService.getCampaignById(campaignId);
+        if (campaign == null) {
+            logger.error("The requested campaignId: " + campaignId + " was not found");
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
-            Campaign campaign = campaignService.getCampaignById(campaignId);
-            if (campaign == null) {
-                logger.error("The requested campaignId: " + campaignId + " was not found");
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            } else {
-                logger.info("Campaign found - returning campaignId: " + campaignId);
-                response = ResponseEntity.status(HttpStatus.OK).body(campaign);
-            }
+            logger.info("Campaign found - returning campaignId: " + campaignId);
+            response = ResponseEntity.status(HttpStatus.OK).body(campaign);
         }
         return response;
     }
@@ -126,10 +118,7 @@ public class CampaignController {
         ResponseEntity<List<Campaign>> response;
         User user = userService.getUserByUserName(userName);
         logger.info("Attempting to retrieve all user campaigns");
-        if (userName == null || userName.isEmpty()) {
-            logger.error("Cannot get campaigns of a null or empty username");
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else if (user == null) {
+        if (user == null) {
             logger.error("The provided userName: " + userName + " was not found");
             logger.error("Campaign retrieval failed");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

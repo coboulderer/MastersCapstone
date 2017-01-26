@@ -55,7 +55,7 @@ public class TaskController {
     public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
         ResponseEntity<Task> response;
         logger.info("Attempting to update task with id = " + taskId);
-        if (taskId == null || task == null || !taskId.equals(task.getTaskId())) {
+        if (task == null || !taskId.equals(task.getTaskId())) {
             logger.error("Unable to update a null task or a task without an Id - update failed");
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } else if (taskService.getTaskById(taskId) == null) {
@@ -73,10 +73,7 @@ public class TaskController {
     public ResponseEntity<List<Task>> getAllCampaignTasks(@PathVariable Long campaignId) {
         ResponseEntity<List<Task>> response;
         logger.info("Attempting to retrieve all campaign tasks");
-        if (campaignId == null) {
-            logger.error("Cannot retrieve tasks for a null campaignId");
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else if (campaignService.getCampaignById(campaignId) == null) {
+        if (campaignService.getCampaignById(campaignId) == null) {
             logger.error("Could not find the campaign whose tasks are wanted.  Campaign id = " +
                     campaignId + " not found");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -93,19 +90,15 @@ public class TaskController {
     public ResponseEntity<String> deleteTask(@PathVariable Long taskId) {
         ResponseEntity<String> response;
         logger.info("Attempting to delete taskId = " + taskId);
-        if (taskId == null) {
-            logger.error("Cannot delete a null taskId - delete fail");
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+        Task task = taskService.getTaskById(taskId);
+        if (task == null) {
+            logger.error("The taskId " + taskId + " was not found, delete failed");
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
-            Task task = taskService.getTaskById(taskId);
-            if (task == null) {
-                logger.error("The taskId " + taskId + " was not found, delete failed");
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            } else {
-                logger.info("Task found, deleting task with id = " + taskId);
-                taskService.deleteTask(task);
-                response = ResponseEntity.status(HttpStatus.OK).body("Task " + taskId + " deleted");
-            }
+            logger.info("Task found, deleting task with id = " + taskId);
+            taskService.deleteTask(task);
+            response = ResponseEntity.status(HttpStatus.OK).body("Task " + taskId + " deleted");
         }
         return response;
     }
@@ -114,10 +107,7 @@ public class TaskController {
     public ResponseEntity<String> deleteAllCampaignTasks(@PathVariable Long campaignId) {
         ResponseEntity<String> response;
         logger.info("Attempting to delete all tasks for a campaignId = " + campaignId);
-        if (campaignId == null) {
-            logger.error("Cannot delete tasks for a null campaign id, delete tasks failed");
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } else if (campaignService.getCampaignById(campaignId) == null) {
+        if (campaignService.getCampaignById(campaignId) == null) {
             logger.error("The campaign with id = " + campaignId + " was not found, cannot delete " +
                     "tasks");
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

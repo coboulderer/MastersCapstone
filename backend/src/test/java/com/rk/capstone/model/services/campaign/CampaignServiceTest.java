@@ -77,7 +77,7 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetCampaignById() {
-        given(this.campaignDao.findCampaignByCampaignId(any(Long.class))).willReturn(campaignOne);
+        given(this.campaignDao.findOne(any(Long.class))).willReturn(campaignOne);
         Campaign foundCampaign = campaignService.getCampaignById(1L);
 
         Assert.assertEquals(campaignOne, foundCampaign);
@@ -85,7 +85,7 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetCampaignByIdNotFound() {
-        given(this.campaignDao.findCampaignByCampaignId(any(Long.class))).willReturn(null);
+        given(this.campaignDao.findOne(any(Long.class))).willReturn(null);
         Campaign foundCampaign = campaignService.getCampaignById(1L);
 
         Assert.assertNull(foundCampaign);
