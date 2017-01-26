@@ -70,13 +70,13 @@ public class CustomerCompanyController {
     public ResponseEntity<CustomerCompany> createNewCustomerCompany(
             @RequestBody CustomerCompany customerCompany) {
         ResponseEntity<CustomerCompany> response;
-        customerCompany = customerCompanyService.saveCustomerCompany(customerCompany);
         logger.info("Attempting to create a new customer company");
+        customerCompany = customerCompanyService.saveCustomerCompany(customerCompany);
         if (customerCompany == null || customerCompany.getId() == 0L) {
             logger.error("Cannot create a null or preexisting customer company");
             response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         } else {
-            logger.info("Creating new customer company");
+            logger.info("Created a new customer company");
             response = ResponseEntity.status(HttpStatus.CREATED).body(customerCompany);
         }
         return response;
