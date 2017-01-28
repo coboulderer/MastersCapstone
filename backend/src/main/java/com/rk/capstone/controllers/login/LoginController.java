@@ -22,9 +22,12 @@ import com.rk.capstone.model.services.user.UserService;
 @RequestMapping(value = "/api/login")
 public class LoginController {
 
-    private UserService userService;
-    private AuthService authService;
+    private String userName;
+    private String password;
+    private String authToken;
 
+    private final UserService userService;
+    private final AuthService authService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public LoginController(UserService userService, AuthService authService) {
@@ -34,44 +37,55 @@ public class LoginController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<String> loginUser(@RequestBody Map<String, String> credentials) {
-        ResponseEntity<String> response;
-        String userName = credentials.get("username");
-        String password = credentials.get("password");
         logger.info("Processing User Login Request");
-        if (areCredentialsProvided(userName, password)) {
-            response = attemptUserLogin(userName, password);
+        setUsernameAndPassword(credentials);
+        ResponseEntity<String> response;
+        if (areCredentialsProvided()) {
+            createUserAuthToken();
+            response = getLoginAttemptResponse();
         } else {
-            logger.error("The provided userName and password are either null or empty");
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).
-                    body("Both a username and password must be provided");
+            response = getBadRequestResponse();
         }
         return response;
     }
 
-    private ResponseEntity<String> attemptUserLogin(String userName, String password) {
-        ResponseEntity<String> response;
+    private void setUsernameAndPassword(Map<String, String> credentials) {
+        this.userName = credentials.get("username");
+        this.password = credentials.get("password");
+    }
+
+    private boolean areCredentialsProvided() {
+        return userName != null && password != null && !userName.isEmpty() && !password.isEmpty();
+    }
+
+    private void createUserAuthToken() {
         User user = userService.getUserByUserName(userName);
-        if (user == null) {
-            logger.error("A record for the  provided userName: " + userName + " was not found");
-            response = ResponseEntity.status(HttpStatus.NOT_FOUND).
-                    body("The provided username could not be found");
-        } else if (isPasswordValid(password, user)) {
-            logger.info("Valid login credentials provided, generating Auth Token");
-            String authToken = authService.getAuthToken(userName);
+        if (user != null && isUserPasswordValid(user.getPassword())) {
+            logger.info("User found & Valid login credentials provided, generating Auth Token");
+            authToken = authService.getAuthToken(userName);
+        } else {
+            logger.error("The provided Username & Password combination could not be found");
+            authToken = null;
+        }
+    }
+
+    private boolean isUserPasswordValid(String password) {
+        return password.equals(this.password);
+    }
+
+    private ResponseEntity<String> getLoginAttemptResponse() {
+        ResponseEntity<String> response;
+        if (authToken != null) {
             response = ResponseEntity.status(HttpStatus.CREATED).body(authToken);
         } else {
-            logger.error("Invalid login password");
-            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).
-                    body("Incorrect password, try again");
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad username & password" +
+                    " combination, try again");
         }
         return response;
     }
 
-    private boolean isPasswordValid(String password, User user) {
-        return user.getPassword().equals(password);
-    }
-
-    private boolean areCredentialsProvided(String userName, String password) {
-        return userName != null && password != null && !userName.isEmpty() && !password.isEmpty();
+    private ResponseEntity<String> getBadRequestResponse() {
+        logger.error("The provided userName and password are either null or empty");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Both a username and password must be provided");
     }
 }
