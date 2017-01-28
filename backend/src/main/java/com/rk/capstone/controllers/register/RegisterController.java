@@ -31,15 +31,24 @@ public class RegisterController {
     public ResponseEntity<User> registerNewUser(@RequestBody User user) {
         ResponseEntity<User> response;
         logger.info("Attempting to register new user");
-        if (userService.getUserByUserName(user.getUserName()) == null) {
-            logger.info("Creating new user: " + user.getUserName());
-            user = userService.saveUser(user);
-            user.setPassword("");
+        if (isNewUser(user)) {
+            user = createNewUser(user);
             response = ResponseEntity.status(HttpStatus.CREATED).body(user);
         } else {
             logger.error("The desired userName: " + user.getUserName() + " already exists!");
             response = ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
         return response;
+    }
+
+    private User createNewUser(User user) {
+        logger.info("Creating new user: " + user.getUserName());
+        user = userService.saveUser(user);
+        user.setPassword("");
+        return user;
+    }
+
+    private boolean isNewUser(User user) {
+        return userService.getUserByUserName(user.getUserName()) == null;
     }
 }
