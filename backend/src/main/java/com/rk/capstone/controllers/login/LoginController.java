@@ -34,32 +34,44 @@ public class LoginController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<String> loginUser(@RequestBody Map<String, String> credentials) {
-
         ResponseEntity<String> response;
         String userName = credentials.get("username");
         String password = credentials.get("password");
         logger.info("Processing User Login Request");
-        if (userName == null || password == null || userName.isEmpty() || password.isEmpty()) {
+        if (areCredentialsProvided(userName, password)) {
+            response = attemptUserLogin(userName, password);
+        } else {
             logger.error("The provided userName and password are either null or empty");
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).
                     body("Both a username and password must be provided");
-        } else {
-            User user = userService.getUserByUserName(userName);
-            if (user == null) {
-                logger.error("The provided userName: " + userName + " was not found ");
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).
-                        body("The provided username could not be found");
-            } else if (!user.getPassword().equals(password)) {
-                logger.error("Invalid login password");
-                response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).
-                        body("Incorrect password, try again");
-            } else {
-                logger.info("Valid login credentials provided, generating Auth Token");
-                String authToken = authService.getAuthToken(userName);
-                response = ResponseEntity.status(HttpStatus.CREATED).body(authToken);
-            }
         }
         return response;
     }
 
+    private ResponseEntity<String> attemptUserLogin(String userName, String password) {
+        ResponseEntity<String> response;
+        User user = userService.getUserByUserName(userName);
+        if (user == null) {
+            logger.error("A record for the  provided userName: " + userName + " was not found");
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).
+                    body("The provided username could not be found");
+        } else if (isPasswordValid(password, user)) {
+            logger.info("Valid login credentials provided, generating Auth Token");
+            String authToken = authService.getAuthToken(userName);
+            response = ResponseEntity.status(HttpStatus.CREATED).body(authToken);
+        } else {
+            logger.error("Invalid login password");
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).
+                    body("Incorrect password, try again");
+        }
+        return response;
+    }
+
+    private boolean isPasswordValid(String password, User user) {
+        return user.getPassword().equals(password);
+    }
+
+    private boolean areCredentialsProvided(String userName, String password) {
+        return userName != null && password != null && !userName.isEmpty() && !password.isEmpty();
+    }
 }
