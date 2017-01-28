@@ -19,8 +19,9 @@ import com.rk.capstone.model.services.user.UserService;
 @RequestMapping("/api/register")
 public class RegisterController {
 
-    private final UserService userService;
+    private User user;
 
+    private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public RegisterController(UserService userService) {
@@ -29,26 +30,37 @@ public class RegisterController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<User> registerNewUser(@RequestBody User user) {
+        this.user = user;
         ResponseEntity<User> response;
-        logger.info("Attempting to register new user");
-        if (isNewUser(user)) {
-            user = createNewUser(user);
-            response = ResponseEntity.status(HttpStatus.CREATED).body(user);
+        if (isNewUser()) {
+            createNewUser();
+            clearUserPassword();
+            response = getUserCreatedResponse();
         } else {
-            logger.error("The desired userName: " + user.getUserName() + " already exists!");
-            response = ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            response = getUserConflictResponse();
         }
         return response;
     }
 
-    private User createNewUser(User user) {
-        logger.info("Creating new user: " + user.getUserName());
-        user = userService.saveUser(user);
-        user.setPassword("");
-        return user;
+    private ResponseEntity<User> getUserConflictResponse() {
+        logger.error("The desired userName: " + user.getUserName() + " already exists!");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
     }
 
-    private boolean isNewUser(User user) {
+    private ResponseEntity<User> getUserCreatedResponse() {
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    private void createNewUser() {
+        logger.info("Creating new user: " + user.getUserName());
+        user = userService.saveUser(user);
+    }
+
+    private void clearUserPassword() {
+        user.setPassword("");
+    }
+
+    private boolean isNewUser() {
         return userService.getUserByUserName(user.getUserName()) == null;
     }
 }
