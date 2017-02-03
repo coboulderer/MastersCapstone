@@ -39,14 +39,12 @@ public class LoginController {
     public ResponseEntity<String> loginUser(@RequestBody Map<String, String> credentials) {
         logger.info("Processing User Login Request");
         setUsernameAndPassword(credentials);
-        ResponseEntity<String> response;
         if (areCredentialsProvided()) {
             createUserAuthToken();
-            response = getLoginAttemptResponse();
+            return getLoginAttemptResponse();
         } else {
-            response = getBadRequestResponse();
+            return getBadRequestResponse();
         }
-        return response;
     }
 
     private void setUsernameAndPassword(Map<String, String> credentials) {
@@ -59,8 +57,7 @@ public class LoginController {
     }
 
     private void createUserAuthToken() {
-        User user = userService.getUserByUserName(userName);
-        if (user != null && isUserPasswordValid(user.getPassword())) {
+        if (isUserAndPasswordValid()) {
             logger.info("User found & Valid login credentials provided, generating Auth Token");
             authToken = authService.getAuthToken(userName);
         } else {
@@ -69,19 +66,18 @@ public class LoginController {
         }
     }
 
-    private boolean isUserPasswordValid(String password) {
-        return password.equals(this.password);
+    private boolean isUserAndPasswordValid() {
+        User user = userService.getUserByUserName(userName);
+        return user != null && password.equals(user.getPassword());
     }
 
     private ResponseEntity<String> getLoginAttemptResponse() {
-        ResponseEntity<String> response;
         if (authToken != null) {
-            response = ResponseEntity.status(HttpStatus.CREATED).body(authToken);
+            return ResponseEntity.status(HttpStatus.CREATED).body(authToken);
         } else {
-            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad username & password" +
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad username & password" +
                     " combination, try again");
         }
-        return response;
     }
 
     private ResponseEntity<String> getBadRequestResponse() {

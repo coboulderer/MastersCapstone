@@ -31,24 +31,17 @@ public class RegisterController {
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<User> registerNewUser(@RequestBody User user) {
         this.user = user;
-        ResponseEntity<User> response;
         if (isNewUser()) {
             createNewUser();
             clearUserPassword();
-            response = getUserCreatedResponse();
+            return getUserCreatedResponse();
         } else {
-            response = getUserConflictResponse();
+            return getUserConflictResponse();
         }
-        return response;
     }
 
-    private ResponseEntity<User> getUserConflictResponse() {
-        logger.error("The desired userName: " + user.getUserName() + " already exists!");
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-    }
-
-    private ResponseEntity<User> getUserCreatedResponse() {
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    private boolean isNewUser() {
+        return userService.getUserByUserName(user.getUserName()) == null;
     }
 
     private void createNewUser() {
@@ -60,7 +53,12 @@ public class RegisterController {
         user.setPassword("");
     }
 
-    private boolean isNewUser() {
-        return userService.getUserByUserName(user.getUserName()) == null;
+    private ResponseEntity<User> getUserConflictResponse() {
+        logger.error("The desired userName: " + user.getUserName() + " already exists!");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+    }
+
+    private ResponseEntity<User> getUserCreatedResponse() {
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }
