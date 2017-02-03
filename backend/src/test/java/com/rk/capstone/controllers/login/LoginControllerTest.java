@@ -41,7 +41,6 @@ public class LoginControllerTest {
     private String password;
     private String badRequestResponseBody;
     private String unauthorizedResponseBody;
-    private String userNameNotFoundResponseBody;
     private User testUser;
 
     @Before
@@ -49,8 +48,7 @@ public class LoginControllerTest {
         userName = "testuser";
         password = "abc123";
         badRequestResponseBody = "Both a username and password must be provided";
-        unauthorizedResponseBody = "Incorrect password, try again";
-        userNameNotFoundResponseBody = "The provided username could not be found";
+        unauthorizedResponseBody = "Bad username & password combination, try again";
         testUser = new User("test", "user", "user@test.com", userName, password, null);
     }
 
@@ -83,21 +81,6 @@ public class LoginControllerTest {
 
         String responseBody = result.getResponse().getContentAsString();
         Assert.assertTrue(responseBody.equals(unauthorizedResponseBody));
-    }
-
-    @Test
-    public void testLoginUserUserNameNotFound() throws Exception {
-        jsonCreds = "{\"username\":\"" + userName + "\", \"password\":\"" + password + "\"}";
-        given(this.userService.getUserByUserName(testUser.getUserName())).willReturn(null);
-
-        MvcResult result = this.mockMvc.perform(post("/api/login/user").content(jsonCreds).
-                contentType(MediaType.APPLICATION_JSON)).
-                andExpect(status().isNotFound()).
-                andDo(print()).
-                andReturn();
-
-        String responseBody = result.getResponse().getContentAsString();
-        Assert.assertTrue(responseBody.equals(userNameNotFoundResponseBody));
     }
 
     @Test
