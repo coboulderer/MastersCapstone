@@ -2,7 +2,7 @@
 Repo for Masters Capstone Project.
 Project Built using SpringBoot, Angular2, and Semantic UI
 
-##Snapshot Build, Install, & Usage Instructions
+## Snapshot Build, Install, & Usage Instructions
 1. *Prerequisites* - Ensure your system has Java/jdk8, nodejs, npm, and 
    Maven installed and properly configured   
 2. Clone the repo
